@@ -1,0 +1,32 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/hyun/js/AjaxModule.js"></script>
+<script>
+	window.onload=function(){
+		var rootNode=document.documentElement;
+		alert(rootNode.nodeName);
+		var bodyNode=rootNode.lastChild;
+		alert(bodyNode.nodeName);
+		/* var spanNode=bodyNode.firstChild.nextSibling;
+		alert(spanNode.nodeName);
+		var spanTextNode=spanNode.lastChild;
+		alert(spanTextNode.nodeName); */
+		var spanNode3=document.getElementById('c');
+		alert(spanNode3.nodeName);
+		var spanTest3=spamNode3.lastChild;
+		alert(spanTest3.nodeName);
+	}
+</script>
+</head>
+<body>
+	<span id="a">spanA</span>
+	<p>Ajax<span id="b">spanB</span></p>
+	<div><p>p</p><span id="c">spanC</span></div>
+</body>
+</html>

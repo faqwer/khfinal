@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/hyun/js/AjaxModule.js"></script>
 <script>
@@ -28,20 +29,7 @@
 		alert(fontNode.getAttribute('color'));
 		fontNode.removeAttribute('color');
 		var newSpan=document.createElement('span');
-		var newSpanText=document.createTextNode('newSpan!');
-		newSpan.setAttribute('id','b');
-		newSpan.appendChild(newSpanText);
-		var spanNode=document.getElementById('a');
-		spanNode.appendChild(newSpan);
-		$(".addb").click(function(){
-			alert('asd');
-			var asd=document.getElementById('asd');
-			alert(asd.nodeName);
-			var newp=document.createElement('p');
-			var newpText=document.createTextNode('pp');
-			newp.appendChild(newpText);
-			asd.appendChild(newp);
-		});
+		ver newSpanTest=document.createTextNode('newSpan!');
 	}
 </script>
 </head>
@@ -51,7 +39,5 @@
 	<div><p>p</p><span id="c">spanC</span></div>
 	<font id="fn">asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd</font>
 	<form>form</form>
-	<input type="button" class="addb" value="추가">
-	<p id="asd"></p>
 </body>
 </html>

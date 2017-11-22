@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hyun.bbs">
+	<select id="allList" parameterType="Map" resultType="hyun.bbs.model.BbsDTO">
+		<![CDATA[select * from (
+					select rownum as rnum,a.*from (
+						select *from JSP_bbs order by ref desc, sunbun asc
+					)a
+				)b 
+				where rnum>=(#{cp}-1)*#{ls}+1 and rnum<=(#{cp}*#{ls})]]>
+	</select>
+	<select id="totalCnt" resultType="Integer">
+		select count(*) from JSP_bbs
+	</select>
+	<insert id="bbswrite" parameterType="hyun.bbs.model.BbsDTO">
+		insert into JSP_bbs values(JSP_bbs_idx.nextval,#{writer},#{pwd},#{subject},#{content},sysdate,0,0,0,0)
+	</insert>
+</mapper>
