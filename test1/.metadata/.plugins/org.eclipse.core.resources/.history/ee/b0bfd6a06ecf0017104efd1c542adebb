@@ -41,7 +41,11 @@
 			var itemList=document.getElementById('itemList');
 			itemList.appendChild(newItem);
 		});
-		
+		$(".removeb").click(function(e){
+			alert('asd');
+			var item=document.getElementById('item_'+e.count);
+			alert(itme);
+		})
 	}
 </script>
 </head>

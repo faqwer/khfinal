@@ -21,8 +21,11 @@
 		var spanTest3=spanNode3.lastChild;
 		alert(spanTest3.nodeName); */
 		var fontNode=document.getElementById('fn');
+		alert(fontNode.getAttribute('color'));
 		fontNode.setAttribute('color','blue');
+		alert(fontNode.getAttribute('color'));
 		fontNode.setAttribute('color','red');
+		alert(fontNode.getAttribute('color'));
 		fontNode.removeAttribute('color');
 		var newSpan=document.createElement('span');
 		var newSpanText=document.createTextNode('newSpan!');
@@ -35,13 +38,12 @@
 		$(".addb").click(function(){
 			count++;
 			var newItem=document.createElement('div');
-			newItem.setAttribute('id','item_'+count);
-			newItem.innerHTML="새롭게추가된 아이템["+count+"]<input type='button' class='removeb' value='삭제'>";
+			newItem.setattribute('id','item_'+count);
+			newItem.innerHTML='새롭게추가된 아이템['+count+']';
 			
 			var itemList=document.getElementById('itemList');
 			itemList.appendChild(newItem);
 		});
-		
 	}
 </script>
 </head>

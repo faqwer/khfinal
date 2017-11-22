@@ -4,7 +4,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/hyun/js/AjaxModule.js"></script>
 <script>
@@ -22,11 +21,8 @@
 		var spanTest3=spanNode3.lastChild;
 		alert(spanTest3.nodeName); */
 		var fontNode=document.getElementById('fn');
-		alert(fontNode.getAttribute('color'));
 		fontNode.setAttribute('color','blue');
-		alert(fontNode.getAttribute('color'));
 		fontNode.setAttribute('color','red');
-		alert(fontNode.getAttribute('color'));
 		fontNode.removeAttribute('color');
 		var newSpan=document.createElement('span');
 		var newSpanText=document.createTextNode('newSpan!');
@@ -34,15 +30,18 @@
 		newSpan.appendChild(newSpanText);
 		var spanNode=document.getElementById('a');
 		spanNode.appendChild(newSpan);
+		var count=0; 
+		
 		$(".addb").click(function(){
-			alert('asd');
-			var asd=document.getElementById('asd');
-			alert(asd.nodeName);
-			var newp=document.createElement('p');
-			var newpText=document.createTextNode('pp');
-			newp.appendChild(newpText);
-			asd.appendChild(newp);
+			count++;
+			var newItem=document.createElement('div');
+			newItem.setAttribute('id','item_'+count);
+			newItem.innerHTML="새롭게추가된 아이템["+count+"]<input type='button' class='removeb' value='삭제'>";
+			
+			var itemList=document.getElementById('itemList');
+			itemList.appendChild(newItem);
 		});
+		
 	}
 </script>
 </head>
@@ -53,6 +52,6 @@
 	<font id="fn">asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd</font>
 	<form>form</form>
 	<input type="button" class="addb" value="추가">
-	<p id="asd"></p>
+	<p id="itemList"></p>
 </body>
 </html>

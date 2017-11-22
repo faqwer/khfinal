@@ -36,12 +36,15 @@
 			count++;
 			var newItem=document.createElement('div');
 			newItem.setAttribute('id','item_'+count);
-			newItem.innerHTML="새롭게추가된 아이템["+count+"]<input type='button' class='removeb' value='삭제'>";
+			newItem.innerHTML="새롭게추가된 아이템["+count+"]<input type='button' class='remove' value='삭제'>";
 			
 			var itemList=document.getElementById('itemList');
 			itemList.appendChild(newItem);
 		});
-		
+		$(".remove").click(function(e){
+			var item=document.getElementById('item_'+e.count);
+			alert(itme);
+		})
 	}
 </script>
 </head>
