@@ -1,9 +1,0 @@
-INDEX VERSION 1.4+C:\Users\Hyun\Desktop\khfinal\test1\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-3552548103.index
-3917261749.index
-831432174.index
-1714526216.index
-2494328424.index
-1206472004.index
-2269665566.index
-3661059436.index
