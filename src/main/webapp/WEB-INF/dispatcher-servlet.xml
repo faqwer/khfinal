@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<!-- configs -->
+	<context:component-scan base-package="hyun_test" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
 	<bean
 		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"></bean>
 	<bean id="multipartResolver"
@@ -35,8 +40,8 @@
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactoryBean"></constructor-arg>
 	</bean>
 
-	<!-- controller -->
-	<bean id="hyunController" class="hyun.controller.hyunController"></bean>
+	<!--  controller
+	<bean id="hyunController" class="hyun.controller.hyunController"></bean> -->
 	
 
 	<!-- service -->
@@ -47,8 +52,10 @@
 	</bean>
  -->
 	<!-- views -->
-	<bean id="hyunDown" class="hyun.view.DownloadView"></bean>
-	<bean id="viewResolver"
+	<!-- <bean id="hyunDown" class="hyun.view.DownloadView"></bean> -->
+	<bean id="hyunJson" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+	
+	<bean id="hyun_test.viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />

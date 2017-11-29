@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="/hyun/js/AjaxModule.js"></script>
+<script src="/hyun_test/js/AjaxModule.js"></script>
 <script>
 	window.onload=function(){
 		/* var rootNode=document.documentElement;
@@ -20,7 +20,7 @@
 		alert(spanNode3.nodeName);
 		var spanTest3=spanNode3.lastChild;
 		alert(spanTest3.nodeName); */
-		var fontNode=document.getElementById('fn');
+		/* var fontNode=document.getElementById('fn');
 		fontNode.setAttribute('color','blue');
 		fontNode.setAttribute('color','red');
 		fontNode.removeAttribute('color');
@@ -40,8 +40,9 @@
 			
 			var itemList=document.getElementById('itemList');
 			itemList.appendChild(newItem);
-		});
-		
+		}); */
+		var students=[{name:'a',age:20,record:[70,80,90]},{name:'b',age:22,record:[70,80,90]}];
+		alert(students[0].name);
 	}
 </script>
 </head>

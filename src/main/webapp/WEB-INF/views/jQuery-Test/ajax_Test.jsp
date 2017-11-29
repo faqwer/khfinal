@@ -7,23 +7,28 @@
 <title>Insert title here</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="/hyun/js/AjaxModule.js"></script>
+<script src="/hyun_test/js/AjaxModule.js"></script>
 <script>
 	
 	function show() {
-		var p1 = document.all.p1;
-		//alert(p1.innerHTML);
-		p1.innerHTML = '<font color="blue">앗앗앗</font>';
-		var text = document.fm.text.value;
-		var param = 'text=' + text;
-		sendRequest('ajax.do', param, showResult, 'GET');
+		sendRequest('test.do', null, showResult, 'GET');
 	}
 	function showResult() {
 		if (httpRequest.readyState == 4) {
 			if (httpRequest.status == 200) {
 				var data = httpRequest.responseText;
-				var div = document.all.newNotice;
-				div.innerHTML = data;
+				alert(data);
+				var studentData = eval('('+data+')');
+				alert(studentData);
+				var students=studentData.students;
+				alert(students[0]);
+				var msg='';
+				for(var i=0;students.length;i++){
+					var student=students[i];
+					msg+=student.name+","+student.age+"\n";
+					alert(msg);
+				}
+				alert(msg);
 			}
 		}
 	}
@@ -46,7 +51,7 @@
 	window.onload = function() {
 		timeDisplay();
 
-		$('.testr').click(function(){
+	/* 	$('.testr').click(function(){
 			$('#test').html('');
 			$.ajax({
 				url:'notice.do',
@@ -58,7 +63,7 @@
                 }
 			});
 			
-		});
+		}); */
 		
 		$(document).ready(function() {
 			$('#notice').click(show2);
@@ -73,8 +78,8 @@
 <body>
 	<h2>Notice</h2>
 	<div id="test"></div>
-	<input type="button" class="testr" value="test">
-	<div id="newNotice"></div>
+	<input type="button" class="testr" value="test" onclick="show()">
+	<div id="newNotice" style="display: block;">asdasdasdasdasdasdasdasdasdas</div>
 	<input type="button" id="notice" value="notice">
 	<p>
 		<span id="timer"></span> time

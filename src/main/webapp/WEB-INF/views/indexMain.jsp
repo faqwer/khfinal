@@ -11,8 +11,9 @@
 <body>
 <h2>indexMain.jsp</h2>
 <ul class="foo">
-	<li><a href="bbsList.do">bbs</a></li>
 	<li><a href="jqueryForm.do">jQuery_test</a></li>
+	<li><a href="writeForm.do">write</a></li>
 </ul>	
+<img src="C:/Users/Hyun/Desktop/test1/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/hyun_test/img/2017_11_29_165320.jpg">
 </body>
 </html>

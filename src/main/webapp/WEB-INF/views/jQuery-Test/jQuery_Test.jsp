@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="/hyun/js/test.js"></script>
+<script src="/hyun_test/js/test.js"></script>
 </head>
 <body>
 <ul class="foo">
