@@ -35,8 +35,8 @@ Model
 ´ñ±Û		   : CommentDTO
 FAQ		   : FaqDTO, DAO
 ½Å°í		   : ReportDTO, DAO
-mypage		   : MypageDTO, DAO
-admin		   : adminDTO, DAO
+mypage		   : MypageDAO
+admin		   : adminDAO
 
 --------------------------------------
 Controller
@@ -67,3 +67,6 @@ FAQ		   : faqSql
 mypage		   : mypageSql
 admin		   : adminSql
 ´ñ±Û		   : commentSql
+ÆÈ·Î¿ì/ÆÈ·Î¿ö      : followSql
+½Å°í		   : reportSql
+°¡°èºÎ		   : moneybookSql
