@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+  <connection>
+    <productId>com.tomato.db.oracle_10g</productId>
+    <productName>Oracle 9i/10g/11g/12c</productName>
+    <name>11g</name>
+    <driverJar>C:\Users\Hyun\Desktop\lib\ojdbc14.jar</driverJar>
+    <driverClass>oracle.jdbc.driver.OracleDriver</driverClass>
+    <url>jdbc:oracle:thin:@localhost:1521:orcl</url>
+    <properties>
+      <user>scott</user>
+      <port>1521</port>
+      <password>1234</password>
+      <sId>orcl</sId>
+      <host>localhost</host>
+      <internal_logon>normal</internal_logon>
+      <protocol>thin</protocol>
+    </properties>
+    <extendedProperties>
+      <connectionString />
+    </extendedProperties>
+  </connection>
+</database>
+
