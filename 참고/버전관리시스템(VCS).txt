@@ -1,0 +1,10 @@
+Version Control System
+기능 개선, 버그 수정
+
+git
+https://www.git-scm.com/
+
+git Bash 리눅스처럼 명령어로 제어
+
+sourceTree : git을 GUI환경에서 제어할수있게 도와주는 도구
+https://www.sourcetreeapp.com/

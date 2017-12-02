@@ -1,0 +1,36 @@
+1. 저장
+
+1)쿠키객체
+Key,Value세팅
+
+2)나이지정
+
+3)사용자에게 심기
+
+
+
+2.가져오기
+
+1)request에게 쿠기배열
+
+2)배열요소에 하나씩 접근 원하는 키가 있는지 검사
+
+3)해당쿠키객체로부터 value취득
+
+
+
+자기 사이트에 저장된 쿠키들만 가져올수있음
+
+웹사이트는 1바이트체계이기 때문에 한글은 유니코드로 변환해서 보낼껏
+
+<%@ page import="java.net.*" %>
+
+String key="홍길동";
+key=URLEncoder.encode(key);
+
+유니코드로 encoder 보낸뒤
+
+String value=cks[i].getValue();
+value=URLDecoder.decode(value);
+
+다시 decoder 보여준다.

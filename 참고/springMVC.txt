@@ -1,0 +1,74 @@
+1. web.xml 등록
+<servlet>
+  	<servlet-name>dispatcher</servlet-name>
+  	<servlet-class>
+  		org.springframework.web.servlet.DispatcherServlet
+	</servlet-class>
+ </servlet>
+ <servlet-mapping>
+  	<servlet-name>dispatcher</servlet-name>
+  	<url-pattern>*.do</url-pattern>
+ </servlet-mapping>
+
+2. WEB-INF  ->  spring bean configuration file 이름: dispatcher-servlet
+
+3. controller
+자바파일 클래스위에 @controller 입력하면 컨트롤러가 된다.
+메소드는 반환타입 modelandview(servlet)
+메소드 위에 @RequestMapping("/hello.do")쓰면 진입메소드가 되면서 hello.do가 입력되면 수행한다.
+controller에서는 오브젝트와 뷰에 대한 정보를 같이 반환
+
+@Controller
+public class HelloController {
+
+	@RequestMapping("/hello.do")
+	public ModelAndView hello() {
+
+		String msg="Spring Frame Work MVC~";
+		
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("msg", msg);
+		mav.setViewName("hello");
+		return mav;
+
+	}
+}
+
+4. dispatcher-servlet.xml 등록
+viewResolver을 통해 WEB-INF의 views폴더안의 jsp로 간접접근이 가능하다
+
+<bean id="helloController" class="hyun.controller.HelloController"/>
+
+<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<property name="prefix" value="/WEB-INF/views/"/>
+	<property name="suffix" value=".jsp"/>
+</bean>
+
+
+
+Maven
+java ee tools -> generate deployment descripment stub   (web.xml 만들기)
+
+lib 다운 pom.xml <dependencies> 여기에 복사 </dependencies>
+
+maven에서 라이브러리를 다운받으면 로컬에서 관리하기 때문에
+라이브러리 지울때 이클립스 끄고 내컴퓨터 -> 사용자 -> 유져-> .m* 삭제하고 이클립스에서 다시 다운 받아야 된다.
+
+spring 인코딩
+서버설정할때 더미서버 sever.xml 인코딩한부분에 useBodyEncodingForURI="true" 추가
+web.xml에서 
+<filter>
+  <filter-name>encodingFilter</filter-name>
+  <filter-class>
+  	org.springframework.web.filter.CharacterEncodingFilter
+  </filter-class>
+  <init-param>
+  	<param-name>encoding</param-name>
+  	<param-value>utf-8</param-value>
+  </init-param>
+</filter>
+  <filter-mapping>
+  	<filter-name>encodingFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+추가

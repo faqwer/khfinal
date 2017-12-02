@@ -1,0 +1,68 @@
+- 래퍼(wrapper): jQuery()
+
+jQuery(엘리먼트 오브젝트,css스타일 선택자).함수()
+
+$(엘리먼트) == jQuery(엘리먼트)
+$(엘리먼트)는 다른 라이브러리랑 충돌될수있기 때문에 
+jQuery(엘리먼트)사용을 권장
+
+굳이 $(엘리먼트)를 쓰려면
+(funtion($){
+
+})(jQuery)
+이런식으로..
+
+- chain : 한번 선택한 대상에 대해서 연속적인 제어
+ex)jQuery().attr('href','http://jquery.org').attr('target'.'_blank').css('color','red');
+장점 : 코드 간결, 사고의 자연스러운 과정과 일치
+
+<html>
+    <body>
+        <ul class="first">
+            <li class="foo"> list item 1 </li>
+            <li> list item 2 </li>
+            <li class="bar"> list item 3 </li>
+        </ul>
+        <ul class="second">
+            <li class="foo"> list item 1 </li>
+            <li> list item 2 </li>
+            <li class="bar"> list item 3 </li>
+        </ul>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script type="text/javascript">$('ul.first').find('.foo').css('background-color', 'red').end().find('.bar').css('background-color', 'green');</script>
+    </body>
+</html>
+
+- jQuery event
+ 1.크로스브라우징의 문제 해결
+ 2.bind로 이벤트 핸들러 설치, unbind로 제거
+ 3.trigger로 이벤트 핸들러를 강제로 실행 (예제2)
+ 4.click, ready와 같이 다양한 이벤트 헬퍼(helper)를 제공함
+ 5.live를 이용하면 현재 존재 하지 않는 엘리먼트에 
+   이벤트 핸들러를 설치할 수 있음
+bind, unbind, triger
+이벤트 헬퍼
+live==bind, die==unbind 
+live는 존재하지않은 엘리먼트에 대해 이벤트를 생성하고 위임?해둔다
+하지만 존재하지않는 엘리먼트에대해 위임하므로 잠재적인 위험이 있다
+
+$.ajax({
+	url:'notice.do'
+,	dataType:'text'
+,	type:'GET'
+,	data:null
+,	success:function(data){
+		$('#test').html(data);
+	}
+});
+
+
+test() : 텍스트문구를 변경 or 취득
+
+mouseenter() : 마우스오버
+
+mouseleave() : 마우스아웃
+
+click() : 클릭시
+
+end() : chain을 사용할때 마지막으로 사용한 traversing를 취소하고 전에 쓴 traversing로 돌아간다.

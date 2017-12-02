@@ -1,0 +1,72 @@
+1)inline방식
+
+<!DOCTYPE html>
+<html>
+<body>
+    <input type="button" onclick="alert('Hello world')" value="Hello world" />
+</body>
+</html>
+
+2)<script>태그 방식
+
+<!DOCTYPE html>
+<html>
+<body>
+    <input type="button" id="hw" value="Hello world" />
+    <script type="text/javascript">
+        var hw = document.getElementById('hw');
+        hw.addEventListener('click', function(){
+            alert('Hello world');
+        })
+    </script>
+</body>
+</html>
+
+3)외부파일 분리
+js를 별도의 파일로 분리할 수도 있다. 장점은 보다 엄격하게 정보와 제어를 분리할 수 있다. 
+하나의 js 파일을 여러 웹페이지에서 로드함으로서 js의 재활용성을 높일 수 있다. 
+캐쉬를 통해서 속도의 향상, 전송량의 경량화를 도모할 수 있다.
+
+http://leegaworld.tistory.com/7 경로참고
+js파일을 호출할때 url로 호출하기때문에 WEB-INF밖에 js폴더를 만들어 사용한다
+(WEB-INF폴더는 URL접근이 안되기 때문)
+
+
+-body태그안에서 호출
+
+<!DOCTYPE html>
+<html>
+<body>
+    <input type="button" id="hw" value="Hello world" />
+    <script type="text/javascript" src="script2.js"></script>
+</body>
+</html>
+
+
+script2.js
+
+var hw = document.getElementById('hw');
+hw.addEventListener('click', function(){
+    alert('Hello world');
+})
+
+-head태그안에서 호출
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="script2.js"></script>
+</head>
+<body>
+    <input type="button" id="hw" value="Hello world" />
+</body>
+</html>
+
+script2.js
+
+window.onload = function(){
+    var hw = document.getElementById('hw');
+    hw.addEventListener('click', function(){
+        alert('Hello world');
+    })
+}

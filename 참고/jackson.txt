@@ -1,0 +1,12 @@
+메이븐
+Data Mapper For Jackson 검색
+
+jackson == view?
+
+
+dispatcher
+
+<bean id="hyunJson" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+	
+controller
+		mav.setViewName("hyunJson");

@@ -1,0 +1,11 @@
+<jsp:useBean id="stest" class="hyun.bean.ScopeTest" scope="application"/>
+
+page: 현재 페이지만 데이터 유지
+
+request=다음페이지 연결시 한번만 데이터 유지
+
+session= 웹브라우저를 모두 닫을때까지 데이터 유지
+
+
+application= 서버가 꺼질때까지
+	개인혼자가 아닌 모든사용자가 제공받는 공간 (많이 쓰지말것 서버에 부담이 간다.)

@@ -1,0 +1,158 @@
+ibatis(mybatis의 시조)
+ORM 프레임워크
+
+mybatis
+JDBC 프레임워크이다.
+
+JDBC를 사용할때 try/catch 사용할 필요없음
+
+SQL Mapper 
+
+<![CDATA[출력글자]]>
+
+http://www.mybatis.org/mybatis-3/   메뉴얼사이트
+
+1)lib
+<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.4.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+
+2)src/main/java에 mybatis-config.xml 등록 하나라도 매퍼 되어 있어야 됨
+
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<mappers>
+		<mapper resource="sql/empSql.xml"/>
+	</mappers>
+</configuration>
+
+3)dispatcher-servlet.xml
+
+	<!-- configs -->
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"></bean>
+
+	<!-- mybatis setting -->
+	<!-- 1.dataSource -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"></property>
+		<property name="username" value="scott"></property>
+		<property name="password" value="1234"></property>
+	</bean>
+	<!--  2.트랜잭션 관리자 등록 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!--  3.Mybatis 설정 -->
+	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">    <!-- 비디오 -->
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:/mybatis-config.xml"></property>
+	</bean>
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">          <!-- 리모콘 -->
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactoryBean"></constructor-arg>
+	</bean>
+
+4)src/main/java에 sql 폴더 만들뒤 각 sql.xml를 관리 (DTO 설계후)
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hyun.emp">                    // mybatis에서는 namespace가 필수속성 
+	<insert id="empInsert" parameterType="hyun.emo.model.EmpDTO">
+		insert into 
+			employee 
+			values(
+					employee_idx.nextval
+				,	#{name}
+				,	#{email}
+				,	#{dept}
+				)
+	</insert>
+</mapper>
+
+5)DAO 설계
+
+* mybatis api
+Object selectOne(String statement,Object parameter)              //한개 이상을 리턴하거나 null이 리턴되면 exception 발생 
+List selectList(String statement,Object parameter)
+Map selectMap(String statement,Object parameter,String mapKey)
+int insert(String statement,Object parameter)
+int update(String statement,Object parameter)
+int delete(String statement,Object parameter)
+
+package hyun.emp.model;
+
+import org.mybatis.spring.SqlSessionTemplate;
+
+public class EmpDAOImple implements EmpDAO {
+
+	private SqlSessionTemplate sqlMap;
+	
+	
+	
+	public EmpDAOImple(SqlSessionTemplate sqlMap) {
+		super();
+		this.sqlMap = sqlMap;
+	}
+
+
+
+	public int empAdd(EmpDTO dto) {
+		int count=sqlMap.insert("empInsert", dto);
+		return count;
+	}
+
+}
+
+*dispatcher-servlet에 DAO 등록
+
+<bean id="empDao" class="hyun.emp.model.EmpDAOImple">
+		<constructor-arg>
+			<ref bean="sqlSessionTemplate"/>
+		</constructor-arg>
+	</bean>
+
+6)controller 작성
+
+package hyun.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import hyun.emp.model.EmpDAO;
+import hyun.emp.model.EmpDTO;
+
+@Controller
+public class EmpController {
+
+	@Autowired
+	private EmpDAO empDao;
+	
+	@RequestMapping("/emp.do")
+	public String empMain() {
+		return "emp/emp";
+	}
+	
+	@RequestMapping("/empAdd.do")
+	public ModelAndView empAdd(EmpDTO dto) {
+		int result=empDao.empAdd(dto);
+		String msg=result>0?"성공":"실패";
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("msg",msg);
+		mav.addObject("page","emp.do");
+		mav.setViewName("Msg");
+		return mav;
+	}
+}
