@@ -1,5 +1,5 @@
 finaltp.controller			: 경로연결 패키지
-sql				: DB XML파일
+sql					: DB XML파일
 finaltp.(모듈이름).model		: DTO, DAO 패키지
 mybatis-config				: mybatis 설정파일
 			
@@ -70,3 +70,12 @@ admin		   : adminSql
 팔로우/팔로워      : followSql
 신고		   : reportSql
 가계부		   : moneybookSql
+
+--------------------------------------
+게시판 카테고리
+공지사항	   : notice
+동행 게시판	   : acc
+후기 게시판	   : review
+경로추천 게시판    : route
+FAQ		   : faq
+신고		   : report
