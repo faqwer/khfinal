@@ -41,6 +41,11 @@
 	</bean>
 
 	<!-- service -->
+	<bean id="memberDao" class="finaltp.member.model.MemberDAOimple">
+		<constructor-arg>
+			<ref bean="sqlSessionTemplate" />
+		</constructor-arg>
+	</bean>
 <!-- 	<bean id="bbsDao" class="hyun.bbs.model.BbsDAOImple">
 		<constructor-arg>
 			<ref bean="sqlSessionTemplate" />

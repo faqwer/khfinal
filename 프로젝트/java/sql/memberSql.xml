@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="finaltp.member">
+	<insert parameterType="finaltp.member.model.MemberDTO"
+	 id="memberJoin">
+	 insert into Plan_member 
+	 values(
+	 Plan_member_member_idx.nextval,
+	 #{name}, #{id}, 1, sysdate, 0, null, #{pwd}, null,null
+	  )
+	 </insert>
+	 
+	 <select parameterType="String" resultType="String" id="memberPWD">
+	 select pwd from Plan_member where id = #{id}
+	 </select>
+	 
+	 <select parameterType="String" resultType="String" id="memberName">
+	 select name from Plan_member where id = #{id}
+	 </select>
+
+	<select id="memberINFO" parameterType="String" resultType="finaltp.member.model.MemberDTO">
+	select * from Plan_member where id=#{id}
+	</select>
+	
+	<delete id="memberOut" parameterType="String">
+	delete Plan_member where id=#{id}
+	</delete>
+
+</mapper>
