@@ -27,5 +27,13 @@
 	<delete id="memberOut" parameterType="String">
 	delete Plan_member where id=#{id}
 	</delete>
+	
+	<select id="pwdCheck" parameterType="String" resultType="String">
+	select pwd from Plan_member where id=#{id}
+	</select>
+	
+	<update id="memberEdit" parameterType="Map" >
+ 		update Plan_member set pwd=#{npwd} where id=#{id}
+ 	</update>
 
 </mapper>

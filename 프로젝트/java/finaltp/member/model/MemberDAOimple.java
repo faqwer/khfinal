@@ -3,6 +3,7 @@ package finaltp.member.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -22,9 +23,8 @@ public class MemberDAOimple implements MemberDAO {
 	}
 	
 	public int login(String id, String pwd) {
-		System.out.println("++++"+id+","+pwd);
+		
 		String user_pwd = sqlMap.selectOne("memberPWD", id);
-		System.out.println(user_pwd);
 		
 		if(user_pwd==null||user_pwd=="") {
 			return NOT_ID;
@@ -55,5 +55,32 @@ public class MemberDAOimple implements MemberDAO {
 		int count = sqlMap.delete("memberOut", id);
 		return count;
 	}
-
+	
+	//회원 정보 수정
+	public int memberEdit(String id,String ppwd,String npwd,String npwd2) {
+		String user_pwd = sqlMap.selectOne("pwdCheck",id);
+		System.out.println("user_pwd : " + user_pwd);
+		System.out.println("ppwd : " + ppwd);
+		if(ppwd==null||ppwd=="") {
+			return NOT_PWD;
+		}else {
+			if(user_pwd.equals(ppwd)) {
+				if(ppwd.equals(npwd)) {
+					return PN_CONCORD;
+				}else {
+					if(npwd.equals(npwd2)) {
+						HashMap map=new HashMap();
+						map.put("id", id);
+						map.put("npwd",npwd);
+						int result=sqlMap.update("memberEdit",map);
+						return EDIT_OK;
+					}else {
+						return NN_DISCORD;
+					}
+				}
+			}else {
+				return DISCORD;
+			}
+		}
+	}
 }

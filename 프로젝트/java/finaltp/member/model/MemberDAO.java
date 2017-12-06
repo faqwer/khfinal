@@ -8,17 +8,24 @@ public interface MemberDAO {
 	public static final int NOT_PWD = 2;
 	public static final int LOGIN_OK = 3;
 	public static final int ERROR = -1;
+	public static final int DISCORD = 4;
+	public static final int PN_CONCORD = 5;
+	public static final int NN_DISCORD = 6;
+	public static final int EDIT_OK = 7;
+	public static final int CONCORD = 8;
 
-	public int join(MemberDTO dto); 
-	
-	//public int idCheck(String id);
-	
+	public int join(MemberDTO dto);
+
+	// public int idCheck(String id);
+
 	public int login(String id, String pwd);
+
 	public String getName(String id);
-	
-	
-	//mypage
+
+	// mypage
 	public List<MemberDTO> getInfo(String id);
+
 	public int memberOut(String id);
 
+	public int memberEdit(String id,String ppwd,String npwd,String npwd2);
 }
