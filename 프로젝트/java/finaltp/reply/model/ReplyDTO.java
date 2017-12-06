@@ -12,6 +12,7 @@ public class ReplyDTO {
 	private int ref;
 	private int lev;
 	private int sunbun;
+	private String writerid;
 
 	public ReplyDTO() {
 		super();
@@ -28,6 +29,18 @@ public class ReplyDTO {
 		this.ref = ref;
 		this.lev = lev;
 		this.sunbun = sunbun;
+	}
+
+	// 댓글 작성
+	public ReplyDTO(int bbs_idx, int member_idx, String content, int ref, int lev, int sunbun, String writerid) {
+		super();
+		this.bbs_idx = bbs_idx;
+		this.member_idx = member_idx;
+		this.content = content;
+		this.ref = ref;
+		this.lev = lev;
+		this.sunbun = sunbun;
+		this.writerid = writerid;
 	}
 
 	public int getReply_idx() {
@@ -92,6 +105,14 @@ public class ReplyDTO {
 
 	public void setSunbun(int sunbun) {
 		this.sunbun = sunbun;
+	}
+
+	public String getWriterid() {
+		return writerid;
+	}
+
+	public void setWriterid(String writerid) {
+		this.writerid = writerid;
 	}
 
 }

@@ -1,6 +1,7 @@
 package finaltp.mainBbs.model;
 
 import java.sql.Date;
+import java.util.List;
 
 import finaltp.acc.model.AccDTO;
 import finaltp.ask.model.AskDTO;
@@ -21,6 +22,8 @@ public class MainBbsDTO {
 	private int lev;
 	private int sunbun;
 	private Date writedate;
+	private String nation;
+	private String userid;
 
 	private AccDTO accdto;
 	private ReviewDTO reviewdto;
@@ -28,6 +31,7 @@ public class MainBbsDTO {
 	private AskDTO askdto;
 	private ReportDTO reportdto;
 	private ReplyDTO replydto;
+	private List<ReplyDTO> replylist;
 
 	public MainBbsDTO() {
 		super();
@@ -71,72 +75,34 @@ public class MainBbsDTO {
 		this.writedate = writedate;
 	}
 
-	// 동행 게시판
-	public MainBbsDTO(int bbs_idx, int member_idx, String category, String status, String subject, String content,
-			int ref, int lev, int sunbun, Date writedate, AccDTO accdto) {
+	// 동행 게시판 글 작성
+	public MainBbsDTO(int member_idx, String category, String status, String content, int ref, int lev, int sunbun) {
+		super();
+		this.member_idx = member_idx;
+		this.category = category;
+		this.status = status;
+		this.content = content;
+		this.ref = ref;
+		this.lev = lev;
+		this.sunbun = sunbun;
+	}
+
+	// 동행 게시판 리스트
+	public MainBbsDTO(int bbs_idx, int member_idx, String category, String status, String content, int ref, int lev,
+			int sunbun, Date writedate, String userid, AccDTO accdto, List<ReplyDTO> replylist) {
 		super();
 		this.bbs_idx = bbs_idx;
 		this.member_idx = member_idx;
 		this.category = category;
 		this.status = status;
-		this.subject = subject;
 		this.content = content;
 		this.ref = ref;
 		this.lev = lev;
 		this.sunbun = sunbun;
 		this.writedate = writedate;
+		this.userid = userid;
 		this.accdto = accdto;
-	}
-
-	// 여행 후기 게시판
-	public MainBbsDTO(int bbs_idx, int member_idx, String category, String status, String subject, String content,
-			int ref, int lev, int sunbun, Date writedate, ReviewDTO reviewdto) {
-		super();
-		this.bbs_idx = bbs_idx;
-		this.member_idx = member_idx;
-		this.category = category;
-		this.status = status;
-		this.subject = subject;
-		this.content = content;
-		this.ref = ref;
-		this.lev = lev;
-		this.sunbun = sunbun;
-		this.writedate = writedate;
-		this.reviewdto = reviewdto;
-	}
-
-	// 경로추천 게시판
-	public MainBbsDTO(int bbs_idx, int member_idx, String category, String status, String subject, String content,
-			int ref, int lev, int sunbun, Date writedate, RouteDTO routedto) {
-		super();
-		this.bbs_idx = bbs_idx;
-		this.member_idx = member_idx;
-		this.category = category;
-		this.status = status;
-		this.subject = subject;
-		this.content = content;
-		this.ref = ref;
-		this.lev = lev;
-		this.sunbun = sunbun;
-		this.writedate = writedate;
-		this.routedto = routedto;
-	}
-
-	// 1:1문의 게시판
-	public MainBbsDTO(int bbs_idx, int member_idx, String category, String status, String subject, String content,
-			int ref, int lev, int sunbun, Date writedate, AskDTO askdto) {
-		super();
-		this.bbs_idx = bbs_idx;
-		this.member_idx = member_idx;
-		this.category = category;
-		this.status = status;
-		this.subject = subject;
-		this.content = content;
-		this.ref = ref;
-		this.lev = lev;
-		this.sunbun = sunbun;
-		this.writedate = writedate;
-		this.askdto = askdto;
+		this.replylist = replylist;
 	}
 
 	// 신고 테이블
@@ -299,6 +265,30 @@ public class MainBbsDTO {
 
 	public void setReplydto(ReplyDTO replydto) {
 		this.replydto = replydto;
+	}
+
+	public String getNation() {
+		return nation;
+	}
+
+	public void setNation(String nation) {
+		this.nation = nation;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+	public List<ReplyDTO> getReplylist() {
+		return replylist;
+	}
+
+	public void setReplylist(List<ReplyDTO> replylist) {
+		this.replylist = replylist;
 	}
 
 }

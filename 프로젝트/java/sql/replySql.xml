@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="finaltp.reply">
+	<select id="getCommentCount" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM reply WHERE bbs_idx = #{bbs_idx}
+	</select>
+	
+	<select id="getMaxRef" parameterType="Integer" resultType="Integer">
+		SELECT max(ref) FROM reply WHERE bbs_idx = #{bbs_idx}
+	</select>
+	
+	<insert id="commentWrite">
+		INSERT INTO reply VALUES(Reply_reply_idx.nextval, #{member_idx}, #{bbs_idx}, #{content}, SYSDATE, #{ref}, #{sunbun}, #{lev}, #{writerid})
+	</insert>
+	
+	<select id="commentList" parameterType="Integer" resultType="finaltp.reply.model.ReplyDTO">
+		SELECT * FROM reply WHERE bbs_idx = #{bbs_idx} ORDER BY bbs_idx DESC, reply_idx DESC
+	</select>
+</mapper>
