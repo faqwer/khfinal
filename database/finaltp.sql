@@ -195,6 +195,7 @@ ALTER TABLE Moneybook
 
 /* 댓글 */
 CREATE TABLE Reply (
+	reply_idx INTEGER NOT NULL, /* 댓글번호 */
 	writer_idx NUMBER NOT NULL, /* 작성자회원번호 */
 	bbs_idx NUMBER NOT NULL, /* 게시글번호 */
 	user_idx NUMBER NOT NULL, /* 유저회원번호 */
@@ -207,6 +208,7 @@ CREATE TABLE Reply (
 
 CREATE UNIQUE INDEX PK_Reply
 	ON Reply (
+		reply_idx ASC,
 		writer_idx ASC,
 		bbs_idx ASC,
 		user_idx ASC
@@ -216,6 +218,7 @@ ALTER TABLE Reply
 	ADD
 		CONSTRAINT PK_Reply
 		PRIMARY KEY (
+			reply_idx,
 			writer_idx,
 			bbs_idx,
 			user_idx
@@ -606,8 +609,6 @@ ALTER TABLE Precommend
 			member_idx
 		)
 		ON DELETE CASCADE;
-
-alter table reply add (reply_idx number(4))
 
 CREATE SEQUENCE FAQ_faq_idx
 minvalue 0 start with 1 
