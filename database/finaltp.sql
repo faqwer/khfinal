@@ -1,10 +1,44 @@
-select * from tab
-purge recyclebin
-drop FAQ_faq_idx
-Planner_planner_idx
-Total_bbs_bbs_idx
-Plan_member_member_idx
 
+select * from tab
+
+drop table review
+
+drop table route
+
+drop table report
+
+drop table reply
+
+drop table plan_member
+
+drop table moneybook
+
+drop table planner
+
+drop table accompany
+
+drop table ask
+
+drop table follow
+
+drop table faq
+
+drop table total_bbs
+drop table planner_recommend
+
+drop table plan_member
+
+PURGE RECYCLEBIN
+
+DROP SEQUENCE FAQ_faq_idx
+
+DROP SEQUENCE Planner_planner_idx
+
+DROP SEQUENCE Total_bbs_bbs_idx
+
+DROP SEQUENCE Plan_member_member_idx
+
+commit
 
 desc Plan_member
 desc Total_bbs
