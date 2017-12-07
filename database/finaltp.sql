@@ -308,10 +308,6 @@ ALTER TABLE FAQ
 			faq_idx
 		);
 
-/* 공지 */
-CREATE TABLE Notice (
-);
-
 /* 루트_게시글 */
 CREATE TABLE Route (
 	bbs_idx NUMBER NOT NULL, /* 게시글번호 */
