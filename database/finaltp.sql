@@ -357,22 +357,22 @@ ALTER TABLE Report
 		);
 
 /* 통합추천 */
-CREATE TABLE Total_recommend (
+CREATE TABLE Trecommend (
 	bbs_idx NUMBER NOT NULL, /* 게시글번호 */
 	writer_idx NUMBER NOT NULL, /* 작성자회원번호 */
 	user_idx NUMBER NOT NULL /* 유저회원번호 */
 );
 
-CREATE UNIQUE INDEX PK_Total_recommend
-	ON Total_recommend (
+CREATE UNIQUE INDEX PK_Trecommend
+	ON Trecommend (
 		bbs_idx ASC,
 		writer_idx ASC,
 		user_idx ASC
 	);
 
-ALTER TABLE Total_recommend
+ALTER TABLE Trecommend
 	ADD
-		CONSTRAINT PK_Total_recommend
+		CONSTRAINT PK_Trecommend
 		PRIMARY KEY (
 			bbs_idx,
 			writer_idx,
@@ -380,22 +380,22 @@ ALTER TABLE Total_recommend
 		);
 
 /* 플랜추천 */
-CREATE TABLE Planner_recommend (
+CREATE TABLE Precommend (
 	planner_idx NUMBER NOT NULL, /* 플랜 게시글번호 */
 	writer_idx NUMBER NOT NULL, /* 작성자 회원번호 */
 	user_idx NUMBER NOT NULL /* 유저회원번호 */
 );
 
-CREATE UNIQUE INDEX PK_Planner_recommend
-	ON Planner_recommend (
+CREATE UNIQUE INDEX PK_Precommend
+	ON Precommend (
 		planner_idx ASC,
 		writer_idx ASC,
 		user_idx ASC
 	);
 
-ALTER TABLE Planner_recommend
+ALTER TABLE Precommend
 	ADD
-		CONSTRAINT PK_Planner_recommend
+		CONSTRAINT PK_Precommend
 		PRIMARY KEY (
 			planner_idx,
 			writer_idx,
@@ -559,9 +559,9 @@ ALTER TABLE Report
 		)
 		ON DELETE CASCADE;
 
-ALTER TABLE Total_recommend
+ALTER TABLE Trecommend
 	ADD
-		CONSTRAINT FK_Total_bbs_TO_Total_recommend
+		CONSTRAINT FK_Total_bbs_TO_Trecommend
 		FOREIGN KEY (
 			bbs_idx,
 			writer_idx
@@ -572,9 +572,9 @@ ALTER TABLE Total_recommend
 		)
 		ON DELETE CASCADE;
 
-ALTER TABLE Total_recommend
+ALTER TABLE Trecommend
 	ADD
-		CONSTRAINT FK_Plan_member_TO_Total_recommend
+		CONSTRAINT FK_Plan_member_TO_Trecommend
 		FOREIGN KEY (
 			user_idx
 		)
@@ -583,9 +583,9 @@ ALTER TABLE Total_recommend
 		)
 		ON DELETE CASCADE;
 
-ALTER TABLE Planner_recommend
+ALTER TABLE Precommend
 	ADD
-		CONSTRAINT FK_Planner_TO_Planner_recommend
+		CONSTRAINT FK_Planner_TO_Precommend
 		FOREIGN KEY (
 			planner_idx,
 			writer_idx
@@ -596,9 +596,9 @@ ALTER TABLE Planner_recommend
 		)
 		ON DELETE CASCADE;
 
-ALTER TABLE Planner_recommend
+ALTER TABLE Precommend
 	ADD
-		CONSTRAINT FK_Plan_member_TO_Planner_recommend
+		CONSTRAINT FK_Plan_member_TO_Precommend
 		FOREIGN KEY (
 			user_idx
 		)
