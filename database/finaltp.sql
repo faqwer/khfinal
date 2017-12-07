@@ -607,6 +607,8 @@ ALTER TABLE Precommend
 		)
 		ON DELETE CASCADE;
 
+alter table reply add (reply_idx number(4))
+
 CREATE SEQUENCE FAQ_faq_idx
 minvalue 0 start with 1 
 
@@ -619,3 +621,9 @@ minvalue 0 start with 1
 CREATE SEQUENCE Plan_member_member_idx
 minvalue 0 start with 1 
 
+CREATE SEQUENCE Reply_reply_idx
+minvalue 0 start with 1 
+
+commit
+
+select * from tab
