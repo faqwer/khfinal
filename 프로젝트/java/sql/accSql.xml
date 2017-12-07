@@ -3,8 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="finaltp.acc">
+
+	<insert id="accWrite1" parameterType="finaltp.mainBbs.model.MainBbsDTO">
+		INSERT INTO total_bbs VALUES(Total_bbs_bbs_idx.nextval, #{writer_idx}, #{status}, 0, SYSDATE, #{category}, #{content})
+	</insert>
+	
 	<insert id="accWrite2" parameterType="map">
-		INSERT INTO accompany VALUES(Total_bbs_bbs_idx.currval, #{member_idx}, #{nation})
+		INSERT INTO accompany VALUES(Total_bbs_bbs_idx.currval, #{writer_idx}, #{nation})
 	</insert>
 	
 	<select id="accList2" resultType="finaltp.acc.model.AccDTO">
@@ -15,4 +20,8 @@
 			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
 		]]>
 	</select>
+	
+	<delete id="accStatusChange" parameterType="Integer">
+		UPDATE accompany SET status = 'defer' WHERE bbs_idx = #{bbs_idx}
+	</delete>
 </mapper>

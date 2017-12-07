@@ -33,6 +33,17 @@ public class ReplyDAOImple implements ReplyDAO {
 	// 댓글 가져오는 메서드
 	public List<ReplyDTO> commentList(int bbs_idx) {
 		List<ReplyDTO> dto = sqlMap.selectList("commentList", bbs_idx);
+		for (int i = 0; i < dto.size(); i++) {
+			String writerid = sqlMap.selectOne("getWriterId", dto.get(i).getUser_idx());
+			dto.get(i).setWriterid(writerid);
+			System.out.println("writerid[" + i + "] : " + dto.get(i).getWriterid());
+		}
 		return dto;
+	}
+
+	// 댓글 전체 삭제 메서드
+	public int commentAllDelete(int bbs_idx) {
+		int result = sqlMap.delete("commentAllDelete", bbs_idx);
+		return result;
 	}
 }

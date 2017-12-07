@@ -27,14 +27,15 @@ public class ReplyController {
 		ModelAndView mav = new ModelAndView();
 		ReplyDTO dto = null;
 		String writerid = (String) session.getAttribute("userid");
-		int member_idx = mainBbsDao.getBbsMemberIdx(bbs_idx);
+		int writer_idx = mainBbsDao.getBbsWriterIdx(bbs_idx);
+		int user_idx = mainBbsDao.getWriterMemberIdx(writerid);
 		int commentCount = replyDao.getCommentCount(bbs_idx);
 		
 		if(commentCount == 0) {
-			dto = new ReplyDTO(bbs_idx, member_idx, content, 0, 0, 0, writerid);
+			dto = new ReplyDTO(writer_idx, bbs_idx, user_idx, content, 0, 0, 0);
 		} else {
 			int ref = replyDao.getMaxRef(bbs_idx) + 1;
-			dto = new ReplyDTO(bbs_idx, member_idx, content, ref, 0, 0, writerid);
+			dto = new ReplyDTO(writer_idx, bbs_idx, user_idx, content, ref, 0, 0);
 		}
 		
 		int result = replyDao.commentWrite(dto);
