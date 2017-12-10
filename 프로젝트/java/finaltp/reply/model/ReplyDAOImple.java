@@ -1,6 +1,8 @@
 package finaltp.reply.model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -35,8 +37,9 @@ public class ReplyDAOImple implements ReplyDAO {
 		List<ReplyDTO> dto = sqlMap.selectList("commentList", bbs_idx);
 		for (int i = 0; i < dto.size(); i++) {
 			String writerid = sqlMap.selectOne("getWriterId", dto.get(i).getUser_idx());
+			String profileImg = sqlMap.selectOne("getProfileImg", dto.get(i).getUser_idx());
 			dto.get(i).setWriterid(writerid);
-			System.out.println("writerid[" + i + "] : " + dto.get(i).getWriterid());
+			dto.get(i).setProfileImg(profileImg);
 		}
 		return dto;
 	}
@@ -44,6 +47,21 @@ public class ReplyDAOImple implements ReplyDAO {
 	// 댓글 전체 삭제 메서드
 	public int commentAllDelete(int bbs_idx) {
 		int result = sqlMap.delete("commentAllDelete", bbs_idx);
+		return result;
+	}
+	
+	// 댓글 수정 메서드
+	public int commentRevise(int reply_idx, String content) {
+		Map map = new HashMap();
+		map.put("reply_idx", reply_idx);
+		map.put("content", content);
+		int result = sqlMap.update("commentRevise", map);
+		return result;
+	}
+	
+	// 댓글 삭제
+	public int commentDelete(int reply_idx) {
+		int result = sqlMap.delete("commentDelete", reply_idx);
 		return result;
 	}
 }

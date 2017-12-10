@@ -26,4 +26,12 @@
 	<select id="getWriterId" parameterType="Integer" resultType="String">
 		SELECT id FROM plan_member WHERE member_idx = #{writer_idx}
 	</select>
+	
+	<update id="commentRevise" parameterType="map">
+		UPDATE reply SET content = #{content} WHERE reply_idx = #{reply_idx}
+	</update>
+	
+	<delete id="commentDelete" parameterType="Integer">
+		DELETE FROM reply WHERE reply_idx = #{reply_idx}
+	</delete>
 </mapper>

@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import finaltp.member.model.MemberDTO;
+
 public class MainBbsDAOImple implements MainBbsDAO {
 
 	private SqlSessionTemplate sqlMap;
@@ -70,6 +72,17 @@ public class MainBbsDAOImple implements MainBbsDAO {
 	public int getWriterMemberIdx(String writerid) {
 		int result = sqlMap.selectOne("getWriterMemberIdx", writerid);
 		return result;
+	}
+	
+	// 게시글 작성자 프로필 사진 가져오는 메서드
+	public String getWriterProfileImg(int writer_idx) {
+		String result = sqlMap.selectOne("getProfileImg", writer_idx);
+		return result;
+	}
+	
+	public MemberDTO getLoginUserInfo(String userid) {
+		MemberDTO dto = sqlMap.selectOne("memberINFO", userid);
+		return dto;
 	}
 
 }

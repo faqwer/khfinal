@@ -8,4 +8,6 @@ public interface ReplyDAO {
 	public int getCommentCount(int bbs_idx); // 댓글 갯수 조회
 	public List<ReplyDTO> commentList(int bbs_idx); // 댓글 리스트
 	public int commentAllDelete(int bbs_idx); // 댓글 삭제
+	public int commentRevise(int reply_idx, String content); // 댓글 수정
+	public int commentDelete(int reply_idx); // 댓글 삭제
 }

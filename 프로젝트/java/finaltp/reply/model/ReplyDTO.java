@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class ReplyDTO {
 
+	private int reply_idx;
 	private int writer_idx;
 	private int bbs_idx;
 	private int user_idx;
@@ -13,14 +14,16 @@ public class ReplyDTO {
 	private int lev;
 	private int sunbun;
 	private String writerid;
+	private String profileImg;
 
 	public ReplyDTO() {
 		super();
 	}
 
-	public ReplyDTO(int writer_idx, int bbs_idx, int user_idx, String content, Date writedate, int ref, int lev,
-			int sunbun, String writerid) {
+	public ReplyDTO(int reply_idx, int writer_idx, int bbs_idx, int user_idx, String content, Date writedate, int ref,
+			int lev, int sunbun, String writerid, String profileImg) {
 		super();
+		this.reply_idx = reply_idx;
 		this.writer_idx = writer_idx;
 		this.bbs_idx = bbs_idx;
 		this.user_idx = user_idx;
@@ -30,6 +33,7 @@ public class ReplyDTO {
 		this.lev = lev;
 		this.sunbun = sunbun;
 		this.writerid = writerid;
+		this.profileImg = profileImg;
 	}
 
 	// 댓글 작성
@@ -42,6 +46,14 @@ public class ReplyDTO {
 		this.ref = ref;
 		this.lev = lev;
 		this.sunbun = sunbun;
+	}
+
+	public int getReply_idx() {
+		return reply_idx;
+	}
+
+	public void setReply_idx(int reply_idx) {
+		this.reply_idx = reply_idx;
 	}
 
 	public int getWriter_idx() {
@@ -114,6 +126,14 @@ public class ReplyDTO {
 
 	public void setWriterid(String writerid) {
 		this.writerid = writerid;
+	}
+
+	public String getProfileImg() {
+		return profileImg;
+	}
+
+	public void setProfileImg(String profileImg) {
+		this.profileImg = profileImg;
 	}
 
 }

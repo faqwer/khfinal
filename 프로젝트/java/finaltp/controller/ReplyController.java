@@ -38,7 +38,23 @@ public class ReplyController {
 			dto = new ReplyDTO(writer_idx, bbs_idx, user_idx, content, ref, 0, 0);
 		}
 		
-		int result = replyDao.commentWrite(dto);
+		int count = replyDao.commentWrite(dto);
+		mav.setViewName("acc/accList");
+		return mav;
+	}
+	
+	@RequestMapping("/commentRevise.do")
+	public ModelAndView commentRevise(@RequestParam("reply_idx") int reply_idx, @RequestParam("content") String content) {
+		ModelAndView mav = new ModelAndView();
+		int count = replyDao.commentRevise(reply_idx, content);
+		mav.setViewName("acc/accList");
+		return mav;
+	}
+	
+	@RequestMapping("/commentDelete.do")
+	public ModelAndView commentDelete(@RequestParam("reply_idx") int reply_idx) {
+		ModelAndView mav = new ModelAndView();
+		int count = replyDao.commentDelete(reply_idx);
 		mav.setViewName("acc/accList");
 		return mav;
 	}

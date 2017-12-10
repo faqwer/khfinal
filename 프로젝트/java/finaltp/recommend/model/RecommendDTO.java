@@ -1,24 +1,20 @@
-package finaltp.report.model;
+package finaltp.recommend.model;
 
-public class ReportDTO {
+public class RecommendDTO {
 
 	private int bbs_idx;
 	private int writer_idx;
 	private int user_idx;
-	private String reason;
-	private String status;
 
-	public ReportDTO() {
+	public RecommendDTO() {
 		super();
 	}
 
-	public ReportDTO(int bbs_idx, int writer_idx, int user_idx, String reason, String status) {
+	public RecommendDTO(int bbs_idx, int writer_idx, int user_idx) {
 		super();
 		this.bbs_idx = bbs_idx;
 		this.writer_idx = writer_idx;
 		this.user_idx = user_idx;
-		this.reason = reason;
-		this.status = status;
 	}
 
 	public int getBbs_idx() {
@@ -43,22 +39,6 @@ public class ReportDTO {
 
 	public void setUser_idx(int user_idx) {
 		this.user_idx = user_idx;
-	}
-
-	public String getReason() {
-		return reason;
-	}
-
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 }

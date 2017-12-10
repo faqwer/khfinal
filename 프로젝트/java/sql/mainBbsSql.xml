@@ -7,12 +7,12 @@
 		<![CDATA[
 		SELECT * FROM
 			(SELECT ROWNUM AS rnum, a.* FROM
-			(SELECT * FROM total_bbs WHERE category = #{category} ORDER BY bbs_idx desc)a)b
+			(SELECT * FROM total_bbs WHERE category = #{category} AND status = 'normal' ORDER BY bbs_idx desc)a)b
 			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
 		]]>
 	</select>
 	<select id="totalCnt" parameterType="String" resultType="Integer">
-		SELECT count(*) FROM total_bbs WHERE category = #{category}
+		SELECT count(*) FROM total_bbs WHERE category = #{category} AND status = 'normal'
 	</select>
 	
 	<select id="noticeContent" parameterType="Integer" resultType="finaltp.mainBbs.model.MainBbsDTO">
@@ -37,5 +37,9 @@
 	
 	<select id="getWriterMemberIdx" parameterType="String" resultType="Integer">
 		SELECT member_idx FROM plan_member WHERE id = #{writerid}
+	</select>
+	
+	<select id="getProfileImg" parameterType="Integer" resultType="String">
+		SELECT profile_img FROM plan_member WHERE member_idx = #{writer_idx}
 	</select>
 </mapper>

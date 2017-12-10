@@ -21,6 +21,8 @@ public class MainBbsDTO {
 	private Date writedate;
 	private String nation;
 	private String userid;
+	private String profileImg;
+	private String recommend;
 
 	private AccDTO accdto;
 	private ReviewDTO reviewdto;
@@ -80,7 +82,8 @@ public class MainBbsDTO {
 
 	// 동행 게시판 리스트
 	public MainBbsDTO(int bbs_idx, int writer_idx, String category, String status, String content, int ref, int lev,
-			int sunbun, Date writedate, String userid, AccDTO accdto, List<ReplyDTO> replylist) {
+			int sunbun, Date writedate, String userid, String profileImg, String recommend, AccDTO accdto,
+			List<ReplyDTO> replylist) {
 		super();
 		this.bbs_idx = bbs_idx;
 		this.writer_idx = writer_idx;
@@ -89,6 +92,8 @@ public class MainBbsDTO {
 		this.content = content;
 		this.writedate = writedate;
 		this.userid = userid;
+		this.profileImg = profileImg;
+		this.recommend = recommend;
 		this.accdto = accdto;
 		this.replylist = replylist;
 	}
@@ -191,6 +196,22 @@ public class MainBbsDTO {
 
 	public void setUserid(String userid) {
 		this.userid = userid;
+	}
+
+	public String getProfileImg() {
+		return profileImg;
+	}
+
+	public void setProfileImg(String profileImg) {
+		this.profileImg = profileImg;
+	}
+
+	public String getRecommend() {
+		return recommend;
+	}
+
+	public void setRecommend(String recommend) {
+		this.recommend = recommend;
 	}
 
 	public AccDTO getAccdto() {
