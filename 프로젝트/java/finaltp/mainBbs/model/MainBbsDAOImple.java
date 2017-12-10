@@ -80,6 +80,7 @@ public class MainBbsDAOImple implements MainBbsDAO {
 		return result;
 	}
 	
+	// 로그인 중인 사용자 정보 조회
 	public MemberDTO getLoginUserInfo(String userid) {
 		MemberDTO dto = sqlMap.selectOne("memberINFO", userid);
 		return dto;

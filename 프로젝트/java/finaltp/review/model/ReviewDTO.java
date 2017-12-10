@@ -3,23 +3,21 @@ package finaltp.review.model;
 public class ReviewDTO {
 
 	private int bbs_idx;
-	private int member_idx;
+	private int writer_idx;
 	private String thema;
 	private int readnum;
-	private String recommend;
 	private String coverimg;
 
 	public ReviewDTO() {
 		super();
 	}
 
-	public ReviewDTO(int bbs_idx, int member_idx, String thema, int readnum, String recommend, String coverimg) {
+	public ReviewDTO(int bbs_idx, int writer_idx, String thema, int readnum, String coverimg) {
 		super();
 		this.bbs_idx = bbs_idx;
-		this.member_idx = member_idx;
+		this.writer_idx = writer_idx;
 		this.thema = thema;
 		this.readnum = readnum;
-		this.recommend = recommend;
 		this.coverimg = coverimg;
 	}
 
@@ -31,12 +29,12 @@ public class ReviewDTO {
 		this.bbs_idx = bbs_idx;
 	}
 
-	public int getMember_idx() {
-		return member_idx;
+	public int getWriter_idx() {
+		return writer_idx;
 	}
 
-	public void setMember_idx(int member_idx) {
-		this.member_idx = member_idx;
+	public void setWriter_idx(int writer_idx) {
+		this.writer_idx = writer_idx;
 	}
 
 	public String getThema() {
@@ -53,14 +51,6 @@ public class ReviewDTO {
 
 	public void setReadnum(int readnum) {
 		this.readnum = readnum;
-	}
-
-	public String getRecommend() {
-		return recommend;
-	}
-
-	public void setRecommend(String recommend) {
-		this.recommend = recommend;
 	}
 
 	public String getCoverimg() {

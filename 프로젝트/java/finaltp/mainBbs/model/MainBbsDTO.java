@@ -5,6 +5,7 @@ import java.util.List;
 
 import finaltp.acc.model.AccDTO;
 import finaltp.ask.model.AskDTO;
+import finaltp.recommend.model.RecommendDTO;
 import finaltp.reply.model.ReplyDTO;
 import finaltp.report.model.ReportDTO;
 import finaltp.review.model.ReviewDTO;
@@ -30,6 +31,7 @@ public class MainBbsDTO {
 	private AskDTO askdto;
 	private ReportDTO reportdto;
 	private ReplyDTO replydto;
+	private RecommendDTO recommenddto;
 	private List<ReplyDTO> replylist;
 
 	public MainBbsDTO() {
@@ -38,7 +40,8 @@ public class MainBbsDTO {
 
 	public MainBbsDTO(int bbs_idx, int writer_idx, String category, String status, String subject, String content,
 			Date writedate, String nation, String userid, AccDTO accdto, ReviewDTO reviewdto, RouteDTO routedto,
-			AskDTO askdto, ReportDTO reportdto, ReplyDTO replydto, List<ReplyDTO> replylist) {
+			AskDTO askdto, ReportDTO reportdto, ReplyDTO replydto, RecommendDTO recommenddto,
+			List<ReplyDTO> replylist) {
 		super();
 		this.bbs_idx = bbs_idx;
 		this.writer_idx = writer_idx;
@@ -55,6 +58,7 @@ public class MainBbsDTO {
 		this.askdto = askdto;
 		this.reportdto = reportdto;
 		this.replydto = replydto;
+		this.recommenddto = recommenddto;
 		this.replylist = replylist;
 	}
 
@@ -71,12 +75,12 @@ public class MainBbsDTO {
 		this.writedate = writedate;
 	}
 
-	// 동행 게시판 글 작성
-	public MainBbsDTO(int writer_idx, String category, String status, String content) {
+	// 게시판 글 작성
+	public MainBbsDTO(int writer_idx, String category, String subject, String content) {
 		super();
 		this.writer_idx = writer_idx;
 		this.category = category;
-		this.status = status;
+		this.subject = subject;
 		this.content = content;
 	}
 
@@ -96,6 +100,21 @@ public class MainBbsDTO {
 		this.recommend = recommend;
 		this.accdto = accdto;
 		this.replylist = replylist;
+	}
+
+	// 후기 게시판 리스트
+	public MainBbsDTO(int bbs_idx, int writer_idx, String category, String status, String subject, String content,
+			Date writedate, ReviewDTO reviewdto, RecommendDTO recommenddto) {
+		super();
+		this.bbs_idx = bbs_idx;
+		this.writer_idx = writer_idx;
+		this.category = category;
+		this.status = status;
+		this.subject = subject;
+		this.content = content;
+		this.writedate = writedate;
+		this.reviewdto = reviewdto;
+		this.recommenddto = recommenddto;
 	}
 
 	// 신고 테이블
@@ -252,6 +271,14 @@ public class MainBbsDTO {
 
 	public void setReportdto(ReportDTO reportdto) {
 		this.reportdto = reportdto;
+	}
+
+	public RecommendDTO getRecommenddto() {
+		return recommenddto;
+	}
+
+	public void setRecommenddto(RecommendDTO recommenddto) {
+		this.recommenddto = recommenddto;
 	}
 
 	public ReplyDTO getReplydto() {

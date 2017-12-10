@@ -43,7 +43,7 @@ public class AccController {
 		ModelAndView mav = new ModelAndView();
 		String userid = (String) session.getAttribute("userid");
 		int writer_idx = mainBbsDao.getMemberIdx(userid);
-		MainBbsDTO dto = new MainBbsDTO(writer_idx, "acc", "normal", content);
+		MainBbsDTO dto = new MainBbsDTO(writer_idx, "acc", "0", content);
 		int result = accDao.accWrite(dto, nation);
 		mav.setViewName("acc/accList");
 		return mav;

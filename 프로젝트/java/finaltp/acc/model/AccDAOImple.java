@@ -20,11 +20,11 @@ public class AccDAOImple implements AccDAO {
 
 	// 동행 게시판 작성
 	public int accWrite(MainBbsDTO dto, String nation) {
-		int result = sqlMap.insert("accWrite1", dto);
+		int result = sqlMap.insert("mainBbsWrite", dto);
 		Map map = new HashMap();
 		map.put("writer_idx", dto.getWriter_idx());
 		map.put("nation", nation);
-		int result2 = sqlMap.insert("accWrite2", map);
+		int result2 = sqlMap.insert("accWrite", map);
 		return result * result2;
 	}
 
@@ -39,7 +39,7 @@ public class AccDAOImple implements AccDAO {
 			data.put("endnum", endnum);
 			data.put("bbs_idx", mainList.get(i).getBbs_idx());
 			data.put("writer_idx", mainList.get(i).getWriter_idx());
-			AccDTO acc = sqlMap.selectOne("accList2", data);
+			AccDTO acc = sqlMap.selectOne("accList", data);
 			dto.add(acc);
 		}
 		return dto;

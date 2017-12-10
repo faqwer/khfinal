@@ -11,6 +11,11 @@
 			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
 		]]>
 	</select>
+	
+	<insert id="mainBbsWrite" parameterType="finaltp.mainBbs.model.MainBbsDTO">
+		INSERT INTO total_bbs VALUES(Total_bbs_bbs_idx.nextval, #{writer_idx}, 'normal', #{subject}, SYSDATE, #{category}, #{content})
+	</insert>
+	
 	<select id="totalCnt" parameterType="String" resultType="Integer">
 		SELECT count(*) FROM total_bbs WHERE category = #{category} AND status = 'normal'
 	</select>
