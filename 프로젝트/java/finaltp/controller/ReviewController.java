@@ -14,6 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 import finaltp.mainBbs.model.MainBbsDAO;
 import finaltp.mainBbs.model.MainBbsDTO;
 import finaltp.member.model.MemberDTO;
+import finaltp.recommend.model.RecommendDAO;
+import finaltp.recommend.model.RecommendDTO;
+import finaltp.reply.model.ReplyDAO;
+import finaltp.reply.model.ReplyDTO;
 import finaltp.review.model.ReviewDAO;
 import finaltp.review.model.ReviewDTO;
 
@@ -25,22 +29,33 @@ public class ReviewController {
 
 	@Autowired
 	private ReviewDAO reviewDao;
+	
+	@Autowired
+	private RecommendDAO recommendDao;
+	
+	@Autowired
+	private ReplyDAO replyDao;
+	
 
 	@RequestMapping("/reviewList.do")
 	public ModelAndView reviewList(HttpSession session, @RequestParam(value = "cp", defaultValue = "1") int cp) {
 		int totalCnt = mainBbsDao.getTotalCnt("review");
-		int listSize = 6;
+		int listSize = 5;
 		int pageSize = 5;
 
 		String userid = (String) session.getAttribute("userid");
 		MemberDTO loginUser = mainBbsDao.getLoginUserInfo(userid); // 멤버 테이블에서 현재 접속중인 사용자의 정보를 가져옴
 		ModelAndView mav = new ModelAndView();
 		List<MainBbsDTO> mainList = mainBbsDao.mainBbsList(cp, listSize, "review"); // total_bbs에서 review 게시물 가져옴
-		List<ReviewDTO> reviewList = reviewDao.reviewList(cp, listSize, mainList);
-
+		List<ReviewDTO> reviewList = reviewDao.reviewList(cp, listSize, mainList); // review 테이블에서 reviewDTO 가져옴
+		
 		for (int i = 0; i < mainList.size(); i++) {
-			
+			mainList.get(i).setReviewdto(reviewList.get(i)); // 메인DTO에 리뷰DTO 추가
+			mainList.get(i).setRecommendNum(recommendDao.recommendNum(mainList.get(i).getBbs_idx())); // 메인DTO에 추천수 추가
 		}
+		String pageStr = finaltp.paging.PageModule.makePage("reviewList.do", totalCnt, listSize, pageSize, cp); // 페이징
+		mav.addObject("mainList", mainList);
+		mav.addObject("pageStr", pageStr);
 		mav.setViewName("review/reviewList");
 		return mav;
 	}
@@ -69,5 +84,18 @@ public class ReviewController {
 		mav.setViewName("review/reviewMsg");
 		return mav;
 	}
-
+	
+	@RequestMapping("/reviewContent.do")
+	public ModelAndView reviewContent(@RequestParam("bbs_idx") int bbs_idx) {
+		ModelAndView mav = new ModelAndView();
+		MainBbsDTO mainList = mainBbsDao.bbsContent(bbs_idx);
+		ReviewDTO reviewList = reviewDao.reviewContent(bbs_idx);
+		List<ReplyDTO> replyList = replyDao.commentList(bbs_idx);
+		
+		mainList.setReviewdto(reviewList);
+		mainList.setReplylist(replyList);
+		mav.addObject("mainList", mainList);
+		mav.setViewName("review/reviewContent");
+		return mav;
+	}
 }

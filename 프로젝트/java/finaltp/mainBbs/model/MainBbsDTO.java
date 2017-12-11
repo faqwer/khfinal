@@ -24,6 +24,7 @@ public class MainBbsDTO {
 	private String userid;
 	private String profileImg;
 	private String recommend;
+	private int recommendNum;
 
 	private AccDTO accdto;
 	private ReviewDTO reviewdto;
@@ -104,7 +105,7 @@ public class MainBbsDTO {
 
 	// 후기 게시판 리스트
 	public MainBbsDTO(int bbs_idx, int writer_idx, String category, String status, String subject, String content,
-			Date writedate, ReviewDTO reviewdto, RecommendDTO recommenddto) {
+			Date writedate, int recommendNum, ReviewDTO reviewdto) {
 		super();
 		this.bbs_idx = bbs_idx;
 		this.writer_idx = writer_idx;
@@ -113,8 +114,22 @@ public class MainBbsDTO {
 		this.subject = subject;
 		this.content = content;
 		this.writedate = writedate;
+		this.recommendNum = recommendNum;
 		this.reviewdto = reviewdto;
-		this.recommenddto = recommenddto;
+	}
+
+	// 후기 게시판 본문
+	public MainBbsDTO(int bbs_idx, int writer_idx, String category, String subject, String content, Date writedate,
+			ReviewDTO reviewdto, List<ReplyDTO> replylist) {
+		super();
+		this.bbs_idx = bbs_idx;
+		this.writer_idx = writer_idx;
+		this.category = category;
+		this.subject = subject;
+		this.content = content;
+		this.writedate = writedate;
+		this.reviewdto = reviewdto;
+		this.replylist = replylist;
 	}
 
 	// 신고 테이블
@@ -231,6 +246,14 @@ public class MainBbsDTO {
 
 	public void setRecommend(String recommend) {
 		this.recommend = recommend;
+	}
+
+	public int getRecommendNum() {
+		return recommendNum;
+	}
+
+	public void setRecommendNum(int recommendNum) {
+		this.recommendNum = recommendNum;
 	}
 
 	public AccDTO getAccdto() {

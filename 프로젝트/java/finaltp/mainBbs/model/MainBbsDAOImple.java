@@ -36,8 +36,8 @@ public class MainBbsDAOImple implements MainBbsDAO {
 	}
 
 	// 게시물 본문 조회
-	public List<MainBbsDTO> noticeContent(int idx) {
-		List<MainBbsDTO> dto = sqlMap.selectList("noticeContent", idx);
+	public MainBbsDTO bbsContent(int idx) {
+		MainBbsDTO dto = sqlMap.selectOne("bbsContent", idx);
 		return dto;
 	}
 

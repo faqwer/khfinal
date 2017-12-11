@@ -29,4 +29,9 @@ public class RecommendDAOImple implements RecommendDAO {
 			return "OK";
 		}
 	}
+	
+	public int recommendNum(int bbs_idx) {
+		int result = sqlMap.selectOne("recommendNum", bbs_idx);
+		return result;
+	}
 }

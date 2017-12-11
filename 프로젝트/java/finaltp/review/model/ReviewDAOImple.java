@@ -41,5 +41,10 @@ public class ReviewDAOImple implements ReviewDAO {
 		}
 		return dto;
 	}
+	
+	public ReviewDTO reviewContent(int bbs_idx) {
+		ReviewDTO dto = sqlMap.selectOne("reviewContent", bbs_idx);
+		return dto;
+	}
 
 }

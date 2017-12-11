@@ -43,8 +43,8 @@ public class MainBbsController {
 	@RequestMapping("/noticeContent.do")
 	public ModelAndView noticeContent(int idx) {
 		ModelAndView mav = new ModelAndView();
-		List<MainBbsDTO> dto = mainBbsDao.noticeContent(idx);
-		mav.addObject("noticeContent", dto);
+		MainBbsDTO dto = mainBbsDao.bbsContent(idx);
+		mav.addObject("bbsContent", dto);
 		mav.setViewName("notice/noticeContent");
 		return mav;
 	}

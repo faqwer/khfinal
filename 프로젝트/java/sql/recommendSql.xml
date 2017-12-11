@@ -14,4 +14,8 @@
 	<select id="recommendCheck" parameterType="finaltp.recommend.model.RecommendDTO" resultType="Integer">
 		SELECT COUNT(*) FROM Trecommend WHERE bbs_idx = #{bbs_idx} AND writer_idx = #{writer_idx} AND user_idx = #{user_idx}
 	</select>
+	
+	<select id="recommendNum" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM Trecommend WHERE bbs_idx = #{bbs_idx}
+	</select>
 </mapper>

@@ -15,4 +15,8 @@
 			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
 		]]>
 	</select>
+	
+	<select id="reviewContent" parameterType="Integer" resultType="finaltp.review.model.ReviewDTO">
+		SELECT * FROM review WHERE bbs_idx = #{bbs_idx}
+	</select>
 </mapper>
