@@ -11,9 +11,7 @@
 			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
 		]]>
 	</select>
-	<select id="totalCnt" resultType="Integer">
-		SELECT count(*) FROM total_bbs WHERE category = 'notice'
-	</select>
+
 	<select id="noticeContent" parameterType="Integer" resultType="finaltp.mainBbs.model.MainBbsDTO">
 		SELECT  * FROM total_bbs WHERE bbs_idx = #{idx}
 	</select>

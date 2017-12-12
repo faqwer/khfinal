@@ -19,4 +19,8 @@
 	<select id="reviewContent" parameterType="Integer" resultType="finaltp.review.model.ReviewDTO">
 		SELECT * FROM review WHERE bbs_idx = #{bbs_idx}
 	</select>
+	
+	<update id="reviewBbsRevise" parameterType="map">
+		UPDATE review SET thema = #{thema}, coverimg = #{coverimg} WHERE bbs_idx = #{bbs_idx}
+	</update>
 </mapper>

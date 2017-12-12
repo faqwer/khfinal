@@ -36,8 +36,8 @@
 		SELECT id FROM plan_member WHERE member_idx = #{member_idx}
 	</select>
 	
-	<delete id="mainBbsStatusChange" parameterType="map">
-		UPDATE total_bbs SET status = 'defer' WHERE category = #{category} AND bbs_idx = #{bbs_idx}
+	<delete id="mainBbsStatusDefer" parameterType="Integer">
+		UPDATE total_bbs SET status = 'defer' WHERE bbs_idx = #{bbs_idx}
 	</delete>
 	
 	<select id="getWriterMemberIdx" parameterType="String" resultType="Integer">
@@ -47,4 +47,12 @@
 	<select id="getProfileImg" parameterType="Integer" resultType="String">
 		SELECT profile_img FROM plan_member WHERE member_idx = #{writer_idx}
 	</select>
+	
+	<update id="reviewMainBbsRevise" parameterType="map">
+		UPDATE total_bbs SET subject = #{subject}, content = #{content} WHERE bbs_idx = #{bbs_idx}
+	</update>
+	
+	<update id="setReviewReadNum" parameterType="map">
+		UPDATE review SET readnum = readnum + 1 WHERE bbs_idx = #{bbs_idx}
+	</update>
 </mapper>

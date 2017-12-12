@@ -9,6 +9,8 @@
 		<mapper resource="sql/memberSql.xml"/>
 		<mapper resource="sql/accSql.xml"/>
 		<mapper resource="sql/replySql.xml"/>
-		<mapper resource="sql/routeSql.xml"/>
+		<mapper resource="sql/reportSql.xml"/>
+		<mapper resource="sql/recommendSql.xml"/>
+		<mapper resource="sql/reviewSql.xml"/>
 	</mappers>
 </configuration>

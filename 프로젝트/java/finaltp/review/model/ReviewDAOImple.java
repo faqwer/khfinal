@@ -26,6 +26,7 @@ public class ReviewDAOImple implements ReviewDAO {
 		return mainBbsResult * reviewResult;
 	}
 	
+	// 후기 게시글 후기 테이블 목록
 	public List<ReviewDTO> reviewList(int cp, int ls, List<MainBbsDTO> mainList) {
 		int startnum = (cp - 1) * ls + 1;
 		int endnum = cp * ls;
@@ -42,9 +43,20 @@ public class ReviewDAOImple implements ReviewDAO {
 		return dto;
 	}
 	
+	// 후기 게시판 본문
 	public ReviewDTO reviewContent(int bbs_idx) {
 		ReviewDTO dto = sqlMap.selectOne("reviewContent", bbs_idx);
 		return dto;
+	}
+	
+	// 후기 게시글 후기 테이블 수정
+	public int reviewRevise(int bbs_idx, String thema, String coverimg) {
+		Map data = new HashMap();
+		data.put("bbs_idx", bbs_idx);
+		data.put("thema", thema);
+		data.put("coverimg", coverimg);
+		int result = sqlMap.update("reviewBbsRevise", data);
+		return result;
 	}
 
 }

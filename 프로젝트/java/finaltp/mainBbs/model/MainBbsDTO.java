@@ -105,7 +105,7 @@ public class MainBbsDTO {
 
 	// 후기 게시판 리스트
 	public MainBbsDTO(int bbs_idx, int writer_idx, String category, String status, String subject, String content,
-			Date writedate, int recommendNum, ReviewDTO reviewdto) {
+			Date writedate, String userid, String profileImg, int recommendNum, ReviewDTO reviewdto) {
 		super();
 		this.bbs_idx = bbs_idx;
 		this.writer_idx = writer_idx;
@@ -114,13 +114,15 @@ public class MainBbsDTO {
 		this.subject = subject;
 		this.content = content;
 		this.writedate = writedate;
+		this.userid = userid;
+		this.profileImg = profileImg;
 		this.recommendNum = recommendNum;
 		this.reviewdto = reviewdto;
 	}
 
 	// 후기 게시판 본문
 	public MainBbsDTO(int bbs_idx, int writer_idx, String category, String subject, String content, Date writedate,
-			ReviewDTO reviewdto, List<ReplyDTO> replylist) {
+			String userid, String profileImg, String recommend, ReviewDTO reviewdto, List<ReplyDTO> replylist) {
 		super();
 		this.bbs_idx = bbs_idx;
 		this.writer_idx = writer_idx;
@@ -128,8 +130,23 @@ public class MainBbsDTO {
 		this.subject = subject;
 		this.content = content;
 		this.writedate = writedate;
+		this.userid = userid;
+		this.profileImg = profileImg;
+		this.recommend = recommend;
 		this.reviewdto = reviewdto;
 		this.replylist = replylist;
+	}
+
+	// 후기 게시판 수정
+	public MainBbsDTO(int bbs_idx, int writer_idx, String category, String subject, String content,
+			ReviewDTO reviewdto) {
+		super();
+		this.bbs_idx = bbs_idx;
+		this.writer_idx = writer_idx;
+		this.category = category;
+		this.subject = subject;
+		this.content = content;
+		this.reviewdto = reviewdto;
 	}
 
 	// 신고 테이블

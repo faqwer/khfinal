@@ -10,20 +10,18 @@
 <body>
 	<h2>공지사항 본문</h2>
 	<table>
-		<c:forEach var="dto" items="${noticeContent}">
 			<tr>
 				<th>제목</th>
-				<td>${dto.subject}</td>
+				<td>${bbsContent.subject}</td>
 			</tr>
 			<tr>
 				<th>본문</th>
-				<td>${dto.content}</td>
+				<td>${bbsContent.content}</td>
 			</tr>
 			<tr>
 				<td colspan="2" align="center"><a href="noticeList.do">목록으로</a>
 				</td>
 			</tr>
-		</c:forEach>
 	</table>
 </body>
 </html>

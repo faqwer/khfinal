@@ -45,7 +45,9 @@ public class AccController {
 		int writer_idx = mainBbsDao.getMemberIdx(userid);
 		MainBbsDTO dto = new MainBbsDTO(writer_idx, "acc", "0", content);
 		int result = accDao.accWrite(dto, nation);
-		mav.setViewName("acc/accList");
+		mav.addObject("msg", result > 0 ? "작성 완료" : "작성 실패");
+		mav.addObject("gopage", "accList.do");
+		mav.setViewName("msg");
 		return mav;
 	}
 
@@ -56,8 +58,10 @@ public class AccController {
 		int listSize = 5;
 		int pageSize = 5;
 
+		MemberDTO loginUser = null;
+		RecommendDTO dto = null;
+
 		String userid = (String) session.getAttribute("userid");
-		MemberDTO loginUser = mainBbsDao.getLoginUserInfo(userid); // 멤버 테이블에서 현재 접속중인 사용자의 정보를 가져옴
 		ModelAndView mav = new ModelAndView();
 		List<MainBbsDTO> mainList = mainBbsDao.mainBbsList(cp, listSize, "acc"); // total_bbs에서 acc 게시물 가져옴
 		List<AccDTO> accList = accDao.accList(cp, listSize, mainList); // acc테이블에서 acc 게시물 가져옴
@@ -69,9 +73,14 @@ public class AccController {
 			mainList.get(i).setUserid(mainBbsDao.getUserId(mainList.get(i).getWriter_idx()));
 			mainList.get(i).setProfileImg(mainBbsDao.getWriterProfileImg(mainList.get(i).getWriter_idx()));
 			
-			RecommendDTO dto = new RecommendDTO(mainList.get(i).getBbs_idx(), mainList.get(i).getWriter_idx(), mainBbsDao.getMemberIdx(userid));
-			mainList.get(i).setRecommend(recommendDao.recommendCheck(dto));
-			
+			if((String) session.getAttribute("userid") != null) {
+				loginUser = mainBbsDao.getLoginUserInfo(userid); // 로그인 중인 사용자 정보
+				
+				// 로그인 중인 사용자 해당 게시물 추천여부 확인
+				dto = new RecommendDTO(mainList.get(i).getBbs_idx(), mainList.get(i).getWriter_idx(), mainBbsDao.getMemberIdx(userid));
+				mainList.get(i).setRecommend(recommendDao.recommendCheck(dto));
+			}
+				
 			replyList = replyDao.commentList(mainList.get(i).getBbs_idx());
 
 			if (replyList.size() != 0) {
@@ -81,14 +90,15 @@ public class AccController {
 			}
 		}
 		mav.addObject("mainList", mainList);
-		mav.addObject("accList", accList);
 		mav.addObject("loginUser", loginUser);
+		// mav.addObject("accList", accList);
 		String pageStr = finaltp.paging.PageModule.makePage("accList.do", totalCnt, listSize, pageSize, cp);
 		mav.addObject("pageStr", pageStr);
 		mav.setViewName("acc/accList");
 		return mav;
 	}
 	
+	// 동행 게시글 수정
 	@RequestMapping("/accRevise.do")
 	public ModelAndView accRevise(@RequestParam("bbs_idx") int bbs_idx, @RequestParam("content") String content) {
 		ModelAndView mav = new ModelAndView();
@@ -101,8 +111,10 @@ public class AccController {
 	@RequestMapping("/accDelete.do")
 	public ModelAndView accDelete(@RequestParam("bbs_idx") int bbs_idx) {
 		ModelAndView mav = new ModelAndView();
-		int accTableResult = accDao.accStatusChange(bbs_idx);
-		mav.setViewName("acc/accList");
+		int accTableResult = mainBbsDao.mainBbsStatusDefer(bbs_idx);
+		mav.addObject("msg", accTableResult > 0 ? "삭제 완료" : "삭제 실패");
+		mav.addObject("gopage", "accList.do");
+		mav.setViewName("msg");
 		return mav;
 	}
 

@@ -47,7 +47,7 @@ public class AccDAOImple implements AccDAO {
 	
 	// 동행 게시글 상태 변경
 	public int accStatusChange(int bbs_idx) {
-		int result = sqlMap.delete("accStatusChange", bbs_idx);
+		int result = sqlMap.delete("mainBbsStatusDefer", bbs_idx);
 		return result;
 	}
 	

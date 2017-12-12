@@ -7,7 +7,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%
 
-String path = "C:/Users/Hyun/Desktop/test1/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/hyun_test/img"; // 이미지가 저장될 주소
+String path = "D:/자료/학원자료/FinalTP/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/finaltp/img/"; // 이미지가 저장될 주소
 String filename = "";
 
 if(request.getContentLength() > 10*1024*1024 ){
@@ -19,7 +19,6 @@ if(request.getContentLength() > 10*1024*1024 ){
 } else {
 
 	try {
-
 		
 		MultipartRequest multi=new MultipartRequest(request, path, 15*1024*1024, "UTF-8", new DefaultFileRenamePolicy());
 	
@@ -63,7 +62,6 @@ if(request.getContentLength() > 10*1024*1024 ){
 	    fname = f.filename.value; 
 	    fcode = fpath + fname;
 	    
-	   
 	    try{
              window.opener.pasteHTML(fname); 
 	    	

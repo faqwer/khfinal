@@ -59,12 +59,9 @@ public class MainBbsDAOImple implements MainBbsDAO {
 		return userid;
 	}
 	
-	// 메인 게시판 동행 게시글 삭제
-	public int mainBbsStatusChange(int bbs_idx, String category) {
-		Map data = new HashMap();
-		data.put("bbs_idx", bbs_idx);
-		data.put("category", category);
-		int result = sqlMap.delete("mainBbsStatusChange", data);
+	// 메인 게시판 게시글 삭제
+	public int mainBbsStatusDefer(int bbs_idx) {
+		int result = sqlMap.delete("mainBbsStatusDefer", bbs_idx);
 		return result;
 	}
 	
@@ -82,8 +79,26 @@ public class MainBbsDAOImple implements MainBbsDAO {
 	
 	// 로그인 중인 사용자 정보 조회
 	public MemberDTO getLoginUserInfo(String userid) {
-		MemberDTO dto = sqlMap.selectOne("memberINFO", userid);
-		return dto;
+			MemberDTO dto = sqlMap.selectOne("memberINFO", userid);
+			return dto;
+	}
+	// 후기 게시글 메인 테이블 수정
+	public int reviewMainBbsRevise(int bbs_idx, String subject, String content) {
+		Map data = new HashMap();
+		data.put("bbs_idx", bbs_idx);
+		data.put("subject", subject);
+		data.put("content", content);
+		int result = sqlMap.update("reviewMainBbsRevise", data);
+		return result;
 	}
 
+	// 조회수 증가
+	public int setReadNum(int bbs_idx, String category) {
+		int result = 0;
+		if(category.equals("review")) {
+			result = sqlMap.update("setReviewReadNum", bbs_idx);
+		}
+		return result;
+	}
+	
 }

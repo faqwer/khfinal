@@ -21,7 +21,4 @@
 		UPDATE total_bbs SET content = #{content} WHERE bbs_idx = #{bbs_idx}
 	</update>
 	
-	<delete id="accStatusChange" parameterType="Integer">
-		UPDATE total_bbs SET status = 'defer' WHERE bbs_idx = #{bbs_idx}
-	</delete>
 </mapper>
