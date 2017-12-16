@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="finaltp">
+	<select id="adminAllMemberList" parameterType="map" resultType="finaltp.member.model.MemberDTO">
+		<![CDATA[
+		SELECT * FROM
+			(SELECT ROWNUM AS rnum, a.* FROM
+			(SELECT * FROM plan_member ORDER BY member_idx desc)a)b
+			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
+		]]>
+	</select>
+	
+	<select id="adminMemberList" parameterType="map" resultType="finaltp.member.model.MemberDTO">
+		<![CDATA[
+		SELECT * FROM
+			(SELECT ROWNUM AS rnum, a.* FROM
+			(SELECT * FROM plan_member WHERE lev = #{lev} ORDER BY member_idx desc)a)b
+			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
+		]]> 
+	</select>
+	
+	<select id="adminAllMemberTotalCnt" resultType="Integer">
+		SELECT COUNT(*) FROM plan_member
+	</select>
+	
+	<select id="adminMemberTotalCnt" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM plan_member WHERE lev = #{lev}
+	</select>
+	
+	<select id="adminAllMemberIDSearch" parameterType="String" resultType="finaltp.member.model.MemberDTO">
+		SELECT * FROM plan_member WHERE id = #{text}
+	</select>
+	
+	<select id="adminMemberIDSearch" parameterType="map" resultType="finaltp.member.model.MemberDTO">
+		SELECT * FROM plan_member WHERE lev = #{lev} AND id = #{text}
+	</select>
+	
+	<select id="adminAllMemberNameSearch" parameterType="String" resultType="finaltp.member.model.MemberDTO">
+		SELECT * FROM plan_member WHERE name = #{text}
+	</select>
+	
+	<select id="adminMemberNameSearch" parameterType="map" resultType="finaltp.member.model.MemberDTO">
+		SELECT * FROM plan_member WHERE lev = #{lev} AND name = #{text}
+	</select>
+	
+	<delete id="adminMemberOut" parameterType="String">
+		DELETE FROM plan_member WHERE id = #{id}
+	</delete>
+	
+	<update id="adminNormalBlackMove" parameterType="String">
+		UPDATE plan_member SET lev = 2 WHERE id = #{id}
+	</update>
+	
+	<update id="adminBlackNormalMove" parameterType="String">
+		UPDATE plan_member SET lev = 1 WHERE id = #{id}
+	</update>
+	
+	<select id="adminBbsTotalCnt" parameterType="map" resultType="Integer">
+		SELECT count(*) FROM total_bbs WHERE category = #{category} AND status = #{status}
+	</select>
+	
+	<select id="adminAskTotalCnt" parameterType="map" resultType="Integer">
+		<![CDATA[
+			SELECT count(*) FROM total_bbs WHERE category = #{category} AND status = #{status} AND writer_idx <> 10
+		]]>
+	</select>
+	
+	<select id="adminMainBbsList" parameterType="map" resultType="finaltp.mainBbs.model.MainBbsDTO">
+		<![CDATA[
+		SELECT * FROM
+			(SELECT ROWNUM AS rnum, a.* FROM
+			(SELECT * FROM total_bbs WHERE category = #{category} AND status = #{status} ORDER BY bbs_idx desc)a)b
+			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
+		]]>
+	</select>
+	
+	<update id="statusChange" parameterType="map">
+		UPDATE total_bbs SET status = #{status} WHERE bbs_idx = #{bbs_idx}
+	</update>
+	
+	<delete id="bbsDelete" parameterType="Integer">
+		DELETE FROM total_bbs WHERE bbs_idx = #{bbs_idx}
+	</delete>
+	
+	<select id="reportList" parameterType="map" resultType="finaltp.report.model.ReportDTO">
+		<![CDATA[
+		SELECT * FROM
+			(SELECT ROWNUM AS rnum, a.* FROM
+			(SELECT * FROM report ORDER BY bbs_idx desc)a)b
+			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
+		]]>
+	</select>
+	
+	<update id="ReportProcess" parameterType="map">
+		UPDATE report SET admin_content = #{admin_content} WHERE bbs_idx = #{bbs_idx}
+	</update>
+	
+	<update id="updateReportNum" parameterType="Integer">
+		UPDATE plan_member SET reportnum = reportnum + 1 WHERE member_idx = #{writer_idx}
+	</update>
+	
+	<update id="reportUpdateStatus" parameterType="Integer">
+		UPDATE report SET status = 'yes' WHERE bbs_idx = #{bbs_idx}
+	</update>
+</mapper>
