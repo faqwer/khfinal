@@ -3,19 +3,24 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="finaltp.mainBbs">
-	<select id="noticeList" resultType="finaltp.mainBbs.model.MainBbsDTO">
+	<select id="mainBbsList" resultType="finaltp.mainBbs.model.MainBbsDTO">
 		<![CDATA[
 		SELECT * FROM
 			(SELECT ROWNUM AS rnum, a.* FROM
-			(SELECT * FROM total_bbs WHERE category = 'notice' ORDER BY bbs_idx desc)a)b
+			(SELECT * FROM total_bbs WHERE category = #{category} AND status = 'normal' ORDER BY bbs_idx desc)a)b
 			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
 		]]>
 	</select>
-	<select id="totalCnt" resultType="Integer">
-		SELECT count(*) FROM total_bbs WHERE category = 'notice'
+	
+	<insert id="mainBbsWrite" parameterType="finaltp.mainBbs.model.MainBbsDTO">
+		INSERT INTO total_bbs VALUES(Total_bbs_bbs_idx.nextval, #{writer_idx}, 'normal', #{subject}, SYSDATE, #{category}, #{content})
+	</insert>
+	
+	<select id="totalCnt" parameterType="String" resultType="Integer">
+		SELECT count(*) FROM total_bbs WHERE category = #{category} AND status = 'normal'
 	</select>
 	
-	<select id="noticeContent" parameterType="Integer" resultType="finaltp.mainBbs.model.MainBbsDTO">
+	<select id="bbsContent" parameterType="Integer" resultType="finaltp.mainBbs.model.MainBbsDTO">
 		SELECT  * FROM total_bbs WHERE bbs_idx = #{idx}
 	</select>
 	
@@ -23,25 +28,31 @@
 		SELECT member_idx FROM plan_member WHERE id = #{userid}
 	</select>
 	
-	<select id="bbsMemberIdx" parameterType="Integer" resultType="Integer">
-		SELECT member_idx FROM total_bbs WHERE bbs_idx = #{bbs_idx}
-	</select>
-	
-	<insert id="accWrite1" parameterType="finaltp.mainBbs.model.MainBbsDTO">
-		INSERT INTO total_bbs VALUES(Total_bbs_bbs_idx.nextval, #{member_idx}, #{category}, #{status}, 0, #{content}, #{ref}, #{sunbun}, #{lev}, SYSDATE)
-	</insert>
-	
-	<select id="accList1" resultType="finaltp.mainBbs.model.MainBbsDTO">
-		<![CDATA[
-		SELECT * FROM
-			(SELECT ROWNUM AS rnum, a.* FROM
-			(SELECT * FROM total_bbs WHERE category = 'acc' ORDER BY bbs_idx desc)a)b
-			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
-		]]>
+	<select id="bbsWriterIdx" parameterType="Integer" resultType="Integer">
+		SELECT writer_idx FROM total_bbs WHERE bbs_idx = #{bbs_idx}
 	</select>
 	
 	<select id="getUserId" parameterType="Integer" resultType="String">
 		SELECT id FROM plan_member WHERE member_idx = #{member_idx}
 	</select>
 	
+	<delete id="mainBbsStatusDefer" parameterType="Integer">
+		UPDATE total_bbs SET status = 'defer' WHERE bbs_idx = #{bbs_idx}
+	</delete>
+	
+	<select id="getWriterMemberIdx" parameterType="String" resultType="Integer">
+		SELECT member_idx FROM plan_member WHERE id = #{writerid}
+	</select>
+	
+	<select id="getProfileImg" parameterType="Integer" resultType="String">
+		SELECT profile_img FROM plan_member WHERE member_idx = #{writer_idx}
+	</select>
+	
+	<update id="reviewMainBbsRevise" parameterType="map">
+		UPDATE total_bbs SET subject = #{subject}, content = #{content} WHERE bbs_idx = #{bbs_idx}
+	</update>
+	
+	<update id="setReviewReadNum" parameterType="map">
+		UPDATE review SET readnum = readnum + 1 WHERE bbs_idx = #{bbs_idx}
+	</update>
 </mapper>

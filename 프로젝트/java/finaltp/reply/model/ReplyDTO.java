@@ -5,42 +5,47 @@ import java.sql.Date;
 public class ReplyDTO {
 
 	private int reply_idx;
+	private int writer_idx;
 	private int bbs_idx;
-	private int member_idx;
+	private int user_idx;
 	private String content;
 	private Date writedate;
 	private int ref;
 	private int lev;
 	private int sunbun;
 	private String writerid;
+	private String profileImg;
 
 	public ReplyDTO() {
 		super();
 	}
 
-	public ReplyDTO(int reply_idx, int bbs_idx, int member_idx, String content, Date writedate, int ref, int lev,
-			int sunbun) {
+	public ReplyDTO(int reply_idx, int writer_idx, int bbs_idx, int user_idx, String content, Date writedate, int ref,
+			int lev, int sunbun, String writerid, String profileImg) {
 		super();
 		this.reply_idx = reply_idx;
+		this.writer_idx = writer_idx;
 		this.bbs_idx = bbs_idx;
-		this.member_idx = member_idx;
+		this.user_idx = user_idx;
 		this.content = content;
 		this.writedate = writedate;
 		this.ref = ref;
 		this.lev = lev;
 		this.sunbun = sunbun;
+		this.writerid = writerid;
+		this.profileImg = profileImg;
 	}
 
 	// 댓글 작성
-	public ReplyDTO(int bbs_idx, int member_idx, String content, int ref, int lev, int sunbun, String writerid) {
+	public ReplyDTO(int writer_idx, int bbs_idx, int user_idx, String content, int ref, int lev, int sunbun) {
 		super();
+		this.writer_idx = writer_idx;
 		this.bbs_idx = bbs_idx;
-		this.member_idx = member_idx;
+		this.user_idx = user_idx;
 		this.content = content;
 		this.ref = ref;
 		this.lev = lev;
 		this.sunbun = sunbun;
-		this.writerid = writerid;
 	}
 
 	public int getReply_idx() {
@@ -51,6 +56,14 @@ public class ReplyDTO {
 		this.reply_idx = reply_idx;
 	}
 
+	public int getWriter_idx() {
+		return writer_idx;
+	}
+
+	public void setWriter_idx(int writer_idx) {
+		this.writer_idx = writer_idx;
+	}
+
 	public int getBbs_idx() {
 		return bbs_idx;
 	}
@@ -59,12 +72,12 @@ public class ReplyDTO {
 		this.bbs_idx = bbs_idx;
 	}
 
-	public int getMember_idx() {
-		return member_idx;
+	public int getUser_idx() {
+		return user_idx;
 	}
 
-	public void setMember_idx(int member_idx) {
-		this.member_idx = member_idx;
+	public void setUser_idx(int user_idx) {
+		this.user_idx = user_idx;
 	}
 
 	public String getContent() {
@@ -113,6 +126,14 @@ public class ReplyDTO {
 
 	public void setWriterid(String writerid) {
 		this.writerid = writerid;
+	}
+
+	public String getProfileImg() {
+		return profileImg;
+	}
+
+	public void setProfileImg(String profileImg) {
+		this.profileImg = profileImg;
 	}
 
 }

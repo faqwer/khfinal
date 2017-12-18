@@ -6,8 +6,7 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
-import finaltp.acc.model.AccDTO;
-import finaltp.reply.model.ReplyDTO;
+import finaltp.member.model.MemberDTO;
 
 public class MainBbsDAOImple implements MainBbsDAO {
 
@@ -19,25 +18,26 @@ public class MainBbsDAOImple implements MainBbsDAO {
 	}
 
 	// 전체 게시물 조회
-	public List<MainBbsDTO> noticeList(int cp, int ls) {
+	public List<MainBbsDTO> mainBbsList(int cp, int ls, String category) {
 		int startnum = (cp - 1) * ls + 1;
 		int endnum = cp * ls;
-		Map<String, Integer> data = new HashMap<String, Integer>();
+		Map data = new HashMap();
 		data.put("startnum", startnum);
 		data.put("endnum", endnum);
-		List<MainBbsDTO> dto = sqlMap.selectList("noticeList", data);
+		data.put("category", category);
+		List<MainBbsDTO> dto = sqlMap.selectList("mainBbsList", data);
 		return dto;
 	}
 
 	// 전체 게시물 수 조회
-	public int getTotalCnt() {
-		int count = sqlMap.selectOne("totalCnt");
+	public int getTotalCnt(String category) {
+		int count = sqlMap.selectOne("totalCnt", category);
 		return count == 0 ? 1 : count;
 	}
 
 	// 게시물 본문 조회
-	public List<MainBbsDTO> noticeContent(int idx) {
-		List<MainBbsDTO> dto = sqlMap.selectList("noticeContent", idx);
+	public MainBbsDTO bbsContent(int idx) {
+		MainBbsDTO dto = sqlMap.selectOne("bbsContent", idx);
 		return dto;
 	}
 
@@ -46,43 +46,11 @@ public class MainBbsDAOImple implements MainBbsDAO {
 		int member_idx = sqlMap.selectOne("memberIdx", userid);
 		return member_idx;
 	}
-	
+
 	// 게시물 멤버 번호 조회
-	public int getBbsMemberIdx(int bbs_idx) {
-		int member_idx = sqlMap.selectOne("bbsMemberIdx", bbs_idx);
-		return member_idx;
-	}
-
-	// 동행 게시판 작성
-	public int accWrite(MainBbsDTO dto, String nation) {
-		int result = sqlMap.insert("accWrite1", dto);
-		Map map = new HashMap();
-		map.put("member_idx", dto.getMember_idx());
-		map.put("nation", nation);
-		int result2 = sqlMap.insert("accWrite2", map);
-		return result * result2;
-	}
-
-	// 메인 게시판 목록(동행)
-	public List<MainBbsDTO> mainAccList(int cp, int ls) {
-		int startnum = (cp - 1) * ls + 1;
-		int endnum = cp * ls;
-		Map<String, Integer> data = new HashMap<String, Integer>();
-		data.put("startnum", startnum);
-		data.put("endnum", endnum);
-		List<MainBbsDTO> dto = sqlMap.selectList("accList1", data);
-		return dto;
-	}
-
-	// 동행 게시판 목록
-	public List<AccDTO> accList(int cp, int ls) {
-		int startnum = (cp - 1) * ls + 1;
-		int endnum = cp * ls;
-		Map<String, Integer> data = new HashMap<String, Integer>();
-		data.put("startnum", startnum);
-		data.put("endnum", endnum);
-		List<AccDTO> dto = sqlMap.selectList("accList2", data);
-		return dto;
+	public int getBbsWriterIdx(int bbs_idx) {
+		int writer_idx = sqlMap.selectOne("bbsWriterIdx", bbs_idx);
+		return writer_idx;
 	}
 
 	// 작성자 ID 가져오는 메서드
@@ -90,5 +58,47 @@ public class MainBbsDAOImple implements MainBbsDAO {
 		String userid = sqlMap.selectOne("getUserId", member_idx);
 		return userid;
 	}
+	
+	// 메인 게시판 게시글 삭제
+	public int mainBbsStatusDefer(int bbs_idx) {
+		int result = sqlMap.delete("mainBbsStatusDefer", bbs_idx);
+		return result;
+	}
+	
+	// 작성자 idx 가져오는 메서드
+	public int getWriterMemberIdx(String writerid) {
+		int result = sqlMap.selectOne("getWriterMemberIdx", writerid);
+		return result;
+	}
+	
+	// 게시글 작성자 프로필 사진 가져오는 메서드
+	public String getWriterProfileImg(int writer_idx) {
+		String result = sqlMap.selectOne("getProfileImg", writer_idx);
+		return result;
+	}
+	
+	// 로그인 중인 사용자 정보 조회
+	public MemberDTO getLoginUserInfo(String userid) {
+			MemberDTO dto = sqlMap.selectOne("memberINFO", userid);
+			return dto;
+	}
+	// 후기 게시글 메인 테이블 수정
+	public int reviewMainBbsRevise(int bbs_idx, String subject, String content) {
+		Map data = new HashMap();
+		data.put("bbs_idx", bbs_idx);
+		data.put("subject", subject);
+		data.put("content", content);
+		int result = sqlMap.update("reviewMainBbsRevise", data);
+		return result;
+	}
 
+	// 조회수 증가
+	public int setReadNum(int bbs_idx, String category) {
+		int result = 0;
+		if(category.equals("review")) {
+			result = sqlMap.update("setReviewReadNum", bbs_idx);
+		}
+		return result;
+	}
+	
 }

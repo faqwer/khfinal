@@ -11,11 +11,27 @@
 		SELECT max(ref) FROM reply WHERE bbs_idx = #{bbs_idx}
 	</select>
 	
-	<insert id="commentWrite">
-		INSERT INTO reply VALUES(Reply_reply_idx.nextval, #{member_idx}, #{bbs_idx}, #{content}, SYSDATE, #{ref}, #{sunbun}, #{lev}, #{writerid})
+	<insert id="commentWrite" parameterType="finaltp.reply.model.ReplyDTO">
+		INSERT INTO reply VALUES(Reply_reply_idx.nextval, #{writer_idx}, #{bbs_idx}, #{user_idx}, #{content}, SYSDATE, #{ref}, #{sunbun}, #{lev})
 	</insert>
 	
 	<select id="commentList" parameterType="Integer" resultType="finaltp.reply.model.ReplyDTO">
 		SELECT * FROM reply WHERE bbs_idx = #{bbs_idx} ORDER BY bbs_idx DESC, reply_idx DESC
 	</select>
+	
+	<delete id="commentAllDelete" parameterType="Integer">
+		DELETE FROM reply WHERE bbs_idx = #{bbs_idx}
+	</delete>
+	
+	<select id="getWriterId" parameterType="Integer" resultType="String">
+		SELECT id FROM plan_member WHERE member_idx = #{writer_idx}
+	</select>
+	
+	<update id="commentRevise" parameterType="map">
+		UPDATE reply SET content = #{content} WHERE reply_idx = #{reply_idx}
+	</update>
+	
+	<delete id="commentDelete" parameterType="Integer">
+		DELETE FROM reply WHERE reply_idx = #{reply_idx}
+	</delete>
 </mapper>

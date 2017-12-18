@@ -3,16 +3,22 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="finaltp.acc">
-	<insert id="accWrite2" parameterType="map">
-		INSERT INTO accompany VALUES(Total_bbs_bbs_idx.currval, #{member_idx}, #{nation})
+	
+	<insert id="accWrite" parameterType="map">
+		INSERT INTO accompany VALUES(Total_bbs_bbs_idx.currval, #{writer_idx}, #{nation})
 	</insert>
 	
-	<select id="accList2" resultType="finaltp.acc.model.AccDTO">
+	<select id="accList" resultType="finaltp.acc.model.AccDTO">
 		<![CDATA[
 		SELECT * FROM
 			(SELECT ROWNUM AS rnum, a.* FROM
-			(SELECT * FROM accompany ORDER BY bbs_idx desc)a)b
+			(SELECT * FROM accompany WHERE bbs_idx = #{bbs_idx} AND writer_idx = #{writer_idx} ORDER BY bbs_idx desc)a)b
 			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
 		]]>
 	</select>
+	
+	<update id="accRevise" parameterType="map">
+		UPDATE total_bbs SET content = #{content} WHERE bbs_idx = #{bbs_idx}
+	</update>
+	
 </mapper>

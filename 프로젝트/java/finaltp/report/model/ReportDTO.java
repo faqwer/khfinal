@@ -3,7 +3,7 @@ package finaltp.report.model;
 public class ReportDTO {
 
 	private int bbs_idx;
-	private int member_idx;
+	private int writer_idx;
 	private int user_idx;
 	private String reason;
 	private String status;
@@ -12,10 +12,10 @@ public class ReportDTO {
 		super();
 	}
 
-	public ReportDTO(int bbs_idx, int member_idx, int user_idx, String reason, String status) {
+	public ReportDTO(int bbs_idx, int writer_idx, int user_idx, String reason, String status) {
 		super();
 		this.bbs_idx = bbs_idx;
-		this.member_idx = member_idx;
+		this.writer_idx = writer_idx;
 		this.user_idx = user_idx;
 		this.reason = reason;
 		this.status = status;
@@ -29,12 +29,12 @@ public class ReportDTO {
 		this.bbs_idx = bbs_idx;
 	}
 
-	public int getMember_idx() {
-		return member_idx;
+	public int getWriter_idx() {
+		return writer_idx;
 	}
 
-	public void setMember_idx(int member_idx) {
-		this.member_idx = member_idx;
+	public void setWriter_idx(int writer_idx) {
+		this.writer_idx = writer_idx;
 	}
 
 	public int getUser_idx() {

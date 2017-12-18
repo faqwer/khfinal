@@ -27,17 +27,34 @@ public class ReplyController {
 		ModelAndView mav = new ModelAndView();
 		ReplyDTO dto = null;
 		String writerid = (String) session.getAttribute("userid");
-		int member_idx = mainBbsDao.getBbsMemberIdx(bbs_idx);
+		int writer_idx = mainBbsDao.getBbsWriterIdx(bbs_idx);
+		int user_idx = mainBbsDao.getWriterMemberIdx(writerid);
 		int commentCount = replyDao.getCommentCount(bbs_idx);
 		
 		if(commentCount == 0) {
-			dto = new ReplyDTO(bbs_idx, member_idx, content, 0, 0, 0, writerid);
+			dto = new ReplyDTO(writer_idx, bbs_idx, user_idx, content, 0, 0, 0);
 		} else {
 			int ref = replyDao.getMaxRef(bbs_idx) + 1;
-			dto = new ReplyDTO(bbs_idx, member_idx, content, ref, 0, 0, writerid);
+			dto = new ReplyDTO(writer_idx, bbs_idx, user_idx, content, ref, 0, 0);
 		}
 		
-		int result = replyDao.commentWrite(dto);
+		int count = replyDao.commentWrite(dto);
+		mav.setViewName("acc/accList");
+		return mav;
+	}
+	
+	@RequestMapping("/commentRevise.do")
+	public ModelAndView commentRevise(@RequestParam("reply_idx") int reply_idx, @RequestParam("content") String content) {
+		ModelAndView mav = new ModelAndView();
+		int count = replyDao.commentRevise(reply_idx, content);
+		mav.setViewName("acc/accList");
+		return mav;
+	}
+	
+	@RequestMapping("/commentDelete.do")
+	public ModelAndView commentDelete(@RequestParam("reply_idx") int reply_idx) {
+		ModelAndView mav = new ModelAndView();
+		int count = replyDao.commentDelete(reply_idx);
 		mav.setViewName("acc/accList");
 		return mav;
 	}
