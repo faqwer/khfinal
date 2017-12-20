@@ -22,9 +22,15 @@ public class MainBbsDTO {
 	private Date writedate;
 	private String nation;
 	private String userid;
+	private String reportid;
 	private String profileImg;
 	private String recommend;
 	private int recommendNum;
+	private String ask_status;
+	private int ref;
+	private int sunbun;
+	private int lev;
+	private String secret;
 
 	private AccDTO accdto;
 	private ReviewDTO reviewdto;
@@ -40,8 +46,9 @@ public class MainBbsDTO {
 	}
 
 	public MainBbsDTO(int bbs_idx, int writer_idx, String category, String status, String subject, String content,
-			Date writedate, String nation, String userid, AccDTO accdto, ReviewDTO reviewdto, RouteDTO routedto,
-			AskDTO askdto, ReportDTO reportdto, ReplyDTO replydto, RecommendDTO recommenddto,
+			Date writedate, String nation, String userid, String profileImg, String recommend, int recommendNum,
+			String ask_status, int ref, int sunbun, int lev, String secret, AccDTO accdto, ReviewDTO reviewdto,
+			RouteDTO routedto, AskDTO askdto, ReportDTO reportdto, ReplyDTO replydto, RecommendDTO recommenddto,
 			List<ReplyDTO> replylist) {
 		super();
 		this.bbs_idx = bbs_idx;
@@ -53,6 +60,14 @@ public class MainBbsDTO {
 		this.writedate = writedate;
 		this.nation = nation;
 		this.userid = userid;
+		this.profileImg = profileImg;
+		this.recommend = recommend;
+		this.recommendNum = recommendNum;
+		this.ask_status = ask_status;
+		this.ref = ref;
+		this.sunbun = sunbun;
+		this.lev = lev;
+		this.secret = secret;
 		this.accdto = accdto;
 		this.reviewdto = reviewdto;
 		this.routedto = routedto;
@@ -147,6 +162,40 @@ public class MainBbsDTO {
 		this.subject = subject;
 		this.content = content;
 		this.reviewdto = reviewdto;
+	}
+
+	// 1:1문의 리스트
+	public MainBbsDTO(int bbs_idx, int writer_idx, String category, String status, String subject, String content,
+			Date writedate, String userid, String ask_status, int ref, int sunbun, int lev, String secret) {
+		super();
+		this.bbs_idx = bbs_idx;
+		this.writer_idx = writer_idx;
+		this.category = category;
+		this.status = status;
+		this.subject = subject;
+		this.content = content;
+		this.writedate = writedate;
+		this.userid = userid;
+		this.ask_status = ask_status;
+		this.ref = ref;
+		this.sunbun = sunbun;
+		this.lev = lev;
+		this.secret = secret;
+	}
+	
+	// 신고 목록
+	public MainBbsDTO(int bbs_idx, int writer_idx, String category, String status, String subject, String content,
+			String userid, String reportid, ReportDTO reportdto) {
+		super();
+		this.bbs_idx = bbs_idx;
+		this.writer_idx = writer_idx;
+		this.category = category;
+		this.status = status;
+		this.subject = subject;
+		this.content = content;
+		this.userid = userid;
+		this.reportid = reportid;
+		this.reportdto = reportdto;
 	}
 
 	// 신고 테이블
@@ -249,6 +298,14 @@ public class MainBbsDTO {
 		this.userid = userid;
 	}
 
+	public String getReportid() {
+		return reportid;
+	}
+
+	public void setReportid(String reportid) {
+		this.reportid = reportid;
+	}
+
 	public String getProfileImg() {
 		return profileImg;
 	}
@@ -271,6 +328,46 @@ public class MainBbsDTO {
 
 	public void setRecommendNum(int recommendNum) {
 		this.recommendNum = recommendNum;
+	}
+
+	public String getAsk_status() {
+		return ask_status;
+	}
+
+	public void setAsk_status(String ask_status) {
+		this.ask_status = ask_status;
+	}
+
+	public int getRef() {
+		return ref;
+	}
+
+	public void setRef(int ref) {
+		this.ref = ref;
+	}
+
+	public int getSunbun() {
+		return sunbun;
+	}
+
+	public void setSunbun(int sunbun) {
+		this.sunbun = sunbun;
+	}
+
+	public int getLev() {
+		return lev;
+	}
+
+	public void setLev(int lev) {
+		this.lev = lev;
+	}
+
+	public String getSecret() {
+		return secret;
+	}
+
+	public void setSecret(String secret) {
+		this.secret = secret;
 	}
 
 	public AccDTO getAccdto() {

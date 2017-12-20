@@ -30,13 +30,9 @@ public class AccDAOImple implements AccDAO {
 
 	// 동행 게시판 목록
 	public List<AccDTO> accList(int cp, int ls, List<MainBbsDTO> mainList) {
-		int startnum = (cp - 1) * ls + 1;
-		int endnum = cp * ls;
 		Map<String, Integer> data = new HashMap<String, Integer>();
 		List<AccDTO> dto = new ArrayList<AccDTO>();
 		for(int i = 0;i<mainList.size();i++) {
-			data.put("startnum", startnum);
-			data.put("endnum", endnum);
 			data.put("bbs_idx", mainList.get(i).getBbs_idx());
 			data.put("writer_idx", mainList.get(i).getWriter_idx());
 			AccDTO acc = sqlMap.selectOne("accList", data);

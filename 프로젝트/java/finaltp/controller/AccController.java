@@ -1,6 +1,5 @@
 package finaltp.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -91,7 +90,6 @@ public class AccController {
 		}
 		mav.addObject("mainList", mainList);
 		mav.addObject("loginUser", loginUser);
-		// mav.addObject("accList", accList);
 		String pageStr = finaltp.paging.PageModule.makePage("accList.do", totalCnt, listSize, pageSize, cp);
 		mav.addObject("pageStr", pageStr);
 		mav.setViewName("acc/accList");

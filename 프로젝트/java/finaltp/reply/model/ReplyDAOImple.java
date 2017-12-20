@@ -22,7 +22,7 @@ public class ReplyDAOImple implements ReplyDAO {
 
 	// maxRef 가져오는 메서드
 	public int getMaxRef(int bbs_idx) {
-		int result = sqlMap.selectOne("getMaxRef", bbs_idx);
+		int result = sqlMap.selectOne("getCommentMaxRef", bbs_idx);
 		return result;
 	}
 

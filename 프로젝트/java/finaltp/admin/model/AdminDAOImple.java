@@ -1,7 +1,10 @@
 package finaltp.admin.model;
 
 import finaltp.member.model.*;
+import finaltp.review.model.ReviewDTO;
+import finaltp.route.model.RouteDTO;
 import finaltp.acc.model.*;
+import finaltp.faq.model.FaqDTO;
 import finaltp.mainBbs.model.MainBbsDTO;
 
 import java.util.ArrayList;
@@ -10,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.web.servlet.ModelAndView;
 
 public class AdminDAOImple implements AdminDAO {
 
@@ -59,13 +63,18 @@ public class AdminDAOImple implements AdminDAO {
 		int count = sqlMap.selectOne("adminBbsTotalCnt", map);
 		return count;
 	}
-	
+
 	// 관리자 ask 게시판 총 게시물 조회
 	public int getAdminAskTotalCnt(String category, String status) {
 		Map map = new HashMap();
 		map.put("category", category);
 		map.put("status", status);
 		int count = sqlMap.selectOne("adminAskTotalCnt", map);
+		return count;
+	}
+
+	public int getAdminPlannerTotalCnt(String status) {
+		int count = sqlMap.selectOne("adminPlannerTotalCnt", status);
 		return count;
 	}
 
@@ -141,33 +150,138 @@ public class AdminDAOImple implements AdminDAO {
 		return dto;
 	}
 
-	public int normalDeferMove(int[] bbs_idx) {
+	// 일반 -> 보류 이동
+	public int normalDeferMove(int[] bbs_idx, String sel) {
 		int result = 1;
 		Map map = new HashMap();
 		map.put("status", "defer");
-		for (int i = 0; i < bbs_idx.length; i++) {
-			map.put("bbs_idx", bbs_idx[i]);
-			result *= sqlMap.update("statusChange", map);
+		if (sel.equals("planner")) {
+			for (int i = 0; i < bbs_idx.length; i++) {
+				map.put("planner_idx", bbs_idx[i]);
+				result *= sqlMap.update("plannerStatusChange", map);
+			}
+		} else {
+			for (int i = 0; i < bbs_idx.length; i++) {
+				map.put("bbs_idx", bbs_idx[i]);
+				result *= sqlMap.update("statusChange", map);
+
+			}
 		}
+
 		return result;
 	}
-	
-	public int deferNormalMove(int[] bbs_idx) {
+
+	// 보류 -> 일반 이동
+	public int deferNormalMove(int[] bbs_idx, String sel) {
 		int result = 1;
 		Map map = new HashMap();
 		map.put("status", "normal");
-		for (int i = 0; i < bbs_idx.length; i++) {
-			map.put("bbs_idx", bbs_idx[i]);
-			result *= sqlMap.update("statusChange", map);
+		if (sel.equals("planner")) {
+			for (int i = 0; i < bbs_idx.length; i++) {
+				map.put("planner_idx", bbs_idx[i]);
+				result *= sqlMap.update("plannerStatusChange", map);
+			}
+		} else {
+			for (int i = 0; i < bbs_idx.length; i++) {
+				map.put("bbs_idx", bbs_idx[i]);
+				result *= sqlMap.update("statusChange", map);
+			}
+		}
+
+		return result;
+	}
+
+	// 삭제
+	public int bbsDelete(int[] bbs_idx, String sel) {
+		int result = 1;
+		if (sel.equals("planner")) {
+			for (int i = 0; i < bbs_idx.length; i++) {
+				result *= sqlMap.update("plannerDelete", bbs_idx[i]);
+			}
+		} else {
+			for (int i = 0; i < bbs_idx.length; i++) {
+				result *= sqlMap.update("bbsDelete", bbs_idx[i]);
+			}
+		}
+
+		return result;
+	}
+
+	// 공지사항 작성
+	public int noticeWrite(int writer_idx, String subject, String content, String category) {
+		Map data = new HashMap();
+		data.put("writer_idx", writer_idx);
+		data.put("subject", subject);
+		data.put("content", content);
+		data.put("category", category);
+		int result = sqlMap.insert("mainBbsWrite", data);
+		return result;
+	}
+
+	// 공지사항 본문
+	public MainBbsDTO noticeContent(int bbs_idx) {
+		MainBbsDTO dto = null;
+		try {
+			dto = sqlMap.selectOne("bbsContent", bbs_idx);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return dto;
+	}
+
+	// 공지사항 수정
+	public int noticeRevise(int bbs_idx, String subject, String content) {
+		Map data = new HashMap();
+		data.put("bbs_idx", bbs_idx);
+		data.put("subject", subject);
+		data.put("content", content);
+		int result = sqlMap.update("mainBbsRevise", data);
+		return result;
+	}
+
+	// FAQ 리스트
+	public List<FaqDTO> faqList(int cp, int ls) {
+		int startnum = (cp - 1) * ls + 1;
+		int endnum = cp * ls;
+		Map map = new HashMap();
+		map.put("startnum", startnum);
+		map.put("endnum", endnum);
+		List<FaqDTO> dto = sqlMap.selectList("faqList", map);
+		return dto;
+	}
+
+	// FAQ 작성
+	public int faqWrite(String question, String answer) {
+		Map data = new HashMap();
+		data.put("question", question);
+		data.put("answer", answer);
+		int result = sqlMap.insert("faqWrite", data);
+		return result;
+	}
+
+	// FAQ 본문
+	public FaqDTO faqContent(int faq_idx) {
+		FaqDTO dto = sqlMap.selectOne("faqContent", faq_idx);
+		return dto;
+	}
+
+	// FAQ 삭제
+	public int faqDelete(int[] faq_idx) {
+		int result = 1;
+		for (int i = 0; i < faq_idx.length; i++) {
+			result *= sqlMap.delete("faqDelete", faq_idx[i]);
 		}
 		return result;
 	}
-	
-	public int bbsDelete(int[] bbs_idx) {
-		int result = 1;
-		for (int i = 0; i < bbs_idx.length; i++) {
-			result *= sqlMap.update("bbsDelete", bbs_idx[i]);
-		}
+
+	// FAQ 수정
+	public int faqRevise(int faq_idx, String question, String answer) {
+		Map data = new HashMap();
+		data.put("faq_idx", faq_idx);
+		data.put("question", question);
+		data.put("answer", answer);
+		int result = sqlMap.update("faqRevise", data);
 		return result;
 	}
 }

@@ -1,4 +1,4 @@
-﻿package finaltp.acc.model;
+package finaltp.acc.model;
 
 import java.util.List;
 

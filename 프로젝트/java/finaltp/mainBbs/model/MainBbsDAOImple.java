@@ -26,6 +26,7 @@ public class MainBbsDAOImple implements MainBbsDAO {
 		data.put("endnum", endnum);
 		data.put("category", category);
 		List<MainBbsDTO> dto = sqlMap.selectList("mainBbsList", data);
+		System.out.println(dto);
 		return dto;
 	}
 
@@ -82,13 +83,13 @@ public class MainBbsDAOImple implements MainBbsDAO {
 			MemberDTO dto = sqlMap.selectOne("memberINFO", userid);
 			return dto;
 	}
-	// 후기 게시글 메인 테이블 수정
-	public int reviewMainBbsRevise(int bbs_idx, String subject, String content) {
+	// 게시글 메인 테이블 수정
+	public int mainBbsRevise(int bbs_idx, String subject, String content) {
 		Map data = new HashMap();
 		data.put("bbs_idx", bbs_idx);
 		data.put("subject", subject);
 		data.put("content", content);
-		int result = sqlMap.update("reviewMainBbsRevise", data);
+		int result = sqlMap.update("mainBbsRevise", data);
 		return result;
 	}
 
