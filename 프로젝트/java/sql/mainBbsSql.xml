@@ -55,4 +55,13 @@
 	<update id="setReviewReadNum" parameterType="map">
 		UPDATE review SET readnum = readnum + 1 WHERE bbs_idx = #{bbs_idx}
 	</update>
+	<select id="myMainBbsList" parameterType="map"
+		resultType="finaltp.mainBbs.model.MainBbsDTO">
+		<![CDATA[
+		SELECT * FROM
+			(SELECT ROWNUM AS rnum, a.* FROM
+			(SELECT * FROM total_bbs WHERE category = #{category} AND status = 'normal' AND writer_idx = #{writer_idx} ORDER BY writedate desc)a)b
+			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
+		]]>
+	</select>
 </mapper>

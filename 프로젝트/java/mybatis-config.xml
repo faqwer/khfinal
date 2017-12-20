@@ -12,5 +12,8 @@
 		<mapper resource="sql/reportSql.xml"/>
 		<mapper resource="sql/recommendSql.xml"/>
 		<mapper resource="sql/reviewSql.xml"/>
+		<mapper resource="sql/planSql.xml"/>
+		<mapper resource="sql/routeSql.xml"/>
+		<mapper resource="sql/noticeSql.xml"/>
 	</mappers>
 </configuration>

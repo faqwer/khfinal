@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="finaltp.plan">
+  	<select id="myPlanner" parameterType="map" resultType="finaltp.plan.model.PlanDTO">
+  		<![CDATA[
+		SELECT * FROM
+			(SELECT ROWNUM AS rnum, a.* FROM
+			(SELECT * FROM Planner where status='normal' and writer_idx=#{writer_idx} order by writedate desc)a)b
+			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
+		]]>
+	</select>
+		<select id="planTotalCnt" resultType="Integer">
+		SELECT count(*) FROM
+		Planner WHERE status = 'normal'
+	</select>
+</mapper>

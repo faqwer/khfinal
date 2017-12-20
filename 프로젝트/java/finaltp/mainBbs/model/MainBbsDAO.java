@@ -1,4 +1,4 @@
-package finaltp.mainBbs.model;
+﻿package finaltp.mainBbs.model;
 
 import java.util.List;
 
@@ -18,5 +18,6 @@ public interface MainBbsDAO {
 	public String getWriterProfileImg(int writer_idx); // 작성자 프로필사진 조회
 	public MemberDTO getLoginUserInfo(String userid); // 로그인중인 유저 정보 조회
 	public int reviewMainBbsRevise(int bbs_idx, String subject, String content); // 후기 메인 테이블 수정
+	public MainBbsDTO mainBbsContent(String category, int idx);//마이페이지본문
 	public int setReadNum(int bbs_idx, String category); // 조회수 증가
 }

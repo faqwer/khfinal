@@ -1,4 +1,4 @@
-package finaltp.member.model;
+﻿package finaltp.member.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -42,45 +42,5 @@ public class MemberDAOimple implements MemberDAO {
 		return name;
 	}
 	
-	
-	
-	//mypage 정보 가져오기
-	public List<MemberDTO> getInfo(String id){
-		List<MemberDTO> list = sqlMap.selectList("memberINFO", id);
-		return list;
-	}
-	
-	//회원 탈퇴
-	public int memberOut(String id) {
-		int count = sqlMap.delete("memberOut", id);
-		return count;
-	}
-	
-	//회원 정보 수정
-	public int memberEdit(String id,String ppwd,String npwd,String npwd2) {
-		String user_pwd = sqlMap.selectOne("pwdCheck",id);
-		System.out.println("user_pwd : " + user_pwd);
-		System.out.println("ppwd : " + ppwd);
-		if(ppwd==null||ppwd=="") {
-			return NOT_PWD;
-		}else {
-			if(user_pwd.equals(ppwd)) {
-				if(ppwd.equals(npwd)) {
-					return PN_CONCORD;
-				}else {
-					if(npwd.equals(npwd2)) {
-						HashMap map=new HashMap();
-						map.put("id", id);
-						map.put("npwd",npwd);
-						int result=sqlMap.update("memberEdit",map);
-						return EDIT_OK;
-					}else {
-						return NN_DISCORD;
-					}
-				}
-			}else {
-				return DISCORD;
-			}
-		}
-	}
+
 }

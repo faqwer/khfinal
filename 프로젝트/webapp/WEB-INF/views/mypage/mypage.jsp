@@ -10,38 +10,113 @@
 <link rel="stylesheet" type="text/css"
 	href="/finaltp/css/layerPopup.css">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
-<script src="/finaltp/js/layerPopup.js"></script>
+<script src="/finaltp/js/mypagelayer.js"></script>
+<script src="/finaltp/js/AjaxModule.js"></script>
 <script type="text/javascript">
+	window.onload = function() {
 
+		$(document).ready(function() {
+			$('.openMask').click(function(e) {
+				e.preventDefault();
+				var string=$('#pfimg').attr('src');
+				var arr=string.split("\\");
+				var buttonWrap=document.getElementById('buttonWrap');
+				buttonWrap.setAttribute('style','background-image:url("'+arr[0]+'/'+arr[1]+'");');
+				wrapWindowByMask();
+			});
+
+		});
+	}
+	function show() {
+		sendRequest('myWriting.do', 'w_idx=${member.member_idx}', showResult, 'GET');
+	}
+
+	function show2() {
+		sendRequest('myAccWriting.do', 'w_idx=${member.member_idx}', showResult,
+				'GET');
+	}
+	function showplan() {
+		sendRequest('mypage.do', 'w_idx=${member.member_idx}', null,
+				'GET');
+	}
+	function showfollowing() {
+		sendRequest('myFollowing.do', null, showResult, 'GET');
+	}
+	function showfollower() {
+		sendRequest('myFollower.do', null, showResult, 'GET');
+	}
+	function showResult() {
+		console.log(httpRequest.readyState);
+		if (httpRequest.readyState == 4) {
+			console.log(httpRequest.status);
+			if (httpRequest.status == 200) {
+				var data = httpRequest.responseText;
+				var scripttest = document.getElementById('mypageContent');
+				/* scripttest.setAttribute("style", "display: block;"); */
+				scripttest.innerHTML = data;
+			}
+		}
+	}
+	function imageURL(input) {
+		   
+	    if (input.files && input.files[0]) {
+	        var reader = new FileReader();
+	        reader.onload = function(e) {
+	           document.getElementsByClassName('buttonWrap')[0].setAttribute('style','background-image: url('+e.target.result+');')
+	        }
+	       reader.readAsDataURL(input.files[0]);
+	    }
+	}
 </script>
+<style type="text/css">
+    .buttonWrap {
+        position:relative;
+        float:left;
+        overflow:hidden;
+        cursor:pointer;
+        
+        width:150px;
+        height:200px;
+        background-size:150px 200px;
+    }
+    #preview {
+        position：absolute;
+        margin-left:-10px;
+        filter:alpha(opacity=0);
+        opacity:0;
+        -moz-opacity:0;
+        cursor:pointer;
+        width:150px;
+        height:200px;
+    }
+</style>
 </head>
 <body>
-	<c:forEach var="dto" items="${member }">
-	<div id="mask"></div>
-	<form name="edit" action="memberEdit.do" >
-		<div class="window" id="window">
-			<input type="hidden" name="id" id="id" value="${dto.id }">
-			<p align="right">
-				<input class="close"type="button" value="X">
-			</p>
-			<p align="center">
-				<img src="img/testimg.jpg" width="150" height="150" name="">
-			</p>
-			<p align="center">
-				<input type="password" name="ppwd" placeholder="현재 비밀번호">
-			</p>
-			<p align="center">
-				<input type="password" name="npwd" placeholder="변경 할 비밀번호">
-			</p>
-			<p align="center">
-				<input type="password" name="npwd2" placeholder="변경 할 비밀번호 확인">
-			</p>
-			<p align="center">
-				<input type="submit" value="수정하기">
-			</p>
-	</form>
-	</div>
-
+	<c:set var="dto" value="${member }"></c:set>
+		<div id="mask"></div>
+		<form name="edit" action="memberEdit.do" method="post"  enctype="Multipart/form-data">
+			<div class="window" id="window">
+				<input type="hidden" name="id" id="id" value="${dto.id }">
+				<p align="right">
+					<input class="close" type="button" value="X">
+				</p>
+				<p align="center" class="buttonWrap" id="buttonWrap">
+					<input type="file" name="file" onchange="imageURL(this)" id="preview">
+				</p>
+				<p align="center">
+					<input type="password" name="ppwd" id="ppwd" placeholder="현재 비밀번호">
+				</p>
+				<p align="center">
+					<input type="password" name="npwd" id="npwd" placeholder="변경 할 비밀번호">
+				</p>
+				<p align="center">
+					<input type="password" name="npwd2" id="npwd2" placeholder="변경 할 비밀번호 확인">
+				</p>
+				<p align="center">
+					<input type="submit" value="수정하기">
+				</p>
+			</div>
+		</form>
 		<table width="800" align="center" height="800">
 			<tr>
 				<td>
@@ -53,14 +128,15 @@
 										<td><table border="1" cellspacing="0" width="220"
 												height="400">
 												<tr>
-													<td align="center" height="230"><c:if
-															test="${dto.profile_img==null}">
-															<img src="img/testimg.jpg" width="80" height="100">
-														</c:if> <br> ${dto.id }</td>
+													<td align="center" height="230">
+															<img id="pfimg" src="${dto.profile_img}" width="80" height="100">
+														
+													
+														<br> ${dto.id }</td>
 												</tr>
 												<tr>
 													<td align="center" height="70"><input type="button"
-														value="팔로워"><input type="button" value="팔로잉"><br>
+														value="팔로워" onclick="showfollower()"><input type="button" value="팔로잉" onclick="javascript:showfollowing()"><br>
 														<a href="#" class="openMask">회원 정보 수정</a> / <a
 														href="memberoutForm.do">회원 탈퇴</a></td>
 												</tr>
@@ -70,22 +146,41 @@
 										<td><table border="1" cellspacing="0" width="220"
 												height="160">
 												<tr>
-													<td align="center">MY PLANNER</td>
+													<td align="center"><a href="mypage.do?id=${userid}" id="myPlanner">MY
+															PLANNER</a></td>
 												</tr>
 												<tr>
-													<td align="center">내가 작성한 글</td>
+													<td align="center"><a href="#" id="myWriting"
+														onclick="show()">내가 작성한 글</a></td>
 												</tr>
 												<tr>
-													<td align="center">북마크</td>
+													<td align="center"><a href="#" id="myBookmark">북마크</a></td>
 												</tr>
 											</table></td>
 									</tr>
 								</table>
 							</td>
-							<td width="500"><table border="1" cellspacing="0"
-									width="580" height="560">
+
+							<td width="500">
+							<table border="1" width="580" height="560" >
 									<tr>
-										<td>본문내용</td>
+										<td>
+											<div id="mypageContent">
+											<c:forEach var="plan" items="${planList}">
+													<table border="1" cellspacing="0" height="200" width="300">
+														<tr>
+															<td height="140" align="center"><img
+																src="img/${plan.coverimg}" height="140"></a></td>
+														</tr>
+														<tr>
+															<td align="center"><a href="#">${plan.subject}</a><br>${plan.writedate}<br>좋아요
+																/${plan.readnum} </td>
+														</tr>
+													</table>
+												</c:forEach>
+											</div>
+										</td>
+
 									</tr>
 								</table></td>
 						</tr>
@@ -95,7 +190,6 @@
 
 		</table>
 
-	</c:forEach>
 
 </body>
 </html>

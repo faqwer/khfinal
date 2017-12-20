@@ -1,4 +1,4 @@
-package finaltp.member.model;
+﻿package finaltp.member.model;
 
 import java.util.List;
 
@@ -22,10 +22,4 @@ public interface MemberDAO {
 
 	public String getName(String id);
 
-	// mypage
-	public List<MemberDTO> getInfo(String id);
-
-	public int memberOut(String id);
-
-	public int memberEdit(String id,String ppwd,String npwd,String npwd2);
 }
