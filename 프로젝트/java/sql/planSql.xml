@@ -2,6 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<<<<<<< HEAD
   <mapper namespace="finaltp.plan">
   	<select id="myPlanner" parameterType="map" resultType="finaltp.plan.model.PlanDTO">
   		<![CDATA[
@@ -15,4 +16,15 @@
 		SELECT count(*) FROM
 		Planner WHERE status = 'normal'
 	</select>
+=======
+<mapper namespace="finaltp.plan">
+	<select id="planList" parameterType="map" resultType="finaltp.plan.model.PlanDTO">
+		<![CDATA[
+		SELECT * FROM
+			(SELECT ROWNUM AS rnum, a.* FROM
+			(SELECT * FROM planner WHERE status = #{status} ORDER BY planner_idx desc)a)b
+			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
+		]]>
+	</select>
+>>>>>>> 413b6713b8dadc19e8d0b69835a39dcdb2d7cce9
 </mapper>
