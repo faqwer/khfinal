@@ -7,7 +7,7 @@ drop table route
 
 drop table report
 
-drop table reply
+drop table preply
 
 drop table plan_member
 
@@ -522,19 +522,6 @@ ALTER TABLE Reply
 
 ALTER TABLE PReply
 	ADD
-		CONSTRAINT FK_Planner_TO_PReply
-		FOREIGN KEY (
-			planner_idx,
-			writer_idx
-		)
-		REFERENCES Planner (
-			planner_idx,
-			writer_idx
-		)
-		ON DELETE CASCADE;
-
-ALTER TABLE PReply
-	ADD
 		CONSTRAINT FK_Plan_member_TO_PReply
 		FOREIGN KEY (
 			user_idx
@@ -670,7 +657,7 @@ ALTER TABLE Precommend
 
 CREATE SEQUENCE PReply_reply_idx
 minvalue 0 start with 1 
-
+drop sequence PReply_reply_idx
 CREATE SEQUENCE FAQ_faq_idx
 minvalue 0 start with 1 
 
