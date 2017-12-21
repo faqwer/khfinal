@@ -18,4 +18,8 @@
 	<select id="recommendNum" parameterType="Integer" resultType="Integer">
 		SELECT COUNT(*) FROM Trecommend WHERE bbs_idx = #{bbs_idx}
 	</select>
+	
+	<update id="updateRecommend" parameterType="map">
+		UPDATE total_bbs SET recommendNum = #{recommendNum} WHERE bbs_idx = #{bbs_idx}
+	</update>
 </mapper>

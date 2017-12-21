@@ -9,12 +9,7 @@
 	</insert>
 	
 	<select id="accList" resultType="finaltp.acc.model.AccDTO">
-		<![CDATA[
-		SELECT * FROM
-			(SELECT ROWNUM AS rnum, a.* FROM
-			(SELECT * FROM accompany WHERE bbs_idx = #{bbs_idx} AND writer_idx = #{writer_idx} ORDER BY bbs_idx desc)a)b
-			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
-		]]>
+		SELECT * FROM accompany WHERE bbs_idx = #{bbs_idx} AND writer_idx = #{writer_idx}
 	</select>
 	
 	<update id="accRevise" parameterType="map">

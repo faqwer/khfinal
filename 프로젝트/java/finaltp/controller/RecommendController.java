@@ -20,6 +20,8 @@ public class RecommendController {
 		ModelAndView mav = new ModelAndView();
 		RecommendDTO dto = new RecommendDTO(bbs_idx, writer_idx, user_idx);
 		int result = recommendDao.recommendUp(dto);
+		int recommendNumResult = recommendDao.recommendNum(bbs_idx);
+		int mainResult = recommendDao.updateRecommendNum(recommendNumResult, bbs_idx);
 		mav.setViewName("acc/accList");
 		return mav;
 	}
@@ -29,6 +31,8 @@ public class RecommendController {
 		ModelAndView mav = new ModelAndView();
 		RecommendDTO dto = new RecommendDTO(bbs_idx, writer_idx, user_idx);
 		int result = recommendDao.recommendDown(dto);
+		int recommendNumResult = recommendDao.recommendNum(bbs_idx);
+		int mainResult = recommendDao.updateRecommendNum(recommendNumResult, bbs_idx);
 		mav.setViewName("acc/accList");
 		return mav;
 	}

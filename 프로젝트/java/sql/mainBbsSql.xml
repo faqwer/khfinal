@@ -13,7 +13,7 @@
 	</select>
 	
 	<insert id="mainBbsWrite" parameterType="finaltp.mainBbs.model.MainBbsDTO">
-		INSERT INTO total_bbs VALUES(Total_bbs_bbs_idx.nextval, #{writer_idx}, 'normal', #{subject}, SYSDATE, #{category}, #{content})
+		INSERT INTO total_bbs VALUES(Total_bbs_bbs_idx.nextval, #{writer_idx}, 'normal', #{subject}, SYSDATE, #{category}, #{content}, 0)
 	</insert>
 	
 	<select id="totalCnt" parameterType="String" resultType="Integer">
@@ -36,9 +36,9 @@
 		SELECT id FROM plan_member WHERE member_idx = #{member_idx}
 	</select>
 	
-	<delete id="mainBbsStatusDefer" parameterType="Integer">
+	<update id="mainBbsStatusDefer" parameterType="Integer">
 		UPDATE total_bbs SET status = 'defer' WHERE bbs_idx = #{bbs_idx}
-	</delete>
+	</update>
 	
 	<select id="getWriterMemberIdx" parameterType="String" resultType="Integer">
 		SELECT member_idx FROM plan_member WHERE id = #{writerid}
@@ -48,20 +48,11 @@
 		SELECT profile_img FROM plan_member WHERE member_idx = #{writer_idx}
 	</select>
 	
-	<update id="reviewMainBbsRevise" parameterType="map">
+	<update id="mainBbsRevise" parameterType="map">
 		UPDATE total_bbs SET subject = #{subject}, content = #{content} WHERE bbs_idx = #{bbs_idx}
 	</update>
 	
 	<update id="setReviewReadNum" parameterType="map">
 		UPDATE review SET readnum = readnum + 1 WHERE bbs_idx = #{bbs_idx}
 	</update>
-	<select id="myMainBbsList" parameterType="map"
-		resultType="finaltp.mainBbs.model.MainBbsDTO">
-		<![CDATA[
-		SELECT * FROM
-			(SELECT ROWNUM AS rnum, a.* FROM
-			(SELECT * FROM total_bbs WHERE category = #{category} AND status = 'normal' AND writer_idx = #{writer_idx} ORDER BY writedate desc)a)b
-			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
-		]]>
-	</select>
 </mapper>
