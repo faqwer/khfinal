@@ -4,9 +4,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="finaltp.mypage">
 
-	<select id="memberPWD" resultType="String">
-		select pwd from Plan_member where id=#{id}
-	</select>
 	<delete id="memberOut" parameterType="String">
 		delete Plan_member where
 		id=#{id}
@@ -15,10 +12,6 @@
 		update Plan_member set
 		pwd=#{npwd} where id=#{id}
 	</update>
-	<select id="planTotalCnt" resultType="Integer">
-		SELECT count(*) FROM
-		Planner WHERE status = 'normal'
-	</select>
 	<update id="memberPwdEdit" parameterType="Map">
 		update Plan_member set
 		pwd=#{npwd} where id=#{id}
@@ -26,7 +19,7 @@
 	<update id="memberImgEdit" parameterType="Map">
 		update Plan_member set profile_img=#{fileName} where id=#{id}
 	</update>
-	<select id="memberImgCheck" parameterType="String">
+	<select id="memberImgCheck" parameterType="String" resultType="String">
 		select profile_img
 		from Plan_member where id=#{id}
 	</select>

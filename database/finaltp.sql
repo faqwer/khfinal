@@ -7,7 +7,7 @@ drop table route
 
 drop table report
 
-drop table reply
+drop table preply
 
 drop table plan_member
 
@@ -52,6 +52,8 @@ desc Ask
 desc FAQ
 desc Route
 desc Report
+desc PReply
+select *from PReply
 select *from Plan_member
 select *from Total_bbs
 select *from Follow
@@ -64,6 +66,38 @@ select *from Ask
 select *from FAQ
 select *from Route
 select *from Report
+
+/* 플랜댓글 */
+CREATE TABLE PReply (
+	reply_idx INTEGER NOT NULL, /* 댓글번호 */
+	planner_idx NUMBER NOT NULL, /* 플랜 게시글번호 */
+	writer_idx NUMBER NOT NULL, /* 작성자 회원번호 */
+	user_idx NUMBER NOT NULL, /* 유저 회원번호 */
+	content VARCHAR2(255) NOT NULL, /* 내용 */
+	writedate DATE NOT NULL, /* 작성일자 */
+	ref NUMBER NOT NULL, /* 그룹 */
+	sunbun NUMBER NOT NULL, /* 그룹의 순번 */
+	lev NUMBER NOT NULL /* 그룹의 레벨 */
+);
+
+CREATE UNIQUE INDEX PK_PReply
+	ON PReply (
+		reply_idx ASC,
+		planner_idx ASC,
+		writer_idx ASC,
+		user_idx ASC
+	);
+
+ALTER TABLE PReply
+	ADD
+		CONSTRAINT PK_PReply
+		PRIMARY KEY (
+			reply_idx,
+			planner_idx,
+			writer_idx,
+			user_idx
+		);
+
 /* 회원 */
 CREATE TABLE Plan_member (
 	member_idx NUMBER NOT NULL, /* 회원번호 */
@@ -486,6 +520,17 @@ ALTER TABLE Reply
 		)
 		ON DELETE CASCADE;
 
+ALTER TABLE PReply
+	ADD
+		CONSTRAINT FK_Plan_member_TO_PReply
+		FOREIGN KEY (
+			user_idx
+		)
+		REFERENCES Plan_member (
+			member_idx
+		)
+		ON DELETE CASCADE;
+
 ALTER TABLE Accompany
 	ADD
 		CONSTRAINT FK_Total_bbs_TO_Accompany
@@ -610,6 +655,9 @@ ALTER TABLE Precommend
 		)
 		ON DELETE CASCADE;
 
+CREATE SEQUENCE PReply_reply_idx
+minvalue 0 start with 1 
+drop sequence PReply_reply_idx
 CREATE SEQUENCE FAQ_faq_idx
 minvalue 0 start with 1 
 

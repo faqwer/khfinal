@@ -2,6 +2,8 @@ package finaltp.member.model;
 
 import java.sql.Date;
 
+import finaltp.follow.model.FollowDTO;
+
 public class MemberDTO {
 
 	private int member_idx;
@@ -15,6 +17,32 @@ public class MemberDTO {
 	private String profile_img;
 	private String reason;
 	
+	private FollowDTO followdto;
+	
+	public FollowDTO getFollowdto() {
+		return followdto;
+	}
+
+	public void setFollowdto(FollowDTO followdto) {
+		this.followdto = followdto;
+	}
+
+	public MemberDTO(int member_idx, String name, String id, int lev, Date joindate, int reportnum, String bookmark,
+			String pwd, String profile_img, String reason, FollowDTO followdto) {
+		super();
+		this.member_idx = member_idx;
+		this.name = name;
+		this.id = id;
+		this.lev = lev;
+		this.joindate = joindate;
+		this.reportnum = reportnum;
+		this.bookmark = bookmark;
+		this.pwd = pwd;
+		this.profile_img = profile_img;
+		this.reason = reason;
+		this.followdto = followdto;
+	}
+
 	public MemberDTO() {
 		// TODO Auto-generated constructor stub
 	}

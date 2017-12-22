@@ -1,4 +1,4 @@
-package finaltp.mainBbs.model;
+﻿package finaltp.mainBbs.model;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +26,6 @@ public class MainBbsDAOImple implements MainBbsDAO {
 		data.put("endnum", endnum);
 		data.put("category", category);
 		List<MainBbsDTO> dto = sqlMap.selectList("mainBbsList", data);
-		System.out.println(dto);
 		return dto;
 	}
 
@@ -80,16 +79,28 @@ public class MainBbsDAOImple implements MainBbsDAO {
 	
 	// 로그인 중인 사용자 정보 조회
 	public MemberDTO getLoginUserInfo(String userid) {
-			MemberDTO dto = sqlMap.selectOne("memberINFO", userid);
-			return dto;
+		MemberDTO dto = sqlMap.selectOne("memberINFO", userid);
+		return dto;
 	}
-	// 게시글 메인 테이블 수정
-	public int mainBbsRevise(int bbs_idx, String subject, String content) {
+
+	//메인 게시판 글 보기
+	public MainBbsDTO mymainBbsContent(String category, int idx) {
+
+		Map data = new HashMap();
+		data.put("category", category);
+		data.put("idx",idx );
+		MainBbsDTO dto = sqlMap.selectOne("mainBbsContent", data);
+		return dto;
+		
+	}
+
+	// 후기 게시글 메인 테이블 수정
+	public int reviewMainBbsRevise(int bbs_idx, String subject, String content) {
 		Map data = new HashMap();
 		data.put("bbs_idx", bbs_idx);
 		data.put("subject", subject);
 		data.put("content", content);
-		int result = sqlMap.update("mainBbsRevise", data);
+		int result = sqlMap.update("reviewMainBbsRevise", data);
 		return result;
 	}
 
@@ -101,5 +112,15 @@ public class MainBbsDAOImple implements MainBbsDAO {
 		}
 		return result;
 	}
+	// 게시글 메인 테이블 수정
+	public int mainBbsRevise(int bbs_idx, String subject, String content) {
+		Map data = new HashMap();
+		data.put("bbs_idx", bbs_idx);
+		data.put("subject", subject);
+		data.put("content", content);
+		int result = sqlMap.update("mainBbsRevise", data);
+		return result;
+	}
+
 	
 }

@@ -9,11 +9,16 @@
 		<mapper resource="sql/memberSql.xml"/>
 		<mapper resource="sql/accSql.xml"/>
 		<mapper resource="sql/replySql.xml"/>
-		<mapper resource="sql/reportSql.xml"/>
-		<mapper resource="sql/recommendSql.xml"/>
-		<mapper resource="sql/reviewSql.xml"/>
-		<mapper resource="sql/planSql.xml"/>
 		<mapper resource="sql/routeSql.xml"/>
 		<mapper resource="sql/noticeSql.xml"/>
+		<mapper resource="sql/recommendSql.xml"/>
+		<mapper resource="sql/reportSql.xml"/>
+		<mapper resource="sql/reviewSql.xml"/>
+		<mapper resource="sql/planSql.xml"/>
+		<mapper resource="sql/adminSql.xml"/>
+		<mapper resource="sql/followSql.xml"/>
+		<mapper resource="sql/askSql.xml"/>
+		<mapper resource="sql/mypageSql.xml"/>
+		<mapper resource="sql/mainSql.xml"/>
 	</mappers>
 </configuration>

@@ -1,4 +1,4 @@
-package finaltp.review.model;
+﻿package finaltp.review.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 import finaltp.acc.model.AccDTO;
 import finaltp.mainBbs.model.MainBbsDTO;
+import finaltp.route.model.RouteDTO;
 
 public class ReviewDAOImple implements ReviewDAO {
 

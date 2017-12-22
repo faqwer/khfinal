@@ -1,4 +1,4 @@
-package finaltp.report.model;
+﻿package finaltp.report.model;
 
 import java.util.List;
 

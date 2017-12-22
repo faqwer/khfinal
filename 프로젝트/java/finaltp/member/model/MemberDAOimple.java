@@ -1,5 +1,6 @@
-﻿package finaltp.member.model;
+package finaltp.member.model;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +25,7 @@ public class MemberDAOimple implements MemberDAO {
 	
 	public int login(String id, String pwd) {
 		
-		String user_pwd = sqlMap.selectOne("memberPWD", id);
+		String user_pwd = sqlMap.selectOne("pwdCheck", id);
 		
 		if(user_pwd==null||user_pwd=="") {
 			return NOT_ID;
@@ -41,6 +42,6 @@ public class MemberDAOimple implements MemberDAO {
 		String name=sqlMap.selectOne("memberName", id);
 		return name;
 	}
-	
 
+	
 }

@@ -1,4 +1,4 @@
-package finaltp.acc.model;
+﻿package finaltp.acc.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +8,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import finaltp.mainBbs.model.MainBbsDTO;
+import finaltp.review.model.ReviewDTO;
 
 public class AccDAOImple implements AccDAO {
 
@@ -27,6 +28,7 @@ public class AccDAOImple implements AccDAO {
 		int result2 = sqlMap.insert("accWrite", map);
 		return result * result2;
 	}
+
 
 	// 동행 게시판 목록
 	public List<AccDTO> accList(int cp, int ls, List<MainBbsDTO> mainList) {
@@ -55,4 +57,6 @@ public class AccDAOImple implements AccDAO {
 		int result = sqlMap.update("accRevise", map);
 		return result;
 	}
+	
+
 }

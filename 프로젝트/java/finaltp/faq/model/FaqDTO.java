@@ -2,7 +2,6 @@ package finaltp.faq.model;
 
 public class FaqDTO {
 
-	private int faq_idx;
 	private String question;
 	private String answer;
 
@@ -10,19 +9,10 @@ public class FaqDTO {
 		super();
 	}
 
-	public FaqDTO(int faq_idx, String question, String answer) {
+	public FaqDTO(String question, String answer) {
 		super();
-		this.faq_idx = faq_idx;
 		this.question = question;
 		this.answer = answer;
-	}
-
-	public int getFaq_idx() {
-		return faq_idx;
-	}
-
-	public void setFaq_idx(int faq_idx) {
-		this.faq_idx = faq_idx;
 	}
 
 	public String getQuestion() {

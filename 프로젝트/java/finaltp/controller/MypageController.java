@@ -1,4 +1,4 @@
-﻿package finaltp.controller;
+package finaltp.controller;
 
 import java.io.File;
 import java.util.List;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-
 
 import finaltp.acc.model.AccDAO;
 import finaltp.acc.model.AccDTO;
@@ -33,7 +32,7 @@ import finaltp.route.model.RouteDTO;
 
 @Controller
 public class MypageController {
-	
+
 	@Autowired
 	private MemberDAO memberDao;
 
@@ -51,7 +50,6 @@ public class MypageController {
 	
 	@Autowired
 	private MypageDAO mypageDao;
-	
 
 	// 마이페이지
 	@RequestMapping(value = "mypage.do", method = RequestMethod.GET)
@@ -83,7 +81,6 @@ public class MypageController {
 		return mav;
 	}
 
-	
 	// 회원탈퇴 yes/no
 	@RequestMapping(value = "memberoutForm.do", method = RequestMethod.GET)
 	public ModelAndView memberoutForm() {
@@ -93,7 +90,6 @@ public class MypageController {
 		return mav;
 	}
 
-	
 	// 회원 탈퇴
 	@RequestMapping(value = "memberOut.do", method = RequestMethod.GET)
 	public ModelAndView memberOut(@RequestParam(value = "id") String id, HttpServletRequest req) {
@@ -112,7 +108,6 @@ public class MypageController {
 		mav.addObject("gopage", gopage);
 		return mav;
 	}
-	
 
 	// 회원 정보 수정
 	@RequestMapping(value = "memberEdit.do", method = RequestMethod.POST)
@@ -259,7 +254,6 @@ public class MypageController {
 		return mav;
 	}
 	
-
 	//팔로잉
 	@RequestMapping(value="myFollowing.do")
 	public ModelAndView myFollowing() {
@@ -276,13 +270,5 @@ public class MypageController {
 		mav.setViewName("mypage/myFollower");
 		return mav;
 	}
-	
+
 }
-
-
-
-
-
-
-
-

@@ -2,6 +2,7 @@ package finaltp.controller;
 
 import java.util.Calendar;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,8 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
 import finaltp.plan.model.PlanDTO;
 
 @Controller
-public class PlanController {
-
+public class PlanController {	
+	
+	
 	@RequestMapping("/planwrite.do")
 	public ModelAndView plannerWrite(PlanDTO dto) {
 		ModelAndView mav = new ModelAndView();
@@ -48,4 +50,5 @@ public class PlanController {
 		mav.setViewName("planner/calendar");
 		return mav;
 	}
+	
 }
