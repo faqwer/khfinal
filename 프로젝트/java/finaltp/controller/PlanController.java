@@ -39,6 +39,13 @@ public class PlanController {
 	@Autowired
 	private PReplyDAO preplyDao;
 	
+	@RequestMapping("/planList.do")
+	public ModelAndView planList() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("planner/planList");
+		return mav;
+	}
+	
 	@RequestMapping("/routesearch.do")
 	public ModelAndView routeSearchForm() {
 		ModelAndView mav = new ModelAndView();
@@ -186,9 +193,9 @@ public class PlanController {
 		}else {
 			user_idx=Integer.parseInt(user_idx_s);
 		}*/
-		int user_idx=22;
+		int user_idx=-1;
 		mav.addObject("user_idx",user_idx);
-		MemberDTO mdto=memberDao.getUserInfo(user_idx);
+		MemberDTO mdto=memberDao.getUserInfo(pdto.getWriter_idx());
 		mav.addObject("mdto",mdto);
 		return mav;
 	}
@@ -196,7 +203,7 @@ public class PlanController {
 	public ModelAndView plandelete(@RequestParam(value="planner_idx")int planner_idx) {
 		ModelAndView mav=new ModelAndView();
 		int result=planDao.planDelete(planner_idx);
-		mav.setViewName("planner/planBbs");
+		mav.setViewName("planner/planList");
 		return mav;
 	}
 	@RequestMapping("/planUpdataForm.do")
