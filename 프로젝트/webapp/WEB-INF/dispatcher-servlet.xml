@@ -42,6 +42,11 @@
    </bean>
 
    <!-- service -->
+	<bean id="preplyDao" class="finaltp.preply.model.PReplyDAOImple">
+		<constructor-arg>
+			<ref bean="sqlSessionTemplate" />
+		</constructor-arg>
+	</bean>
 	<bean id="mainBbsDao" class="finaltp.mainBbs.model.MainBbsDAOImple">
 		<constructor-arg>
 			<ref bean="sqlSessionTemplate" />

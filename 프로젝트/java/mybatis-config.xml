@@ -13,6 +13,7 @@
 		<mapper resource="sql/recommendSql.xml"/>
 		<mapper resource="sql/reviewSql.xml"/>
 		<mapper resource="sql/planSql.xml"/>
+		<mapper resource="sql/preplySql.xml"/>
 		<mapper resource="sql/routeSql.xml"/>
 		<mapper resource="sql/noticeSql.xml"/>
 	</mappers>

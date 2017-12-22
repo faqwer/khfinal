@@ -25,4 +25,8 @@
 	<select id="memberINFO" parameterType="String" resultType="finaltp.member.model.MemberDTO">
 		select * from Plan_member where id = #{userid}
 	</select>
+	</select>
+	<select id="memberINFOwithIdx" parameterType="Integer" resultType="finaltp.member.model.MemberDTO">
+		select * from Plan_member where member_idx = #{user_idx}
+	</select>
 </mapper>

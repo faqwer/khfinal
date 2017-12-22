@@ -21,5 +21,5 @@ public interface MemberDAO {
 	public int login(String id, String pwd);
 
 	public String getName(String id);
-
+	public MemberDTO getUserInfo(int user_idx);
 }

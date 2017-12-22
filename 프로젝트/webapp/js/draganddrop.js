@@ -1,0 +1,128 @@
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ele,ev) {
+	element=ele;
+ 	ev.dataTransfer.effectAllowed="copyMove";
+}
+function clonedrag(ele,ev) {
+	var cloneele=ele.cloneNode(true); 
+	cloneele.setAttribute("ondragstart","drag(this,event)");
+	element=cloneele;
+	 var moneybt=document.createElement('input');
+     moneybt.setAttribute('type','button');
+     moneybt.setAttribute('id','moneybt');
+     moneybt.setAttribute('value','money');
+     moneybt.setAttribute('onclick','moneyopen(this)');
+     element.appendChild(moneybt);
+	 var del=document.createElement('input');
+	 del.setAttribute('type','button');
+	 del.setAttribute('id','del');
+	 del.setAttribute('value','삭제');
+	 del.setAttribute('onclick','listdelete(this)');
+     element.appendChild(del);
+     var moneydiv=document.createElement('div');
+     moneydiv.setAttribute('id','moneydiv');
+     moneydiv.setAttribute('style','display:none;z-index:1000;position:absolute;');
+     element.appendChild(moneydiv);
+     var moneytraffic=document.createElement('input');
+     moneytraffic.setAttribute('id','moneytraffic');
+     moneytraffic.setAttribute('onblur','onlyNumber(this)');
+     moneytraffic.setAttribute('type','text');
+     moneytraffic.setAttribute('placeholder','traffic');
+     var moneylodge=document.createElement('input');
+     moneylodge.setAttribute('id','moneylodge');
+     moneylodge.setAttribute('onblur','onlyNumber(this)');
+     moneylodge.setAttribute('type','text');
+     moneylodge.setAttribute('placeholder','lodge');
+     var moneyadmission=document.createElement('input');
+     moneyadmission.setAttribute('id','moneyadmission');
+     moneyadmission.setAttribute('onblur','onlyNumber(this)');
+     moneyadmission.setAttribute('type','text');
+     moneyadmission.setAttribute('placeholder','admission');
+     var moneyfood=document.createElement('input');
+     moneyfood.setAttribute('id','moneyfood');
+     moneyfood.setAttribute('onblur','onlyNumber(this)');
+     moneyfood.setAttribute('type','text');
+     moneyfood.setAttribute('placeholder','food');
+     var moneyshopping=document.createElement('input');
+     moneyshopping.setAttribute('id','moneyshopping');
+     moneyshopping.setAttribute('onblur','onlyNumber(this)');
+     moneyshopping.setAttribute('type','text');
+     moneyshopping.setAttribute('placeholder','shopping');
+     var moneybesides=document.createElement('input');
+     moneybesides.setAttribute('id','moneybesides');
+     moneybesides.setAttribute('onblur','onlyNumber(this)');
+     moneybesides.setAttribute('type','text');
+     moneybesides.setAttribute('placeholder','besides');
+     moneydiv.appendChild(moneytraffic);
+     moneydiv.appendChild(moneylodge);
+     moneydiv.appendChild(moneyadmission);
+     moneydiv.appendChild(moneyfood);
+     moneydiv.appendChild(moneyshopping);
+     moneydiv.appendChild(moneybesides);
+ 	ev.dataTransfer.effectAllowed="copyMove";
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    if(ev.target.childNodes.length==0){
+    	element.setAttribute("style","background-color: white;width:250px;height:50px;margin-top:-10px;overflow:visible;position: absolute;");
+        ev.target.appendChild(element);
+        var targetId=ev.target.id;
+        var scheduleroute=targetId.split('-');
+        route(scheduleroute[0]+'-'+scheduleroute[1]);
+        console.log('drop='+scheduleroute[0]+'-'+scheduleroute[1]);
+    	var tbd = document.getElementById('tbd');
+    	var tbd_tr = tbd.getElementsByTagName('tr');
+    	var thd_tr = thd.getElementsByTagName('tr')[0];
+    	var thd_th = thd_tr.getElementsByTagName('th');
+    	for(var j=0;j< thd_th.length;j++){
+	    	for(var i=0;i< tbd_tr.length; i++){
+				var string=scheduleroute[0]+'-'+j+'-'+i;
+				schedule=document.getElementById(string);
+				if($(schedule).has('#route').length){
+					$(schedule).find('#route').remove();
+				}
+			}
+    	}
+    	for(var j=0;j< thd_th.length;j++){
+	    	for(var i=0,item=0,path=0,height=-25;i< tbd_tr.length; i++){
+				var string=scheduleroute[0]+'-'+j+'-'+i;
+				schedule=document.getElementById(string);
+				if($(schedule).has('#listdiv').length){
+					if(item==1){
+						var div=document.createElement('div');
+						div.setAttribute('id','route');
+						div.setAttribute('style','z-index:800;margin-top:0px;overflow:visible;position: absolute;');
+						var button=document.createElement('input');
+						button.setAttribute('type','button');
+						button.setAttribute('value','길찾기');
+						button.setAttribute('onclick','routesearch(this)');
+						button.setAttribute('style','margin-top:-10px;overflow:visible;position: absolute; margin-left: 190px;');
+						var itemsroute=document.createElement('div');
+						itemsroute.setAttribute('style','z-index:800;margin-left: 125px;margin-top:-10px;overflow:visible;position: absolute;height:'+height+'px;width:5px;background-color:gray;');
+						var td=document.getElementById(scheduleroute[0]+'-'+j+'-'+(path+2));
+						div.appendChild(itemsroute);
+						div.appendChild(button);
+						td.appendChild(div);
+					}
+					path=i;
+					item=1;
+					height=-25;
+				}
+				height=height+20;
+			}
+    	}
+    }
+}
+function clone(obj) {
+    if (null == obj || "object" != typeof obj) return obj;
+    console.log(obj.constructor());
+    var copy = obj.constructor();
+    for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    return copy;
+}
