@@ -15,10 +15,16 @@
 		<mapper resource="sql/reportSql.xml"/>
 		<mapper resource="sql/reviewSql.xml"/>
 		<mapper resource="sql/planSql.xml"/>
+<<<<<<< HEAD
 		<mapper resource="sql/adminSql.xml"/>
 		<mapper resource="sql/followSql.xml"/>
 		<mapper resource="sql/askSql.xml"/>
 		<mapper resource="sql/mypageSql.xml"/>
 		<mapper resource="sql/mainSql.xml"/>
+=======
+		<mapper resource="sql/preplySql.xml"/>
+		<mapper resource="sql/routeSql.xml"/>
+		<mapper resource="sql/noticeSql.xml"/>
+>>>>>>> 02b1868adc5fbcb3219d735b2ad072a50a787d45
 	</mappers>
 </configuration>

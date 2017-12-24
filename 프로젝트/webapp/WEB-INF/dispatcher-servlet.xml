@@ -21,6 +21,7 @@
 	</bean>
 	<!-- mybatis setting -->
 
+<<<<<<< HEAD
 	<!-- 1.dataSource -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
@@ -44,6 +45,14 @@
 	</bean>
 
 	<!-- service -->
+=======
+   <!-- service -->
+	<bean id="preplyDao" class="finaltp.preply.model.PReplyDAOImple">
+		<constructor-arg>
+			<ref bean="sqlSessionTemplate" />
+		</constructor-arg>
+	</bean>
+>>>>>>> 02b1868adc5fbcb3219d735b2ad072a50a787d45
 	<bean id="mainBbsDao" class="finaltp.mainBbs.model.MainBbsDAOImple">
 		<constructor-arg>
 			<ref bean="sqlSessionTemplate" />

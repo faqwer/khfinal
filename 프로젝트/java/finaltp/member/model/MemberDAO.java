@@ -21,7 +21,11 @@ public interface MemberDAO {
 	public int login(String id, String pwd);
 
 	public String getName(String id);
+<<<<<<< HEAD
 
 
 
+=======
+	public MemberDTO getUserInfo(int user_idx);
+>>>>>>> 02b1868adc5fbcb3219d735b2ad072a50a787d45
 }

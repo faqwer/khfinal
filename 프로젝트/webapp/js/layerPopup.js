@@ -17,31 +17,32 @@
 
 	$(document).ready(function(){
 		//검은 막 띄우기
-
 		//닫기 버튼을 눌렀을 때
 		$('.window .close').click(function (e) {  
 		    //링크 기본동작은 작동하지 않도록 한다.
 		    e.preventDefault();  
-		    $('#mask, .window').hide();
+		  /*  $('#mask, .window').hide();*/
+			$('#calendardiv').hide();
 		    var body=document.getElementsByTagName("body")[0];
-		    var window=document.getElementById("window");
+		    var planstartdiv=document.getElementById("planstartdiv");
 		    var script=document.getElementById("script");
 		    var mask=document.getElementById("mask");
 		    body.removeChild(mask);
-		    body.removeChild(window);
+		    body.removeChild(planstartdiv);
 		    body.removeChild(script);
 		});       
 
 		//검은 막을 눌렀을 때
 		$('#mask').click(function () {  
-		    $(this).hide();  
-		    $('.window').hide();  
+		    /*$(this).hide();  
+		    $('.window').hide(); */
+			$('#calendardiv').hide();
 		    var body=document.getElementsByTagName("body")[0];
-		    var window=document.getElementById("window");
+		    var planstartdiv=document.getElementById("planstartdiv");
 		    var script=document.getElementById("script");
 		    var mask=document.getElementById("mask");
 		    body.removeChild(mask);
-		    body.removeChild(window);
+		    body.removeChild(planstartdiv);
 		    body.removeChild(script);
 		});      
 	});
