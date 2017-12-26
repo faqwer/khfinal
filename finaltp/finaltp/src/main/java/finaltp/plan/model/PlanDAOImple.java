@@ -20,7 +20,7 @@ public class PlanDAOImple implements PlanDAO {
 	}
 	public int getPlanTotalCnt() {
 		int result=sqlMap.selectOne("getPlanTotalCnt");
-		return result;
+		return result == 0? 1:result;
 	}
 	public List<PlanDTO> planList(int cp, int ls, String status) {
 		int startnum = (cp - 1) * ls + 1;

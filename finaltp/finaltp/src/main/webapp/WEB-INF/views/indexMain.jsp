@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -9,70 +9,68 @@
 
 <link rel="stylesheet" type="text/css"
 	href="/finaltp/css/layerPopup.css">
+<link rel="stylesheet" type="text/css"
+   href="/finaltp/css/planstart.css">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script src="/finaltp/js/layerPopup.js"></script>
+<script src="/finaltp/js/planstart.js"></script>
 <script type="text/javascript">
 window.onload = function() {
 	$(document).ready(function(){
 		//검은 막 띄우기
 		$('.openMask').click(function(e){
-			e.preventDefault();
-		    var maskdiv = document.createElement("div");
-		    maskdiv.setAttribute("id", "mask");
-		    
-		    var windowdiv = document.createElement("div");
-		    windowdiv.setAttribute("class", "window");
-		    windowdiv.setAttribute("id", "window");
-		    windowdiv.setAttribute("style", "background-color:red;width:200px;height:200px;");
-		    
-		    var close=document.createElement("input");
-		    close.setAttribute("type", "button");
-		    close.setAttribute("class", "close");
-		    close.setAttribute("value", "닫기 버튼");
-		    
-		    var subject=document.createElement("input");
-		    subject.setAttribute("type", "text");
-		    subject.setAttribute("name", "subject");
-		    subject.setAttribute("placeholder", "예: @박 @일 @여행등등");
-		    
-		    var startday=document.createElement("input");
-		    startday.setAttribute("type", "text");
-		    startday.setAttribute("name", "startday");
-		    startday.setAttribute("placeholder", "출발날짜");
-		    
-		    var thema=document.createElement("input");
-		    thema.setAttribute("type", "text");
-		    thema.setAttribute("name", "thema");
-		    thema.setAttribute("placeholder", "테마");
-		    
-		    var start=document.createElement("input");
-		    start.setAttribute("type", "button");
-		    start.setAttribute("onclick", "javascript:window.location.href='planwrite.do'");
-		    start.setAttribute("value", "플래너 시작");
-		 
-		    windowdiv.appendChild(close);
-		    windowdiv.appendChild(subject);
-		    windowdiv.appendChild(startday);
-		    windowdiv.appendChild(thema);
-		    windowdiv.appendChild(start);
-		 
-		    var layerPopupscript=document.createElement("script");
-		    layerPopupscript.setAttribute("src","/finaltp/js/layerPopup.js");
-		    layerPopupscript.setAttribute("id","script");
-		    
-		    var element = document.getElementsByTagName("body")[0];
-		    element.appendChild(maskdiv);
-		    element.appendChild(windowdiv);
-		   	element.appendChild(layerPopupscript); 
-		    wrapWindowByMask();
+          e.preventDefault();  
+          create();
+          wrapWindowByMask();
+          var date;
+          $('#planstartdiv #startday').click(function (e) {    
+             e.preventDefault();  
+            $('#planstartdiv #calendardiv').show();
+            $.ajax({
+               url:'calendar.do',
+                  dataType:'html',
+                  type:'GET',
+                  data:null,
+                  success:function(data){
+                      $('#planstartdiv #calendardiv').html(data);
+                  }
+            });
+         });
 		});
+         $(document).on("click", ".cale #day", function(e){
+             e.preventDefault(); 
+             var year=$('.cale #year').text();
+             var month=$('.cale #month').text();
+             var day=$(this).find('font').text();
+             date=new Date(year,month-1,day);
+             $('#planstartdiv #startday').val(date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate());
+            $('#planstartdiv #calendardiv').hide();
+         });
+         
+         $('#bt1').click(function(e){
+             e.preventDefault(); 
+             var subject=$('#subject').val();
+             if($('#subject').val()==''){
+                alert('제목을 입력하세요!');
+                return;
+             }
+             if(date==null){
+                alert('날짜를 선택하세요!');
+                return;
+             }
+             var startday=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+             var thema=$('#thema').val();
+             
+            window.location.href="planwriteForm.do?startday="+startday+"&subject="+subject+"&thema="+thema;
+         });
+
 	})
 }
 </script>
 </head>
 <body>
 
-	<a href="#" class="openMask" style="background-color: red;">플래너</a>
+<a href="#" class="openMask" style="background-color: red;">플래너</a>
 <h3>index</h3>
 <c:set var="userid" value="${sessionScope.userid}" />
 <c:if test="${empty userid }">
@@ -91,6 +89,7 @@ window.onload = function() {
 	<li><a href="#">1:1문의</a></li>
 	<li><a href="routeList.do">경로 추천</a></li>
 </ul>
+<input type="date">
 <table border="1" cellspacing="0" align="center" width="1200px" >
 		<tr>
 			<td colspan="3" id="bestplan">best plan</td>

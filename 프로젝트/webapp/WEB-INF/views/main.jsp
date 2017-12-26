@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -481,10 +481,10 @@ table {
 					</div>
 					<div class="collapse navbar-collapse" id="myNavbar">
 						<ul class="nav navbar-nav navbar-right masthead-nav">
-							<li><a href="#"> Route</a></li>
-							<li><a href="#"> Planner</a></li>
-							<li><a href="#"> Accompany</a></li>
-							<li><a href="#"> Travel</a></li>
+							<li><a href="routeList.do"> Route</a></li>
+							<li><a href="planList.do"> Planner</a></li>
+							<li><a href="accList.do"> Accompany</a></li>
+							<li><a href="reviewList.do"> Travel</a></li>
 							<li><a href="#"> Customer</a></li>
 							<li><a href="#"><span class="glyphicon glyphicon-user"></span>
 									Sign Up</a></li>
