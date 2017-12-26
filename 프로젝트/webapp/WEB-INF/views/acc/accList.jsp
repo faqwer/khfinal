@@ -48,6 +48,14 @@ li {
 	margin-left: 95px;
 }
 
+.lists {
+	margin-left: 10px;
+}
+
+.contentWritedate {
+	margin-left: 50px;
+}
+
 </style>
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
@@ -57,7 +65,7 @@ li {
 			var nation = $('#nation').val();
 			var content = $('#content').val();
 			var param = 'nation=' + nation + '&content=' + content;
-			if('${sessionScope.userid  == null}') {
+			if(${sessionScope.userid  == null}) {
 				alert('로그인 후 이용가능합니다.');
 				$('#content').val("");
 			} else {
@@ -77,7 +85,7 @@ li {
 	function commentBtn(bbs_idx) {
 		var content = $('#commentbox_'+bbs_idx).val();
 		var param = "content=" + content + "&bbs_idx=" + bbs_idx;
-		if('${sessionScope.userid == null}') {
+		if(${sessionScope.userid == null}) {
 			alert('로그인 후 이용가능합니다.');
 			$('#commentbox_'+bbs_idx).val("");
 		} else {
@@ -195,7 +203,7 @@ li {
 	// 신고 함수
 	function reportAccContent(bbs_idx, writer_idx, userid) {
 		var param = "bbs_idx=" + bbs_idx + "&writer_idx=" + writer_idx + "&userid=" + userid;
-		if('${sessionScope.userid == null}') {
+		if(${sessionScope.userid == null}) {
 			alert('로그인 후 이용가능합니다.');	
 		} else {
 			window.open('reportForm.do?' + param, 'reportForm', 'width=500, height=500');	
@@ -325,7 +333,7 @@ li {
 								<a href="${userUrl}">${dto.userid}</a>
 							</h6></li>
 						<li id="listContent_${dto.bbs_idx}">${dto.content}</li>
-						<li>${dto.writedate}</li>
+						<li class="contentWritedate">${dto.writedate}</li>
 					</ul>
 					
 					<c:if test="${dto.userid == sessionScope.userid}">

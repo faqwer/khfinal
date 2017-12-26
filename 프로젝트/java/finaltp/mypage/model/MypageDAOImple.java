@@ -8,7 +8,6 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import finaltp.acc.model.AccDTO;
-import finaltp.follow.model.FollowDAO;
 import finaltp.mainBbs.model.MainBbsDTO;
 import finaltp.member.model.MemberDTO;
 import finaltp.plan.model.PlanDTO;

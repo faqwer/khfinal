@@ -61,7 +61,7 @@ $(function(){
 </script>
 </head>
 <body>
-	<form action="reviewWrite.do" method="post" id="frm", name="frm">
+	<form action="reviewWrite.do" method="post" id="frm" name="frm">
 		<input type="hidden" name="coverimg" value="">
 		<table>
 			<tr>

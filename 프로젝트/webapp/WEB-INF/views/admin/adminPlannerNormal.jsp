@@ -18,11 +18,14 @@
 				</tr>
 			</c:if>
 			<c:forEach var="dto" items="${planList}">
+			<c:url var="planUrl" value="adminPlanContent.do">
+				<c:param name="planner_idx">${dto.planner_idx}</c:param>
+			</c:url>
 				<tr>
 					<td><input type="checkbox" id="statusNormal"
 						value="${dto.planner_idx}"></td>
 					<td>${dto.planner_idx}</td>
-					<td>${dto.subject}</td>
+					<td><a href="${planUrl}">${dto.subject}</a></td>
 					<td>${dto.writedate}</td>
 				</tr>
 			</c:forEach>

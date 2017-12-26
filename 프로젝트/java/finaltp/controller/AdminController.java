@@ -19,6 +19,7 @@ import finaltp.ask.model.AskDTO;
 import finaltp.faq.model.FaqDTO;
 import finaltp.mainBbs.model.MainBbsDAO;
 import finaltp.mainBbs.model.MainBbsDTO;
+import finaltp.member.model.MemberDAO;
 import finaltp.member.model.MemberDTO;
 import finaltp.plan.model.PlanDAO;
 import finaltp.plan.model.PlanDTO;
@@ -56,6 +57,9 @@ public class AdminController {
 	@Autowired
 	private PlanDAO planDao;
 
+	@Autowired
+	private MemberDAO memberDao;
+	
 	// 회원관리 페이지로 이동
 	@RequestMapping(value = "/adminMember.do")
 	public ModelAndView member(@RequestParam(value = "type", defaultValue = "all") String type) {
@@ -213,6 +217,7 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView();
 		List<MainBbsDTO> mainList = adminDao.getMainBbsList(cp, listSize, sel, status);
 		if (sel.equals("planner")) {
+			totalCnt = adminDao.getAdminPlannerTotalCnt(status);
 			List<PlanDTO> planList = planDao.planList(cp, listSize, status);
 			if (planList.size() != 0) {
 				mav.addObject("planList", planList);
@@ -716,6 +721,35 @@ public class AdminController {
 
 			mav.setViewName("admin/adminFaqNormal");
 		}
+		return mav;
+	}
+	
+	@RequestMapping("/adminPlanContent.do")
+	public ModelAndView planContent(@RequestParam("planner_idx") int planner_idx) {
+		ModelAndView mav = new ModelAndView();
+		PlanDTO pdto=planDao.getPlanContent(planner_idx);
+		mav.addObject("pdto",pdto);
+		java.sql.Date startday=pdto.getStartday();
+		String startdaystr= startday.toString();
+		String[] startdayarr=startdaystr.split("-");
+		mav.addObject("year",startdayarr[0]);
+		mav.addObject("month",startdayarr[1]);
+		mav.addObject("day",startdayarr[2]);
+		mav.setViewName("planner/planContent");
+		int planRecommend=planDao.getPlanRecommendCnt(pdto.getPlanner_idx());
+		mav.addObject("planRecommend",planRecommend);
+		/*String user_idx_s=(String)session.getAttribute("useridx");
+		int user_idx=-1;
+		if(user_idx_s==null||user_idx_s=="") {
+			user_idx=-1;
+		}else {
+			user_idx=Integer.parseInt(user_idx_s);
+		}*/
+		int user_idx=22;
+		mav.addObject("user_idx",user_idx);
+		MemberDTO mdto=memberDao.getUserInfo(user_idx);
+		mav.addObject("mdto",mdto);
+		
 		return mav;
 	}
 

@@ -38,7 +38,7 @@ $(function(){
     });
     
     //전송버튼 클릭이벤트
-    $("#savebuttonRevise").click(function(){
+    $("#savebuttonReviewRevise").click(function(){
         
         var content = oEditors.getById["textAreaContentRevise"].exec("UPDATE_CONTENTS_FIELD", []);
         // 이부분에 에디터 validation 검증
@@ -70,11 +70,11 @@ $(function(){
 				<th>테마</th>
 				<td>
 					<select name="thema">
-						<option value="맛집투어">맛집투어</option>
-						<option value="명소관광">명소관광</option>
-						<option value="액티비티">액티비티</option>
-						<option value="미술관/박물관 투어">미술관/박물관 투어</option>
-						<option value="가족여행">가족여행</option>
+						<option value="맛집투어" ${mainList.reviewdto.thema == '맛집투어' ? 'selected = "selected"' : ''}>맛집투어</option>
+						<option value="명소관광" ${mainList.reviewdto.thema == '명소관광' ? 'selected = "selected"' : ''}>명소관광</option>
+						<option value="액티비티" ${mainList.reviewdto.thema == '액티비티' ? 'selected = "selected"' : ''}>액티비티</option>
+						<option value="미술관/박물관 투어" ${mainList.reviewdto.thema == '미술관/박물관 투어' ? 'selected = "selected"' : ''}>미술관/박물관 투어</option>
+						<option value="가족여행" ${mainList.reviewdto.thema == '가족여행' ? 'selected = "selected"' : ''}>가족여행</option>
 					</select>
 				</td>
 			</tr>
@@ -87,7 +87,7 @@ $(function(){
 			</tr>
 			<tr>
 				<td colspan="4" align="center">
-					<input type="button" id="savebuttonRevise" value="수정"/>
+					<input type="button" id="savebuttonReviewRevise" value="수정"/>
 					<input type="button" id="cancelbuttonRevise" value="취소"/>
 				</td>
 			</tr>

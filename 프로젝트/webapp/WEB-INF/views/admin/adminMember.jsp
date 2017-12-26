@@ -75,7 +75,7 @@ h2 {
 	$(document).ready(function() {
 		var type = "";
 		var cp = "";
-		if(window.location.search == '') {
+			if(window.location.search == '') {
 			type = "all";
 			cp = 1;
 		} else {
@@ -87,11 +87,31 @@ h2 {
 			type = thirdSp[1];
 			cp = fourthSp[1];
 		}
+		
+		if(type == 'all') {
+			$('.memberTab1').addClass('selected');
+			$('.memberTab2').removeClass('selected');
+			$('.memberTab3').removeClass('selected');
+
+		} else if(type == 'normal') {
+			$('.memberTab2').addClass('selected');
+			$('.memberTab1').removeClass('selected');
+			$('.memberTab3').removeClass('selected');
+
+		} else {
+			$('.memberTab3').addClass('selected');
+			$('.memberTab2').removeClass('selected');
+			$('.memberTab1').removeClass('selected');
+
+		}
 		listMember(type, cp);
 	})
 	
 	$(function() {
 		$('.memberTab1').click(function() {
+			$('.memberTab1').addClass('selected');
+			$('.memberTab2').removeClass('selected');
+			$('.memberTab3').removeClass('selected');
 				var param = "type=all";
 				
 				$.ajax({
@@ -106,6 +126,9 @@ h2 {
 		})
 	
 		$('.memberTab2').click(function() {
+			$('.memberTab2').addClass('selected');
+			$('.memberTab1').removeClass('selected');
+			$('.memberTab3').removeClass('selected');
 			var param = "type=normal";
 			
 			$.ajax({
@@ -119,6 +142,9 @@ h2 {
 		})
 	
 		$('.memberTab3').click(function() {
+			$('.memberTab3').addClass('selected');
+			$('.memberTab2').removeClass('selected');
+			$('.memberTab1').removeClass('selected');
 			var param = "type=black";
 			$.ajax({
 				type : "get",

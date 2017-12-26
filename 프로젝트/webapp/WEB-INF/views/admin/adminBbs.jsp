@@ -186,6 +186,15 @@ h2 {
 		listBbs(sel, status, cp);
 	})
 	
+	function deferClick() {
+			$('.normal').removeClass("selected");
+			console.log($('.normal 	'));
+			console.log($('.defer'));
+			$('.defer').addClass("selected");
+			var test = $('.bbsContainer li a[class*=selected]').attr('class').split(" ");
+			listBbs(test[0], 'defer', 1);
+		}
+	
 	$(function() {
 		$('.planner').click(function() {
 			$('.bbsContainer li a').removeClass("selected");
@@ -228,6 +237,22 @@ h2 {
 			listBbs('ask', 'normal', 1);
 		})
 		
+		$('.faq').click(function() {
+			$('.bbsContainer li a').removeClass("selected");
+			$(this).addClass("selected");
+			$('.statusContainer li a').removeClass("selected");
+			$('.normal').addClass("selected");
+			listBbs('faq', 'normal', 1);
+		})
+		
+		$('.notice').click(function() {
+			$('.bbsContainer li a').removeClass("selected");
+			$(this).addClass("selected");
+			$('.statusContainer li a').removeClass("selected");
+			$('.normal').addClass("selected");
+			listBbs('notice', 'normal', 1);
+		})
+		
 		$('.report').click(function() {
 			$('.bbsContainer li a').removeClass("selected");
 			$(this).addClass("selected");
@@ -244,12 +269,7 @@ h2 {
 			
 		})
 		
-		$('.defer').click(function() {
-			$('.normal').removeClass("selected");
-			$('.defer').addClass("selected");
-			var test = $('.bbsContainer li a[class*=selected]').attr('class').split(" ");
-			listBbs(test[0], 'defer', 1);
-		})
+		
 		
 		// 동행 일반 -> 보류 전환
 		$('.mainForm').on('click', '#normalDeferChange', function() {
@@ -313,7 +333,7 @@ h2 {
 				}
 			});
 			
-			if(sel == 'report') {
+			if(sel == 'report' || sel == 'faq') {
 				var param = "sel=" + sel+ "&status=normal&statusChange=" + data;
 				$.ajax({
 					type : "get",
@@ -340,6 +360,29 @@ h2 {
 	
 	function listBbs(bbsSel, status, cp) {
 		var param = "sel=" + bbsSel + "&status=" + status + "&cp=" + cp;
+		
+		var defer = document.getElementsByClassName('status')[0];
+		if($(defer).has('.defer').length) {
+			defer.removeChild(document.getElementById('deferli'));
+		}
+		
+		if(bbsSel != 'report' && bbsSel != 'faq') {
+			var deferUl = document.createElement('li');
+			deferUl.setAttribute('id', 'deferli');
+			var deferAtag = document.createElement('a');
+			deferAtag.setAttribute('class', 'defer');
+			
+			if(status == 'normal') {
+				deferAtag.setAttribute('class', 'defer');
+			} else {
+				deferAtag.setAttribute('class', 'defer selected');
+			}
+			deferAtag.setAttribute('onclick', 'deferClick()');
+			var deferAtext = document.createTextNode('보류');
+			deferAtag.appendChild(deferAtext);
+			deferUl.appendChild(deferAtag);
+			defer.appendChild(deferUl);
+		}
 		
 		$.ajax({
 			type : "get",
@@ -369,7 +412,6 @@ h2 {
 	<div class="statusContainer">
 		<ul class="status">
 			<li><a class="normal">일반</a></li>
-			<li><a class="defer">보류</a></li>
 		</ul>
 	</div>
 	<div class="mainForm"></div>

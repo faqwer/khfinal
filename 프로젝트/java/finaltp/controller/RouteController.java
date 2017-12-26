@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import finaltp.mainBbs.model.MainBbsDAO;
+import finaltp.mainBbs.model.MainBbsDTO;
+import finaltp.reply.model.ReplyDAO;
+import finaltp.reply.model.ReplyDTO;
 import finaltp.route.model.RouteDAO;
 import finaltp.route.model.RouteDTO;
 
@@ -18,7 +22,13 @@ public class RouteController {
 	@Autowired
 	private RouteDAO routeDao;
 	
-	// ·çÆ® °Ô½Ã±Û ¸ñ·Ï
+	@Autowired
+	private MainBbsDAO mainBbsDao;
+	
+	@Autowired
+	private ReplyDAO replyDao;
+	
+	// ï¿½ï¿½Æ® ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping(value = "routeList.do", method = RequestMethod.GET)
 	public ModelAndView routeList(@RequestParam(value = "cp", defaultValue = "1") int cp) {
 		int totalCnt = mainBbsDao.getTotalCnt("route");
@@ -27,7 +37,7 @@ public class RouteController {
 
 		ModelAndView mav = new ModelAndView();
 		List<MainBbsDTO> mainList = mainBbsDao.mainBbsList(cp, listSize, "route");
-		List<RouteDTO> routeList = routeDao.routeList(cp, listSize);
+		List<RouteDTO> routeList = routeDao.routeList(mainList);
 		List<ReplyDTO> replyList = null;
 
 		for (int i = 0; i < mainList.size(); i++) {
@@ -53,7 +63,7 @@ public class RouteController {
 		return mav;
 	}
 
-	// ·çÆ® º»¹® º¸±â
+	// ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value = "routeContent.do", method = RequestMethod.GET)
 	public ModelAndView routeContent(@RequestParam(value = "cp", defaultValue = "1") int cp,
 			@RequestParam(value = "idx") int idx) {
@@ -62,8 +72,8 @@ public class RouteController {
 		int pageSize = 5;
 
 		ModelAndView mav = new ModelAndView();
-		MainBbsDTO mainList = mainBbsDao.mainBbsContent("route", idx);
-		RouteDTO routeContent = routeDao.routeContent(idx, cp, listSize);
+		MainBbsDTO mainList = mainBbsDao.bbsContent(idx);
+		RouteDTO routeContent = routeDao.routeContent(idx);
 		List<ReplyDTO> replyList = null;
 
 		mainList.setContent(mainList.getContent().replaceAll("\n", "<br>"));

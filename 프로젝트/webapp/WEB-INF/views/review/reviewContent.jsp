@@ -38,7 +38,7 @@ li {
 		var content = $('#commentbox_'+bbs_idx).val();
 		var param = "content=" + content + "&bbs_idx=" + bbs_idx;
 		
-		if('${sessionScope.userid == null}') {
+		if(${sessionScope.userid == null}) {
 			alert('로그인 후 이용가능합니다.');
 			$('#commentbox_'+bbs_idx).val("");
 		} else {
@@ -107,7 +107,7 @@ li {
 		// 신고 함수
 		function reportAccContent(bbs_idx, writer_idx, userid) {
 			var param = "bbs_idx=" + bbs_idx + "&writer_idx=" + writer_idx + "&userid=" + userid;
-			if('${sessionScope.userid == null}') {
+			if(${sessionScope.userid == null}) {
 				alert('로그인 후 이용가능합니다.');	
 			} else {
 				window.open('reportForm.do?' + param, 'reportForm', 'width=500, height=500');	
