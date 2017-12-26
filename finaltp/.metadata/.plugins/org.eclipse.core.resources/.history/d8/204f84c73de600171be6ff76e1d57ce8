@@ -1,0 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<div style="height: 175px; width: 600px;">
+	<table>
+		<tbody style="overflow: auto; height: 180px;">
+			<c:forEach items="${list }">
+			<tr style="height: 20px;">
+				<td style="width: 100px;">${list.user_id }</td>
+				<td style="width: 400px;">${list.content }</td>
+				<td style="width: 100px;">${list.writerdate }</td>
+			</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+</div>
+<div style="height: 20px; width: 600px;">
+	<input id="replyContent" type="text">
+	<input id="addreply" type="button" value="입력">
+</div>

@@ -1,0 +1,34 @@
+function contentRoute(){
+	var tbd = document.getElementById('tbd');
+	var tbd_tr = tbd.getElementsByTagName('tr');
+	var thd_tr = thd.getElementsByTagName('tr')[0];
+	var thd_th = thd_tr.getElementsByTagName('th');
+	for(var j=0;j< thd_th.length;j++){
+    	for(var i=0,item=0,path=0,height=-25;i< tbd_tr.length; i++){
+			var string='schedule'+'-'+j+'-'+i;
+			schedule=document.getElementById(string);
+			if($(schedule).has('#listdiv').length){
+				if(item==1){
+					var div=document.createElement('div');
+					div.setAttribute('id','route');
+					div.setAttribute('style','z-index:800;margin-top:0px;overflow:visible;position: absolute;');
+					var button=document.createElement('input');
+					button.setAttribute('type','button');
+					button.setAttribute('value','길찾기');
+					button.setAttribute('onclick','routesearch(this)');
+					button.setAttribute('style','margin-top:-10px;overflow:visible;position: absolute; margin-left: 190px;');
+					var itemsroute=document.createElement('div');
+					itemsroute.setAttribute('style','z-index:800;margin-left: 125px;margin-top:-10px;overflow:visible;position: absolute;height:'+height+'px;width:5px;background-color:gray;');
+					var td=document.getElementById(scheduleroute[0]+'-'+j+'-'+(path+2));
+					div.appendChild(itemsroute);
+					div.appendChild(button);
+					td.appendChild(div);
+				}
+				path=i;
+				item=1;
+				height=-25;
+			}
+			height=height+20;
+		}
+	}
+}

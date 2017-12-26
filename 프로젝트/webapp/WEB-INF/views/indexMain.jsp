@@ -85,9 +85,15 @@ window.onload = function() {
 
 <c:if test="${!empty userid }">
 		<p><a href="mypage.do?id=${userid}">${name}</a>님 접속중입니다. | <a href="logout.do">로그아웃</a></p>
-</c:if><a href="routeList.do">경로 추천</a>
-<a href="accList.do">동행</a>
-<a href="pimg.do">이미지테스트</a>
+</c:if>
+<ul>
+	<li><a href="noticeList.do">공지사항</a></li>
+	<li><a href="faqList.do">FAQ</a></li>
+	<li><a href="accList.do">동행 게시판</a></li>
+	<li><a href="reviewList.do">여행기 게시판</a></li>
+	<li><a href="#">1:1문의</a></li>
+	<li><a href="routeList.do">경로 추천</a></li>
+</ul>
 <table border="1" cellspacing="0" align="center" width="1200px" >
 		<tr>
 			<td colspan="3" id="bestplan">best plan</td>

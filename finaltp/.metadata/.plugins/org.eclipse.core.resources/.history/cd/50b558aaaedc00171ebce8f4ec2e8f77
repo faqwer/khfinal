@@ -1,0 +1,29 @@
+/*$('#listdiv').hover(
+	function() {
+		alert($(this).attr('id'));
+	}, 
+	function() {
+	}
+);*/
+function mouseenter(object){
+	var place_id=$(object).find('#datadiv').find('#place_id').val();
+	var request = {
+			  placeId: place_id
+		};
+	service.getDetails(request, mkcallback);
+	function mkcallback(place, status) {
+		  if (status == google.maps.places.PlacesServiceStatus.OK) {
+			  addMarker(place);
+		  }
+	}
+	/*var address=$(object).find('#datadiv').find('#address').text();
+	var name=$(object).find('#datadiv').find('#name').text();
+	var photo=$(object).find('#datadiv').find('#photo').val();
+	var data={"location":location,"address":address,"name":name,"photo":photo};
+	alert($(object).find('#datadiv').find('#place').val());
+	alert(location);
+	addMarker(data);*/
+}
+function mouseleave(object,place){
+	removeMarker();
+}

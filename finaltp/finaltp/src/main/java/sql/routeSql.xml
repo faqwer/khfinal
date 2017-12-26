@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="finaltp.route">
+	<select id="routeList" parameterType="map" resultType="finaltp.route.model.RouteDTO">
+		SELECT * FROM route WHERE bbs_idx = #{bbs_idx} AND writer_idx = #{writer_idx} ORDER BY bbs_idx desc
+	</select>
+	
+	<insert id="routeWrite" parameterType="finaltp.route.model.RouteDTO">
+		INSERT INTO route VALUES(Total_bbs_bbs_idx.currval, #{writer_idx}, #{thema}, 0, #{coverimg})
+	</insert>
+	
+	<select id="routeContent" parameterType="Integer" resultType="finaltp.route.model.RouteDTO">
+		SELECT * FROM route WHERE bbs_idx = #{bbs_idx/}
+	</select>
+	
+	<update id="routeRevise" parameterType="map">
+		UPDATE route SET thema = #{thema}, coverimg = #{coverimg} WHERE bbs_idx = #{bbs_idx}
+	</update>
+</mapper>

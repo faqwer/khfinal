@@ -1,0 +1,30 @@
+		$("#placediv div").draggable({
+			helper : 'clone'
+		});
+		$(".on-screen").droppable({
+			accept : "#placediv div, .on-screen div",
+			drop : function(event, ui) {
+				$(this).append($(ui.draggable).clone());
+				var body = document.getElementsByTagName("body")[0];
+				var draganddrop = document.getElementById("dragdropscript");
+				body.removeChild(draganddrop);
+				var script = document.createElement('script');
+				script.setAttribute('id', 'dragdropscript');
+				script.setAttribute('src', '/finaltp/js/draganddrop.js');
+				body.appendChild(script);
+			}
+		});
+		$(".droptrue").sortable({
+			connectWith : "div"
+		});
+		$(".on-screen").sortable({
+			connectWith : "div",
+			dropOnEmpty : false
+		});
+				$( "#sortable3" ).sortable({
+				      connectWith: ".on-screen",
+						dropOnEmpty : false
+				}).disableSelection();
+	    $( ".on-screen, #placediv div" ).disableSelection();
+	   
+	    

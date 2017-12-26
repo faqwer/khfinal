@@ -1,0 +1,5 @@
+package finaltp.plan.model;
+
+public interface PlanDAO {
+	public int planWrite(PlanDTO pdto);
+}

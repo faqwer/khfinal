@@ -1,0 +1,154 @@
+function contentRoute(){
+	var tbd = document.getElementById('tbd');
+	var tbd_tr = tbd.getElementsByTagName('tr');
+	var thd_tr = thd.getElementsByTagName('tr')[0];
+	var thd_th = thd_tr.getElementsByTagName('th');
+	for(var j=0;j< thd_th.length;j++){
+    	for(var i=0,item=0,path=0,height=-25;i< tbd_tr.length; i++){
+			var string='schedule'+'-'+j+'-'+i;
+			schedule=document.getElementById(string);
+			if($(schedule).has('#listdiv').length){
+				if(item==1){
+					var div=document.createElement('div');
+					div.setAttribute('id','route');
+					div.setAttribute('style','z-index:800;margin-top:0px;overflow:visible;position: absolute;');
+					var button=document.createElement('input');
+					button.setAttribute('type','button');
+					button.setAttribute('value','길찾기');
+					button.setAttribute('onclick','routesearch(this)');
+					button.setAttribute('style','margin-top:-10px;overflow:visible;position: absolute; margin-left: 190px;');
+					var itemsroute=document.createElement('div');
+					itemsroute.setAttribute('style','z-index:800;margin-left: 125px;margin-top:-10px;overflow:visible;position: absolute;height:'+height+'px;width:5px;background-color:gray;');
+					var td=document.getElementById(scheduleroute[0]+'-'+j+'-'+(path+2));
+					div.appendChild(itemsroute);
+					div.appendChild(button);
+					td.appendChild(div);
+				}
+				path=i;
+				item=1;
+				height=-25;
+			}
+			height=height+20;
+		}
+	}
+}
+
+function contentcallback(place, status) {
+	if (status == google.maps.places.PlacesServiceStatus.OK) {
+		createElement(place);
+	}
+}
+
+function createElement(place){
+	var temporarydiv=document.getElementById(temporarydiv);
+	var listdiv=document.createElement('div');
+	listdiv.setAttribute('id','listdiv');
+ 	listdiv.setAttribute('onmouseenter','javascript:mouseenter(this)');
+	listdiv.setAttribute('onmouseleave','javascript:mouseleave(this)'); 
+	
+	var div1=document.createElement('div');
+	div1.setAttribute('id','photodiv');
+	
+	var photos = place.photos;
+	var img;
+	if (photos) {
+		img=photos[0].getUrl({'maxWidth': 50, 'maxHeight': 50});
+		var icon=document.createElement('img');
+		icon.setAttribute('src',img);
+		icon.setAttribute('id','icon');
+		icon.setAttribute('width','100%');
+		icon.setAttribute('height','100%');
+		div1.appendChild(icon);
+	}
+	
+	var div2=document.createElement('div');
+	div2.setAttribute('id','datadiv');
+
+	var name=document.createElement('p');
+	name.setAttribute('id','name');
+	var nametext = document.createTextNode(place.name);
+	name.appendChild(nametext);
+	div2.appendChild(name);
+	
+	var address=document.createElement('p');
+	address.setAttribute('id','address');
+	var addresstext = document.createTextNode(place.formatted_address);
+	address.appendChild(addresstext);
+	div2.appendChild(address);
+	
+	if(place.rating!=null){
+		var rating=document.createElement('p');
+		var ratingtext = document.createTextNode(place.rating);
+		rating.appendChild(ratingtext);
+		div2.appendChild(rating);
+	}
+	
+	var place_lat=document.createElement('input');
+	place_lat.setAttribute('id','place_lat');
+	place_lat.setAttribute('type','hidden');
+	place_lat.setAttribute('value',place.geometry.location.lat());
+	div2.appendChild(place_lat);
+	
+	var place_lng=document.createElement('input');
+	place_lng.setAttribute('id','place_lng');
+	place_lng.setAttribute('type','hidden');
+	place_lng.setAttribute('value',place.geometry.location.lng());
+	div2.appendChild(place_lng);
+	
+	var place_Id=document.createElement('input');
+	place_Id.setAttribute('id','place_Id');
+	place_Id.setAttribute('type','hidden');
+	place_Id.setAttribute('value',place.place_id);
+	div2.appendChild(place_Id);
+	var moneybt=document.createElement('input');
+    moneybt.setAttribute('type','button');
+    moneybt.setAttribute('id','moneybt');
+    moneybt.setAttribute('value','money');
+    moneybt.setAttribute('onclick','moneyopen(this)');
+    element.appendChild(moneybt);
+    var moneydiv=document.createElement('div');
+    moneydiv.setAttribute('id','moneydiv');
+    moneydiv.setAttribute('style','display:none;z-index:1000;position:absolute;');
+    element.appendChild(moneydiv);
+    var moneytraffic=document.createElement('input');
+    moneytraffic.setAttribute('id','moneytraffic');
+    moneytraffic.setAttribute('onblur','onlyNumber(this)');
+    moneytraffic.setAttribute('type','text');
+    moneytraffic.setAttribute('placeholder','traffic');
+    var moneylodge=document.createElement('input');
+    moneylodge.setAttribute('id','moneylodge');
+    moneylodge.setAttribute('onblur','onlyNumber(this)');
+    moneylodge.setAttribute('type','text');
+    moneylodge.setAttribute('placeholder','lodge');
+    var moneyadmission=document.createElement('input');
+    moneyadmission.setAttribute('id','moneyadmission');
+    moneyadmission.setAttribute('onblur','onlyNumber(this)');
+    moneyadmission.setAttribute('type','text');
+    moneyadmission.setAttribute('placeholder','admission');
+    var moneyfood=document.createElement('input');
+    moneyfood.setAttribute('id','moneyfood');
+    moneyfood.setAttribute('onblur','onlyNumber(this)');
+    moneyfood.setAttribute('type','text');
+    moneyfood.setAttribute('placeholder','food');
+    var moneyshopping=document.createElement('input');
+    moneyshopping.setAttribute('id','moneyshopping');
+    moneyshopping.setAttribute('onblur','onlyNumber(this)');
+    moneyshopping.setAttribute('type','text');
+    moneyshopping.setAttribute('placeholder','shopping');
+    var moneybesides=document.createElement('input');
+    moneybesides.setAttribute('id','moneybesides');
+    moneybesides.setAttribute('onblur','onlyNumber(this)');
+    moneybesides.setAttribute('type','text');
+    moneybesides.setAttribute('placeholder','besides');
+    moneydiv.appendChild(moneytraffic);
+    moneydiv.appendChild(moneylodge);
+    moneydiv.appendChild(moneyadmission);
+    moneydiv.appendChild(moneyfood);
+    moneydiv.appendChild(moneyshopping);
+    moneydiv.appendChild(moneybesides);
+	
+	listdiv.appendChild(div1);
+	listdiv.appendChild(div2);
+	listdiv.appendChild(moneydiv);
+	temporarydiv.appendChild(listdiv);
+}

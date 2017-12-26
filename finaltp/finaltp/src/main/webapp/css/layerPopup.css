@@ -1,0 +1,17 @@
+@charset "EUC-KR";
+
+	#mask {  
+	  position:absolute;  
+	  z-index:1;  
+	  background-color:#000;  
+	  display:none;  
+	  left:0;
+	  top:0;
+	}
+	.window{
+	  display: none;
+	  position:absolute;  
+	  left:100px;
+	  top:100px;
+	  z-index:2;
+	}

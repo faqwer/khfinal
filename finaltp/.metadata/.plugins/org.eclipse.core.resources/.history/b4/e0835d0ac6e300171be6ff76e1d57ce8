@@ -1,0 +1,30 @@
+function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ["Element", "Money", { role: "style" } ],
+        ["Traffic", 8.94, "#b87333;z-index: 1001;"],
+        ["Lodge", 10.49, "silver;z-index: 1001;"],
+        ["Admixxsion", 19.30, "gold;z-index: 1001;"],
+        ["Food", 21.45, "color: #e5e4e2;z-index: 1001;"],
+        ["Shopping", 21.45, "color: #e5e4e2;z-index: 1001;"],
+        ["Besides", 10000, "color: #b87333;z-index: 1001;"]
+      ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       2]);
+
+      var options = {
+        width: 600,
+        height: 400,
+        bar: {groupWidth: "50%"},
+        legend: {
+        	position: "none"
+        },
+      };
+      var chart = new google.visualization.BarChart(document.getElementById("moneybook"));
+      chart.draw(view, options);
+}

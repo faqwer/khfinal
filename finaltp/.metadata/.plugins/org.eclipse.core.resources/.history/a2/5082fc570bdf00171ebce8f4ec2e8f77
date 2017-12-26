@@ -1,0 +1,23 @@
+		$("#placediv div").draggable({
+			helper : 'clone'
+		});
+		$(".on-screen").droppable({
+			accept : "#placediv div, .on-screen div",
+			drop : function(event, ui) {
+				$(this).append($(ui.draggable));
+			}
+		});
+		$(".droptrue").sortable({
+			connectWith : "div"
+		});
+		$(".on-screen").sortable({
+			connectWith : "div",
+			dropOnEmpty : false
+		});
+				$( "#sortable3" ).sortable({
+				      connectWith: ".on-screen",
+						dropOnEmpty : false
+				}).disableSelection();
+	    $( ".on-screen, #placediv div" ).disableSelection();
+	   
+	    

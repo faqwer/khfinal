@@ -1,0 +1,35 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+/* �巡���� ���� ������ ����� ���մϴ�. ������ �Ű澲�� �����ŵ� �˴ϴ�. */
+#div1 {width:350px;height:135px;padding:10px;border:1px solid #999;}
+</style>
+<script>
+var element;
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ele,ev) {
+	element=ele;
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    ev.target.appendChild(element);
+}
+</script>
+</head>
+<body>
+
+<p>�Ʒ� ��Ʈ�� �̹����� �� ���ڷ� ����־� ������:</p>
+
+<div id="div1" ondrop="drop(this.event)" ondragover="allowDrop(event)"></div>
+<br>
+<img id="drag1" src="comp1.png" draggable="true" ondragstart="drag(event)" width="128" height="128">
+
+</body>
+</html>

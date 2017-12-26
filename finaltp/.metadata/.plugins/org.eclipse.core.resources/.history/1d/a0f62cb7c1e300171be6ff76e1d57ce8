@@ -1,0 +1,51 @@
+<%@page import="java.util.Calendar"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+ <script type="text/javascript">
+    google.charts.load("current", {packages:["corechart"]});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ["Element", "Density", { role: "style" } ],
+        ["Traffic", 8.94, "#b87333"],
+        ["Lodge", 10.49, "silver"],
+        ["Admixxsion", 19.30, "gold"],
+        ["Food", 21.45, "color: #e5e4e2"],
+        ["Shopping", 21.45, "color: #e5e4e2"],
+        ["Besides", 21.45, "color: #b87333"]
+      ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       2]);
+
+      var options = {
+        title: "총 가계부",
+        width: 600,
+        height: 400,
+        bar: {groupWidth: "50%"},
+        legend: { position: "none" },
+      };
+      var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
+      chart.draw(view, options);
+  }
+  </script>
+<style type="text/css">
+</style>
+</head>
+<body>
+<div id="moneybook">
+	<div id="barchart_values" style="width: 900px; height: 300px;"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+		
+/*		$(".on-screen").droppable({
+			accept : "#placediv div,.on-screen div",
+			drop : function(event, ui) {
+				console.log($(ui.draggable).closest('div').attr('class'));
+				if($(ui.draggable).closest('div').prop("tagName")=="DIV"){
+					console.log('placediv');
+					$(this).append($(ui.draggable).clone());
+				}else{
+					$(this).append($(ui.draggable));
+				}
+			},
+			tolerance:"intersect"
+		});
+		
+		$( ".on-screen" ).sortable({
+			connectWith	: ".on-screen div",
+			dropOnEmpty : false
+		}).disableSelection();
+		$( "#placediv" ).sortable({
+			connectWith	: "#placediv div",
+			dropOnEmpty : false
+		}).disableSelection();
+	    $( ".on-screen, #placediv div" ).disableSelection();
+*/	   
+		function drag(element, ev) {
+			  document.body.style.cursor = "move";
+
+			  document.onmousemove = function(ev) {
+			    ev = ev || window.event;
+			    var top = Event.pointerY(ev);
+			    var left = Event.pointerX(ev);
+			    element.style.position = "absolute";
+			    element.style.left = left + "px";
+			    element.style.top = top + "px";
+			    Event.stop(ev);
+			    return false;
+			  };
+
+			  document.onmouseup = function(ev) {
+			    ev = ev || window.event;
+			    document.body.style.cursor = "auto";
+
+			    // 필요한 작업 수행
+
+			    document.onmousemove = null;
+			    document.onmouseup = null;
+			    Event.stop(ev);
+			    return false;
+			  };
+			  Event.stop(ev);
+			  return false;
+			}

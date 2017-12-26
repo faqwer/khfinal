@@ -1,0 +1,30 @@
+
+	$('#thd').find('a').click(function (evt) {
+		evt.preventDefault();
+		var thdr = $('#thd').find('tr');
+		var tbdr = $('#tbd').find('tr');
+		var currPage = $(this).attr('rel');
+		var startItem = currPage * viewlist+1;
+		var endItem = startItem + viewlist;
+		console.log(currPage);
+		//head
+			for(var j=1;j<thdr[0].cells.length;j++){
+				thdr[0].cells[j].setAttribute('class','off-screen');
+			}
+			for(var j=startItem;j<endItem;j++){
+				if(thdr[0].cells.length>j){
+					thdr[0].cells[j].setAttribute('class','on-screen');
+				}
+			}
+		//body
+		for(var i=0;i<tbdr.length;i++){
+			for(var j=1;j<tbdr[i].cells.length;j++){
+				tbdr[i].cells[j].setAttribute('class','off-screen');
+			}
+			for(var j=startItem;j<endItem;j++){
+				if(tbdr[i].cells.length>j){
+					tbdr[i].cells[j].setAttribute('class','on-screen');
+				}
+			}
+		}
+	});

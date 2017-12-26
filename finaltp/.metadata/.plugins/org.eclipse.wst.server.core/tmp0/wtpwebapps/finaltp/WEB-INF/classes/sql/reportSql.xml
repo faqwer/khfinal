@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="finaltp.report">
+	<select id="getUserIdx" parameterType="String" resultType="Integer">
+		SELECT member_idx FROM plan_member WHERE id = #{userid}
+	</select>
+	
+	<insert id="reportAdd" parameterType="finaltp.report.model.ReportDTO">
+		INSERT INTO report VALUES(#{bbs_idx}, #{writer_idx}, #{user_idx}, #{reason}, #{status}, null)
+	</insert>
+</mapper>

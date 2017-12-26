@@ -1,0 +1,125 @@
+var schedulemarkerArray = new Array();
+var schedulemarker;
+var myTrips=new Array();
+var myTrip=new Array();
+var flightPath=new Array();
+var myTriprow=0;
+var myTripcol=0;
+var color=['red','blue','gray','green','black'];
+function route(scheduleroute){
+	deleteOverlays();
+	var tbd = document.getElementById('tbd');
+	var thd = document.getElementById('thd');
+	var thd_th = thd.getElementsByTagName('th');
+	var tbd_tr = tbd.getElementsByTagName('tr');
+	if(scheduleroute=="ALL"){
+		for(var j=0;j<thd_th.length-1;j++){
+			for(var i=0;i< tbd_tr.length; i++){
+				var string='schedule-'+j+'-'+i;
+				schedule=document.getElementById(string);
+				if($(schedule).has('#listdiv').length){
+					var listdiv=$(schedule).find('#listdiv');
+					var lat=$(listdiv).find('#datadiv').find('#place_lat').val();
+					var lng=$(listdiv).find('#datadiv').find('#place_lng').val();
+					place_location=new google.maps.LatLng(lat,lng);
+					if(myTripcol!=1){
+						myTrip.push(place_location);
+						myTripcol=myTripcol+1;
+					}else{
+						myTrip.push(place_location);
+						myTrips[myTriprow]=[myTrip[0],myTrip[1]];
+						myTriprow=myTriprow+1;
+						for(j in myTrip){
+							myTrip[j]=null;
+						}
+						myTrip.length=0;
+						myTrip.push(place_location);
+					}
+					addschedulemarker(place_location);
+				}
+			}
+		}
+	}else{
+		for(var i=0;i< tbd_tr.length; i++){
+			var string=scheduleroute+'-'+i;
+			schedule=document.getElementById(string);
+			if($(schedule).has('#listdiv').length){
+				var listdiv=$(schedule).find('#listdiv');
+				var lat=$(listdiv).find('#datadiv').find('#place_lat').val();
+				var lng=$(listdiv).find('#datadiv').find('#place_lng').val();
+				place_location=new google.maps.LatLng(lat,lng);
+				if(myTripcol!=1){
+					myTrip.push(place_location);
+					myTripcol=myTripcol+1;
+				}else{
+					myTrip.push(place_location);
+					myTrips[myTriprow]=[myTrip[0],myTrip[1]];
+					myTriprow=myTriprow+1;
+					for(j in myTrip){
+						myTrip[j]=null;
+					}
+					myTrip.length=0;
+					myTrip.push(place_location);
+				}
+				addschedulemarker(place_location);
+			}
+		}
+	}
+	showOverlays();
+}
+
+function addschedulemarker(place_location) {
+	schedulemarker = new google.maps.Marker({
+		position : place_location,
+		icon : {
+			url : 'https://developers.google.com/maps/documentation/javascript/images/circle.png',
+			anchor : new google.maps.Point(10, 10),
+			scaledSize : new google.maps.Size(10, 17)
+		}
+	}); 
+	schedulemarkerArray.push(schedulemarker);
+	for(var i=0,j=0;i<myTrips.length;i++){
+		if(myTrips[i].length==2){
+			flightPath[j]=new google.maps.Polyline({
+				path:myTrips[i],
+				strokeColor:color[j],
+				strokeOpacity:0.8,
+				strokeWeight:1
+			});
+			j++;
+			console.log(flightPath[j].getAt(0));
+		}
+	}
+}
+
+function showOverlays() {
+	if (schedulemarkerArray) {
+		 for (i in schedulemarkerArray) {
+			 schedulemarkerArray[i].setMap(map);
+		 }
+	}
+	for(var j=0;j<flightPath.length;j++){
+		flightPath[j].setMap(map);
+	}
+}
+
+function deleteOverlays() {
+	if (schedulemarkerArray) {
+		 for (i in schedulemarkerArray) {
+			 schedulemarkerArray[i].setMap(null);
+			 schedulemarkerArray[i]=null;
+		 }
+		 schedulemarkerArray.length = 0;
+	}
+	for(var i=0;i<myTrips.length;i++){
+		myTrips[i]=null;
+	}
+	for(var j=0;j<flightPath.length;j++){
+		flightPath[j].setMap(null);
+		flightPath[j]=null;
+	}
+	flightPath.length=0;
+	myTrips.length=0;
+	myTriprow=0;
+	myTripcol=0;
+}

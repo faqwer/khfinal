@@ -1,0 +1,35 @@
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ele,ev) {
+	element=ele;
+ 	ev.dataTransfer.effectAllowed="copyMove";
+}
+function clonedrag(ele,ev) {
+	var cloneele=ele.cloneNode(true); 
+	cloneele.setAttribute("ondragstart","drag(this,event)");
+	cloneele.setAttribute("style","width:250px;height:50px;background: white;overflow: visible;z-index:102;");
+	element=cloneele;
+ 	ev.dataTransfer.effectAllowed="copyMove";
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    if(ev.target.childNodes.length==0){
+        ev.target.appendChild(element);
+        var targetId=ev.target.id;
+        var scheduleroute=targetId.split('-');
+        route(scheduleroute[0]+'-'+scheduleroute[1]);
+        console.log('drop='+scheduleroute[0]+'-'+scheduleroute[1]);
+    }
+}
+function clone(obj) {
+    if (null == obj || "object" != typeof obj) return obj;
+    console.log(obj.constructor());
+    var copy = obj.constructor();
+    for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    return copy;
+}

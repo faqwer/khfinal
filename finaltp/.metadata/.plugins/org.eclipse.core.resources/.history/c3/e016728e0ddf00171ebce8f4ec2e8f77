@@ -1,0 +1,29 @@
+/*		$("#placediv div").draggable({
+			helper : 'clone'
+		});
+		$(".on-screen").droppable({
+			accept : "#placediv div",
+			drop : function(event, ui) {
+				$(this).append($(ui.draggable).clone());
+			}
+		});
+		$("#sortable3").droppable({
+			accept : ".on-screen div",
+			drop : function(event, ui) {
+				$(this).append($(ui.draggable));
+			}
+		});
+		$(".droptrue").sortable({
+			connectWith : "div"
+		});
+		$(".on-screen").sortable({
+			connectWith : "div",
+			dropOnEmpty : false
+		});*/
+		$( "#sortable3, #placediv" ).sortable({
+			connectWith	: ".on-screen, #placediv",
+			dropOnEmpty : false
+		}).disableSelection();
+/*	    $( ".on-screen, #placediv div" ).disableSelection();*/
+	   
+	    

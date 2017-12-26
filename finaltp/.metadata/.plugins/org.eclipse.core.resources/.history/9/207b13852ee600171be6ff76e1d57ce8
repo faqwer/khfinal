@@ -1,0 +1,14 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<<c:set var="list" value="${list}"></c:set>
+<table>
+	<tbody>
+		<c:forEach items="list">
+		<tr>
+			<td></td>
+		</tr>
+		</c:forEach>
+	</tbody>
+</table>

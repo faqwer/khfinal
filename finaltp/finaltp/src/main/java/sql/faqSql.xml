@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="finaltp">
+	<select id="faqList" resultType="finaltp.faq.model.FaqDTO">
+		SELECT * FROM faq
+	</select>
+	
+	<insert id="faqWrite" parameterType="map">
+		INSERT INTO faq VALUES(FAQ_faq_idx.nextval, #{answer}, #{question})
+	</insert>
+	
+	<select id="faqContent" parameterType="Integer" resultType="finaltp.faq.model.FaqDTO">
+		SELECT * FROM faq WHERE faq_idx = #{faq_idx}
+	</select>
+	
+	<delete id="faqDelete" parameterType="Integer">
+		DELETE FROM faq WHERE faq_idx = #{faq_idx}
+	</delete>
+	
+	<update id="faqRevise" parameterType="map">
+		UPDATE faq SET question = #{question}, answer = #{answer} WHERE faq_idx = #{faq_idx}
+	</update>
+</mapper>

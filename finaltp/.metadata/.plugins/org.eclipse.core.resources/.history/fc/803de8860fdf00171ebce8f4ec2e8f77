@@ -1,0 +1,24 @@
+		$("#placediv div").draggable({
+			helper : 'clone'
+		});
+		$(".on-screen").droppable({
+			accept : "#placediv div",
+			drop : function(event, ui) {
+				$(this).append($(ui.draggable).clone());
+			}
+		});
+		
+		$(".on-screen").droppable({
+			accept : ".on-screen div",
+			drop : function(event, ui) {
+				$(this).append($(ui.draggable));
+			}
+		});
+		
+		$( ".on-screen" ).sortable({
+			connectWith	: ".on-screen div",
+			dropOnEmpty : false
+		}).disableSelection();
+/*	    $( ".on-screen, #placediv div" ).disableSelection();*/
+	   
+	    

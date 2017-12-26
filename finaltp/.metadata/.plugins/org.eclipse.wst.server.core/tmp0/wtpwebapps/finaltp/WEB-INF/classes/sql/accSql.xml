@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="finaltp.acc">
+	
+	<insert id="accWrite" parameterType="map">
+		INSERT INTO accompany VALUES(Total_bbs_bbs_idx.currval, #{writer_idx}, #{nation})
+	</insert>
+	
+	<select id="accList" resultType="finaltp.acc.model.AccDTO">
+		SELECT * FROM accompany WHERE bbs_idx = #{bbs_idx} AND writer_idx = #{writer_idx}
+	</select>
+	
+	<update id="accRevise" parameterType="map">
+		UPDATE total_bbs SET content = #{content} WHERE bbs_idx = #{bbs_idx}
+	</update>
+	
+</mapper>

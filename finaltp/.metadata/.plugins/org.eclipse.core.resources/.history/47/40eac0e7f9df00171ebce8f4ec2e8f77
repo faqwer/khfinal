@@ -1,0 +1,32 @@
+var schedulemarkers =new Array();
+var schedulemarker;
+function route(scheduleroute){
+	/*removeschedulemarker();*/
+	var tbd = document.getElementById('tbd');
+	var tbd_tr = tbd.getElementsByTagName('tr');
+	console.log(tbd_tr.length);
+	for(var i=0;i< tbd_tr.length; i++){
+		var schedule=tbd_tr[i].getElementById(scheduleroute+'-'+i);
+		console.log(tbd_tr[i].length);
+		if(tbd_tr[i].length!=0){
+			var listdiv=schedule.getElementById('listdiv');
+			addschedulemarker(listdiv);
+		}
+	}
+}
+function removeschedulemarker() {
+	schedulemarker.setMap(null);
+}
+function addschedulemarker(data) {
+	schedulemarker = new google.maps.Marker({
+		map : map,
+		position : data.place_location,
+		icon : {
+			url : 'https://developers.google.com/maps/documentation/javascript/images/circle.png',
+			anchor : new google.maps.Point(10, 10),
+			scaledSize : new google.maps.Size(10, 17)
+		}
+	}); 
+	infoWindow.setContent(data.place_data);
+	infoWindow.open(map, schedulemarker);
+}

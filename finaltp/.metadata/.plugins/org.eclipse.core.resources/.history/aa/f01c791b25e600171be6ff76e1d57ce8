@@ -1,0 +1,5 @@
+package finaltp.preply.model;
+
+public class PReplyDTO {
+	
+}

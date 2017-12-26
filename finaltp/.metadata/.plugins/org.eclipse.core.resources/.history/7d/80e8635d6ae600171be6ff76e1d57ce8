@@ -1,0 +1,13 @@
+package finaltp.plan.model;
+
+public interface PlanDAO {
+	public int planWrite(PlanDTO pdto);
+	public int planUpdata(PlanDTO pdto);
+	public PlanDTO getPlanContent(int planner_idx);
+	public int getPlanRecommendCnt(int planner_idx);
+	public int ckRecommend(int planner_idx,int user_idx);
+	public int addRecommend(int planner_idx,int writer_idx,int user_idx);
+	public int delRecommend(int planner_idx,int writer_idx,int user_idx);
+	public String getUesrid(int member_idx);
+	
+}

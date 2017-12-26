@@ -1,0 +1,632 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="/finaltp/css/planWrite.css">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script id="Jquery" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script id="googleMapApi" src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDm4locFJLs9GfPhTFuk-mAZpcc_WyZOf4"></script>
+<script src="/finaltp/js/draganddrop.js"></script>
+<script src="/finaltp/js/drawChart.js"></script>
+<script src="/finaltp/js/googlemap.js"></script>
+<script src="/finaltp/js/planwrite.js"></script>
+<script src="/finaltp/js/AjaxModule.js"></script>
+<script src="/finaltp/js/jquery.form.js"></script>
+<script src="/finaltp/js/planUpdata.js"></script>
+<script type="text/javascript">
+date = new Date(${year},${month-1},${day});
+var nextdate=new Date(${year},${month-1},${day});
+var dates=new Array();
+var datecount=0;
+dates.push(nextdate);
+var viewlist=2;
+var rel=0;
+var element=null;
+var ckarr=[];
+var jsonschedule= ${pdto.schedule};
+	window.onload = function() {
+		$(document).ready(
+				function() {
+					for(var h=0;h<${pdto.day};h++){
+						add_td();						
+					}
+					for(var s=0;s<jsonschedule.plan.length;s++){
+						var request = {
+								  placeId: jsonschedule.plan[s].placeId
+							};
+						service.getDetails(request, contentcallback);
+						
+					}
+					tablepaging(0);
+					$('#startday').click(function(e) {
+						e.preventDefault();
+						$('#calendardiv').show();
+						$.ajax({
+							url : 'calendar.do',
+							dataType : 'html',
+							type : 'GET',
+							data : null,
+							success : function(data) {
+								$('#calendardiv').html(data);
+							}
+						});
+					});
+
+					$(document).on(
+							"click",
+							".cale #day",
+							function(e) {
+								e.preventDefault();
+								var year = $('.cale #year').text();
+								var month = $('.cale #month').text();
+								var day = $(this).find('font').text();
+								date = new Date(year, month - 1, day);
+								$('#startday').val(
+										date.getFullYear() + '-'
+												+ (date.getMonth() + 1) + '-'
+												+ date.getDate());
+								$('#calendardiv').hide();
+
+								var thd = document.getElementById('thd');
+								var thd_th = thd.getElementsByTagName('th');
+								for(var j=0;j<thd_th.length-1;j++){
+									var string='schedule-'+j;
+									scheduleheader=document.getElementById(string)
+									scheduleheader.firstChild.nodeValue =date.getFullYear() + '-'+ (date.getMonth() + 1) + '-'+ (date.getDate()+j);
+								}
+								nextdate=date;
+								for(var q=0;q<dates.length;q++){
+									dates[q]=nextdate;
+									if(q==dates.length-1){
+										break;
+									}
+									nextdate.setDate(nextdate.getDate() + 1);
+								}
+							});
+					$('#regionsearch').keypress(function(e) {
+						e.preventDefault();
+						if (e.keyCode == 13) {
+							if ( $("#listdiv").length > 0 ) {
+								removeList();
+							}
+							var search;
+							var region;
+							var regionplace;
+							if ($('#regionsearch').val() != '') {
+								region = $('#regionsearch').val();
+								var request = {
+									query : region
+								};
+								service.textSearch(request,callback);
+								/* function regioncallback(results, status) {
+									if (status == google.maps.places.PlacesServiceStatus.OK) {
+										regionplace = results[0];
+										nearbySearch(regionplace,'store');
+									}
+								} */
+							}else{
+								alert('지역을 입력하세요');
+							}
+						}
+					});
+					$('#showplacesearch').keypress(function(e) {
+						e.preventDefault();
+						if (e.keyCode == 13) {
+							if ( $("#listdiv").length > 0 ) {
+								removeList();
+							}
+							var search=null;
+							var region=null;
+							var regionplace=null;
+							if ($('#regionsearch').val() != '') {
+								region = $('#regionsearch').val();
+								var request = {
+									query : region
+								};
+								service.textSearch(request,regioncallback);
+								function regioncallback(results, status) {
+									if (status == google.maps.places.PlacesServiceStatus.OK) {
+										regionplace = results[0];
+										if ($('#showplacesearch').val() == '') {
+											alert('장소을 입력하세요');
+											return;
+										}
+										search = $('#showplacesearch').val();
+										showplacesearch(search,regionplace);
+									}
+								}
+							}else{
+								if ($('#showplacesearch').val() == '') {
+									alert('장소을 입력하세요');
+									return;
+								}
+								search = $('#showplacesearch').val();
+								showplacesearch(search,regionplace);
+							}
+							/* map.addListener('idle', textSearch(search)); */
+						}
+					});
+					$('#add-schedule').click(function(e){
+						e.preventDefault();
+						add_td();
+					});
+					$('#delete-schedule').click(function(e){
+						e.preventDefault();
+						del_col();
+					});
+					$(function(){
+					    var $win = $(window);
+					    var top = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
+					 
+					    /*사용자 설정 값 시작*/
+					    var speed          = 1000;     // 따라다닐 속도 : "slow", "normal", or "fast" or numeric(단위:msec)
+					    var easing         = 'linear'; // 따라다니는 방법 기본 두가지 linear, swing
+					    var $layer         = $('#plandiv3'); // 레이어 셀렉팅
+					    var layerTopOffset = 0;   // 레이어 높이 상한선, 단위:px
+					    $layer.css('position', 'absolute');
+					    /*사용자 설정 값 끝*/
+					 
+					    // 스크롤 바를 내린 상태에서 리프레시 했을 경우를 위해
+					    if (top > 50 ){
+					        $win.scrollTop(layerTopOffset+top);
+					    }
+					    else{
+					        $win.scrollTop(0);
+					    }
+					    $layer.animate({"top":450 }, {duration:speed, easing:easing, queue:false});
+					    //스크롤이벤트가 발생하면
+					    $(window).scroll(function(){
+					        if ($win.scrollTop() < 450) {
+					            yPosition = 450;
+					        }else{
+						        yPosition = $win.scrollTop();
+					        }
+					        $layer.animate({"top":yPosition }, {duration:speed, easing:easing, queue:false});
+					    });
+					});
+					$('#mask').click(function (e) {  
+						e.preventDefault();
+					    $(this).hide();
+						$('#routesearch').hide();
+						$('#routesearch1').hide();
+						$('#savediv').hide();
+					});  
+					$('#moneybookbt').click(function(e){
+						e.preventDefault();
+						if($('#moneybook').css("display")=="none"){
+						    google.charts.load("current", {packages:["corechart"]});
+						    google.charts.setOnLoadCallback(drawChart);
+							var Height = $(window).height()/2-400;  
+							var Width = $(window).width()/2-300;  
+							$('#moneybook').css({'margin-left':Width,'margin-top':Height});  
+							$('#moneybook').show();
+						}else if($('#moneybook').css("display")=="block"){
+							$('#moneybook').hide();
+						}
+					});
+					$('#subject_update').click(function(e){
+						e.preventDefault();
+						if($('#plandiv1').find('#subject').length){
+							var subject=$('#plandiv1').find('#subject').html();
+							$('#plandiv1').find('p')[0].removeChild($('#plandiv1').find('#subject')[0]);
+							var textbox=document.createElement('input');
+							textbox.setAttribute('id','subjectbox');
+							textbox.setAttribute('type','text');
+							textbox.setAttribute('value',subject);
+							$('#plandiv1').find('p')[0].prepend(textbox);
+						}else{
+							var subjecttext=$('#plandiv1').find('#subjectbox').val();
+							$('#plandiv1').find('p')[0].removeChild($('#plandiv1').find('#subjectbox')[0]);
+							var subject=document.createElement('span');
+							subject.setAttribute('id','subject');
+							var text = document.createTextNode(subjecttext);
+							subject.appendChild(text);
+							$('#plandiv1').find('p')[0].prepend(subject);
+						}
+					});
+					$('#lodge').click(function(e){
+						e.preventDefault();
+						if ( $("#listdiv").length > 0 ) {
+							removeList();
+						}
+						if ($('#regionsearch').val() != '') {
+							region = $('#regionsearch').val();
+							var request = {
+								query : region
+							};
+							service.textSearch(request,regioncallback);
+							function regioncallback(results, status) {
+								if (status == google.maps.places.PlacesServiceStatus.OK) {
+									regionplace = results[0];
+									nearbySearch(regionplace,'lodging');
+								}
+							}
+						}else{
+							alert('지역을 입력하세요.');
+						}
+					});
+					$('#showplace').click(function(e){
+						e.preventDefault();
+						if ( $("#listdiv").length > 0 ) {
+							removeList();
+						}
+						if ($('#regionsearch').val() != '') {
+							region = $('#regionsearch').val();
+							var request = {
+								query : region
+							};
+							service.textSearch(request,regioncallback);
+							function regioncallback(results, status) {
+								if (status == google.maps.places.PlacesServiceStatus.OK) {
+									regionplace = results[0];
+									request = {
+											location : regionplace.geometry.location,
+											radius : '50000',
+											query : '관광지'
+									};
+									service.textSearch(request,callback);
+								}
+							}
+						}else{
+							alert('지역을 입력하세요.');
+						}
+					});
+					$('#restaurant').click(function(e){
+						e.preventDefault();
+						if ( $("#listdiv").length > 0 ) {
+							removeList();
+						}
+						if ($('#regionsearch').val() != '') {
+							region = $('#regionsearch').val();
+							var request = {
+								query : region
+							};
+							service.textSearch(request,regioncallback);
+							function regioncallback(results, status) {
+								if (status == google.maps.places.PlacesServiceStatus.OK) {
+									regionplace = results[0];
+									nearbySearch(regionplace,'restaurant');
+								}
+							}
+						}else{
+							alert('지역을 입력하세요.');
+						}
+					});
+					$('#cancelbt').click(function(e){
+						e.preventDefault();
+						window.location.href='/index.do';
+					})
+					$('#savebt').click(function(e){
+						e.preventDefault();
+						var thema=$('#thema').val();
+						var subject=$('#subject').html();
+						var startdaytext=${year}+'-'+${month}+'-'+${day};
+						console.log('startdaytext='+startdaytext);
+						var day=dates.length-1; 
+						var coverimg;
+						var plan_story_subject=$('#plan_story_subject').val();
+						var plan_story_content=$('#plan_story_content').val();
+						var schedule='{"plan":[';
+						var schedulearr=new Array;
+						var tbd = document.getElementById('tbd');
+				    	var tbd_tr = tbd.getElementsByTagName('tr');
+				    	var thd_tr = thd.getElementsByTagName('tr')[0];
+				    	var thd_th = thd_tr.getElementsByTagName('th');
+				    	for(var j=0;j< thd_th.length;j++){
+					    	for(var i=0;i< tbd_tr.length; i++){
+								var string='schedule-'+j+'-'+i;
+								path=document.getElementById(string);
+								if($(path).has('#listdiv').length){
+									console.log('listdiv='+string);
+									var datadiv=$(path).children('#listdiv').children('#datadiv');
+									var placeid=$(datadiv).children('#place_Id').val();
+									console.log(i+','+placeid);
+									var moneydiv=$(path).children('#listdiv').children('#moneydiv');
+									var traffic=$(moneydiv).children('#moneytraffic').val();
+									var lodge=$(moneydiv).children('#moneylodge').val();
+									var admission=$(moneydiv).children('#moneyadmission').val();
+									var food=$(moneydiv).children('#moneyfood').val();
+									var shopping=$(moneydiv).children('#moneyshopping').val();
+									var besides=$(moneydiv).children('#moneybesides').val();
+									if(traffic==''){
+										traffic=0;
+									}
+									if(lodge==''){
+										lodge=0;
+									}
+									if(admission==''){
+										admission=0;
+									}
+									if(food==''){
+										food=0;
+									}
+									if(shopping==''){
+										shopping=0;
+									}
+									if(besides==''){
+										besides=0;
+									}
+									schedulearr.push('{"tablepath":"'+string+'","placeId":"'+placeid+'","traffic":'+traffic+',"lodge":'+lodge+',"admission":'+admission+',"food":'+food+',"shopping":'+shopping+',"besides":'+besides+'}');
+								}
+							}
+				    	}
+				    	for(var i=0;i<schedulearr.length;i++){
+				    		schedule+=schedulearr[i];
+				    		if(i==schedulearr.length-1){
+				    			break;
+				    		}
+				    		schedule+=',';
+				    	}
+				    	schedule+=']}';
+						var coverimg_update=document.getElementById('coverimg_update');
+						var formData = new FormData();
+						formData.append("subject",subject);
+						formData.append("thema",thema);
+						formData.append("startdaytext",startdaytext);
+						formData.append("day",day);
+						formData.append("plan_story_subject",plan_story_subject);
+						formData.append("plan_story_content",plan_story_content);
+						formData.append("schedule",schedule);
+						formData.append("imgfile",coverimg_update.files[0]);
+					    $.ajax({
+					        type : 'post',
+					        url : 'planwrite.do',
+					        data : formData,
+					        processData : false,
+					        contentType : false,
+					        success : function(html) {
+					        	$('#savediv').html(html);
+								wrapWindowByMask();
+								var Height = $(window).scrollTop()+200;  
+								var Width = $(window).width()/2-250;  
+								$('#savediv').css({'margin-left':Width,'margin-top':Height}); 
+								$('#savediv').show();
+					        },
+					    	error : function(error) {
+					        	alert("save error");
+					        	console.log(error);
+					    		console.log(error.status);
+					    	}
+					    });
+					});
+				});
+	}
+</script>
+</head>
+<body>
+	<div id="calendardiv"></div>
+	<div id="temporarydiv" style="display: none;"></div>
+	<div id="plandiv1"
+		style="background-image: url('/finaltp/img/plancover/nomal.png');">
+		<p>
+			<span id="subject">${subject }</span> <input id="subject_update"
+				type="button" value="수정">
+		</p>
+		<p>
+			<form id="ajaxform" action="planwrite.do" method="post" enctype="multipart/form-data"> 
+				<input id="coverimg_update" name="file" type="file" onchange="imageURL(this)" value="수정">
+				<input type="submit" value="Submit" style="display: none;">
+			</form>
+		</p>
+	</div>
+	<div id="plandiv2">
+		<p>
+			<input id="savebt" type="button" value="저장"> 
+			<input id="cancelbt" type="button" value="취소">
+		</p>
+		<p>
+			<a id="moneybookbt">가계부</a>
+		</p>
+		<div>
+			<p>여행시작일</p>
+			<p>
+				<input id="startday" type="text" readonly="readonly"
+					value="${year}-${month}-${day}">
+			</p>
+			<p>테마</p>
+			<p>
+				<select id="thema">
+					<option ${thema eq '맛집투어'?'selected':'' }>맛집투어</option>
+					<option ${thema eq '명소관광'?'selected':'' }>명소관광</option>
+					<option ${thema eq '액티비티'?'selected':'' }>액티비티</option>
+					<option ${thema eq '미술관/박물관 투어'?'selected':'' }>미술관/박물관 투어</option>
+					<option ${thema eq '가족여행'?'selected':'' }>가족여행</option>
+				</select>
+			</p>
+		</div>
+
+	</div>
+	<div id="plandiv4">
+		<p>
+			<input id="plan_story_subject" type="text">
+		</p>
+		<p>
+			<textarea id="plan_story_content" rows="" cols=""></textarea>
+		</p>
+		<div id="googleMap"></div>
+		<div id="schedule">
+			<div id="scheduleday">
+				<table>
+					<thead id="thd">
+						<tr>
+							<th>
+								<p>
+									<a id="ALL" onclick="javascript:scheduleclick(this);">ALL</a>
+								</p>
+								<p>
+									<input type="button" id="add-schedule" value="+"><input
+										type="button" id="delete-schedule" value="-">
+								</p>
+							</th>
+						</tr>
+					</thead>
+					<tbody id="tbd">
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">06:00AM</span></td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">07:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">08:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">09:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">10:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">11:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">12:00PM</span></td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">01:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">02:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">03:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">04:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">05:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">06:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">07:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">08:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">09:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">10:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">11:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">12:00AM</span></td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div id="plandiv3">
+		<div>
+			<p>
+				<input id="regionsearch" type="text" placeholder="지역검색">
+			</p>
+			<p>
+				<input id="showplacesearch" type="text" placeholder="명소검색">
+			</p>
+			<p>
+				<input id="showplace" type="button" value="명소"> <input
+					id="restaurant" type="button" value="식당"> <input id="lodge"
+					type="button" value="숙박">
+			</p>
+		</div>
+		<input type="button" id="listaddbt" value="더보기">
+		<div id="placediv"></div>
+	</div>
+	<div id="routesearch1">
+		<input value="선택" type="button" style="margin-top:10px;margin-left: 88%; height: 43px" onclick="showroutesearch()">
+	</div>
+	<div id="routesearch">
+		<div id="right-panel"></div>
+		<div id="routemap"></div>
+	</div>
+	<div id="moneybook"></div>
+	<div id="savediv"></div>
+	<div id="mask"></div>
+<script id="schedulescript" src="/finaltp/js/scheduleroute.js"></script>
+<script id="pagingscript" src="/finaltp/js/tablePaging.js"></script>
+</body>
+</html>

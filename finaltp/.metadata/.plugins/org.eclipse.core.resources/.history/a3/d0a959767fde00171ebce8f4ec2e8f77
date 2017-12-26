@@ -1,0 +1,87 @@
+
+function add_td() {
+	var tbd = document.getElementById('tbd');
+	var thd = document.getElementById('thd');
+	var td = null;
+	var th = null;
+	var tbd_tr = tbd.getElementsByTagName('tr');
+	var thd_tr = thd.getElementsByTagName('tr')[0];
+	var thd_th = thd_tr.getElementsByTagName('th');
+	th = document.createElement('th');
+	th.setAttribute('id','schedule-'+(thd_th.length-1));
+	thd_tr.appendChild(th);
+	
+	var adate = document.createElement('a');
+	var datetext = document.createTextNode(dates[datecount].getFullYear()+'-'+(dates[datecount].getMonth()+1)+'-'+dates[datecount].getDate());
+	adate.appendChild(datetext);
+	th.appendChild(adate);
+	
+	datecount=datecount+1;
+	nextdate.setDate(nextdate.getDate() + 1);
+	dates.push(nextdate);
+	for (i = 0; i < tbd_tr.length; i++) {
+		var tbd_td = tbd_tr[i].getElementsByTagName('td');
+		td = document.createElement('td');
+		td.setAttribute('id','schedule-'+(tbd_td.length-1)+'-'+i);
+		td.setAttribute('class','schedule');
+		tbd_tr[i].appendChild(td);
+	}
+	var thdrh=$('#thd').find('tr')[0].cells;
+	console.log(thdrh.length-1);
+	if((thdrh.length-1)%5==1){
+		if(thdrh.length-2!=0){
+			$('<span id="nav"></span>')
+				.attr('rel', parseInt((thdrh.length-1)/5))
+				.html('>>')
+				.appendTo(thdrh[thdrh.length-2]);
+		}
+	}
+	if(parseInt((thdrh.length-1)/5)-1!=-1&&(thdrh.length-1)%5==1){
+		$('<span id="nav"></span>')
+			.attr('rel', parseInt((thdrh.length-1)/5)-1)
+			.html('<<')
+			.prependTo(thdrh[thdrh.length-1]);
+		rel=rel+1;
+	}
+	var body=document.getElementsByTagName("body")[0];
+	var pagingscript=document.getElementById("pagingscript");
+	body.removeChild(pagingscript);
+	var script=document.createElement('script');
+	script.setAttribute('id','pagingscript');
+    script.setAttribute('src','/finaltp/js/tablePaging.js');
+    body.appendChild(script);
+    tablepaging(rel);
+}
+function del_col() {
+	var thdrh=$('#thd').find('tr')[0].cells;
+	if(datecount>1){
+		nextdate.setDate(nextdate.getDate() - 1);
+		dates.splice(datecount,1);
+		datecount=datecount-1;
+	}
+	
+	var tbd = document.getElementById('tbd');
+	var td = null;
+	var tbd_tr = tbd.getElementsByTagName('tr');
+	var thd_tr = thd.getElementsByTagName('tr')[0];
+	var thd_th = thd_tr.getElementsByTagName('th');
+
+	console.log(thdrh.length-1+'a,'+thdrh.length-2+"b,"+(thdrh.length-1)%5);
+	if((thdrh.length-1)%5==0){
+		if(thdrh.length-2!=0){
+			var nav=thdrh[thdrh.length-2].find('#nav');
+			thdrh[thdrh.length-2].removeChild(nav);
+			rel=rel-1;
+		}
+	}
+	if(thd_th.length>2){
+		thd_tr.deleteCell(thd_th.length - 1);
+	}
+	for (i = 0; i < tbd_tr.length; i++) {
+		var tr_td = tbd_tr[i].getElementsByTagName('td');
+		if(tr_td.length>2){
+			tbd_tr[i].deleteCell(tr_td.length - 1);
+		}
+	}alert(rel);
+    tablepaging(rel);
+}

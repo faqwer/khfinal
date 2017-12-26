@@ -1,0 +1,65 @@
+function drawChart() {
+	var Traffic=0;
+	var Lodge=0;
+	var Admixxsion=0;
+	var Food=0;
+	var Shopping=0;
+	var Besides=0;
+	var tbd = document.getElementById('tbd');
+	var thd = document.getElementById('thd');
+	var thd_th = thd.getElementsByTagName('th');
+	var tbd_tr = tbd.getElementsByTagName('tr');
+	for(var j=0;j<thd_th.length-1;j++){
+		for(var i=0;i< tbd_tr.length; i++){
+			var string='schedule-'+j+'-'+i;
+			schedule=document.getElementById(string);
+			if($(schedule).has('#listdiv').length){
+				var listdiv=$(schedule).find('#listdiv');
+				var lat=$(listdiv).find('#datadiv').find('#place_lat').val();
+				var lng=$(listdiv).find('#datadiv').find('#place_lng').val();
+				place_location=new google.maps.LatLng(lat,lng);
+				if(myTripcol!=1){
+					myTrip[0]=place_location;
+					myTripcol=myTripcol+1;
+				}else{
+					myTrip[1]=place_location;;
+					myTrips[myTriprow]=[myTrip[0],myTrip[1]];
+					myTriprow=myTriprow+1;
+					for(q in myTrip){
+						myTrip[q]=null;
+					}
+					myTrip.length=0;
+					myTrip[0]=place_location;
+				}
+				addschedulemarker(place_location,color[colorck]);
+			}
+		}colorck++;
+	}colorck=0;
+    var data = google.visualization.arrayToDataTable([
+        ["Element", "Money", { role: "style" } ],
+        ["Traffic", 8.94, "#b87333"],
+        ["Lodge", 10.49, "silver"],
+        ["Admixxsion", 19.30, "gold"],
+        ["Food", 21.45, "color: #e5e4e2"],
+        ["Shopping", 21.45, "color: #e5e4e2"],
+        ["Besides", 10000, "color: #b87333"]
+    ]);
+
+    var view = new google.visualization.DataView(data);
+    view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       2]);
+    var options = {
+      width: 600,
+      height: 400,
+      bar: {groupWidth: "50%"},
+      legend: {
+      	position: "none"
+      },
+    };
+    var chart = new google.visualization.BarChart(document.getElementById("moneybook"));
+    chart.draw(view, options);
+}
