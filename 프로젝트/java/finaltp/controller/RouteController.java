@@ -2,15 +2,28 @@ package finaltp.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+<<<<<<< HEAD
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+
+import finaltp.acc.model.AccDTO;
+import finaltp.mainBbs.model.MainBbsDAO;
+import finaltp.mainBbs.model.MainBbsDTO;
+import finaltp.member.model.MemberDTO;
+import finaltp.recommend.model.RecommendDAO;
+import finaltp.recommend.model.RecommendDTO;
+=======
 
 import finaltp.mainBbs.model.MainBbsDAO;
 import finaltp.mainBbs.model.MainBbsDTO;
+>>>>>>> 88e5cf3a11eb5b8e2cb655ce7060b2d48d908acf
 import finaltp.reply.model.ReplyDAO;
 import finaltp.reply.model.ReplyDTO;
 import finaltp.route.model.RouteDAO;
@@ -21,23 +34,43 @@ public class RouteController {
 
 	@Autowired
 	private RouteDAO routeDao;
+
+	@Autowired
+	private MainBbsDAO mainBbsDao;
+
+	@Autowired
+	private ReplyDAO replyDao;
 	
 	@Autowired
+<<<<<<< HEAD
+	private RecommendDAO recommendDao;
+
+	// 루트 게시글 목록
+=======
 	private MainBbsDAO mainBbsDao;
 	
 	@Autowired
 	private ReplyDAO replyDao;
 	
 	// ��Ʈ �Խñ� ���
+>>>>>>> 88e5cf3a11eb5b8e2cb655ce7060b2d48d908acf
 	@RequestMapping(value = "routeList.do", method = RequestMethod.GET)
-	public ModelAndView routeList(@RequestParam(value = "cp", defaultValue = "1") int cp) {
+	public ModelAndView routeList(HttpSession session,@RequestParam(value = "cp", defaultValue = "1") int cp) {
 		int totalCnt = mainBbsDao.getTotalCnt("route");
 		int listSize = 5;
 		int pageSize = 5;
 
+		MemberDTO loginUser=null;
+		RecommendDTO dto=null;
+		
+		String userid=(String) session.getAttribute("userid");
 		ModelAndView mav = new ModelAndView();
 		List<MainBbsDTO> mainList = mainBbsDao.mainBbsList(cp, listSize, "route");
+<<<<<<< HEAD
+		List<RouteDTO> routeList = routeDao.routeList(cp, listSize, mainList);
+=======
 		List<RouteDTO> routeList = routeDao.routeList(mainList);
+>>>>>>> 88e5cf3a11eb5b8e2cb655ce7060b2d48d908acf
 		List<ReplyDTO> replyList = null;
 
 		for (int i = 0; i < mainList.size(); i++) {
@@ -45,6 +78,14 @@ public class RouteController {
 			mainList.get(i).setRoutedto(routeList.get(i));
 			mainList.get(i).setUserid(mainBbsDao.getUserId(mainList.get(i).getWriter_idx()));
 
+			if((String) session.getAttribute("userid") != null) {
+				loginUser = mainBbsDao.getLoginUserInfo(userid); // 로그인 중인 사용자 정보
+				
+				// 로그인 중인 사용자 해당 게시물 추천여부 확인
+				dto = new RecommendDTO(mainList.get(i).getBbs_idx(), mainList.get(i).getWriter_idx(), mainBbsDao.getMemberIdx(userid));
+				mainList.get(i).setRecommend(recommendDao.recommendCheck(dto));
+			}
+			
 			replyList = replyDao.commentList(mainList.get(i).getBbs_idx());
 
 			if (replyList.size() != 0) {
@@ -54,7 +95,7 @@ public class RouteController {
 			}
 		}
 		mav.addObject("mainList", mainList);
-		// System.out.println("subject : " + mainList.get(0).getSubject());
+		mav.addObject("loginUser", loginUser);
 		mav.addObject("routeList", routeList);
 		String pageStr = finaltp.paging.PageModule.makePage("routeList.do", totalCnt, listSize, pageSize, cp);
 		mav.addObject("pageStr", pageStr);
@@ -63,17 +104,25 @@ public class RouteController {
 		return mav;
 	}
 
+<<<<<<< HEAD
+	// 루트 본문 보기
+=======
 	// ��Ʈ ���� ����
+>>>>>>> 88e5cf3a11eb5b8e2cb655ce7060b2d48d908acf
 	@RequestMapping(value = "routeContent.do", method = RequestMethod.GET)
-	public ModelAndView routeContent(@RequestParam(value = "cp", defaultValue = "1") int cp,
-			@RequestParam(value = "idx") int idx) {
+	public ModelAndView routeContent(@RequestParam(value = "cp", defaultValue = "1") int cp, @RequestParam("bbs_idx") int bbs_idx) {
 		int totalCnt = mainBbsDao.getTotalCnt("route");
 		int listSize = 5;
 		int pageSize = 5;
 
 		ModelAndView mav = new ModelAndView();
+<<<<<<< HEAD
+		MainBbsDTO mainList = mainBbsDao.bbsContent(bbs_idx);
+		RouteDTO routeContent = routeDao.routeContent(bbs_idx);
+=======
 		MainBbsDTO mainList = mainBbsDao.bbsContent(idx);
 		RouteDTO routeContent = routeDao.routeContent(idx);
+>>>>>>> 88e5cf3a11eb5b8e2cb655ce7060b2d48d908acf
 		List<ReplyDTO> replyList = null;
 
 		mainList.setContent(mainList.getContent().replaceAll("\n", "<br>"));
@@ -97,5 +146,5 @@ public class RouteController {
 		return mav;
 	}
 
-	
+
 }

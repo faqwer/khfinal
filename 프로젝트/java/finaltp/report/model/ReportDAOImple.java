@@ -1,14 +1,10 @@
-package finaltp.report.model;
+﻿package finaltp.report.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
-
-import finaltp.mainBbs.model.MainBbsDTO;
-import finaltp.review.model.ReviewDTO;
 
 public class ReportDAOImple implements ReportDAO{
 
@@ -30,8 +26,7 @@ public class ReportDAOImple implements ReportDAO{
 		int result = sqlMap.insert("reportAdd", dto);
 		return result;
 	}
-	
-	// 신고목록 가져오는 메서드
+		// 신고목록 가져오는 메서드
 	public List<ReportDTO> reportList(int cp, int ls) {
 		int startnum = (cp - 1) * ls + 1;
 		int endnum = cp * ls;

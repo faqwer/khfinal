@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="finaltp.main">
+	<select id="reviewRanking" resultType="finaltp.main.model.MainDTO">
+		select
+		a.bbs_idx,
+		a.subject,
+		a.recommendnum,
+		b.coverimg,
+		b.readnum,
+		c.name
+		from
+		total_bbs a,
+		review b,
+		plan_member c
+		where
+		a.bbs_idx = b.bbs_idx
+		and
+		a.writer_idx=c.member_idx
+		and
+		a.status='normal'
+		order by a.recommendnum desc
+	</select>
+	<select id="plannerRanking" resultType="finaltp.main.model.MainDTO">
+		select 
+		a.planner_idx, 
+		a.subject, 
+		a.coverimg, 
+		a.readnum, 
+		a.recommendnum, 
+		b.name 
+		from 
+		planner a, 
+		plan_member b 
+		where status='normal' 
+		and 
+		a.writer_idx=b.member_idx 
+		order by a.recommendnum desc
+	</select>
+</mapper>

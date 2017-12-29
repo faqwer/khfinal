@@ -7,7 +7,7 @@
 		SELECT COUNT(*) FROM reply WHERE bbs_idx = #{bbs_idx}
 	</select>
 	
-	<select id="getCommentMaxRef" parameterType="Integer" resultType="Integer">
+	<select id="getMaxRef" parameterType="Integer" resultType="Integer">
 		SELECT max(ref) FROM reply WHERE bbs_idx = #{bbs_idx}
 	</select>
 	

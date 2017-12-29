@@ -1,6 +1,8 @@
 package finaltp.plan.model;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -16,6 +18,8 @@ public class PlanDAOImple implements PlanDAO {
 		super();
 		this.sqlMap = sqlMap;
 	}
+<<<<<<< HEAD
+=======
 	public List<PlanDTO> planList(int cp, int ls, String status) {
 		int startnum = (cp - 1) * ls + 1;
 		int endnum = cp * ls;
@@ -89,4 +93,5 @@ public class PlanDAOImple implements PlanDAO {
 		return result;
 	}
 	
+>>>>>>> 02b1868adc5fbcb3219d735b2ad072a50a787d45
 }

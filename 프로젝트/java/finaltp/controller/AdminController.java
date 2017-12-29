@@ -16,19 +16,14 @@ import finaltp.acc.model.AccDTO;
 import finaltp.admin.model.AdminDAO;
 import finaltp.ask.model.AskDAO;
 import finaltp.ask.model.AskDTO;
-import finaltp.faq.model.FaqDTO;
 import finaltp.mainBbs.model.MainBbsDAO;
 import finaltp.mainBbs.model.MainBbsDTO;
 import finaltp.member.model.MemberDAO;
 import finaltp.member.model.MemberDTO;
-import finaltp.plan.model.PlanDAO;
-import finaltp.plan.model.PlanDTO;
 import finaltp.report.model.ReportDAO;
 import finaltp.report.model.ReportDTO;
 import finaltp.review.model.ReviewDAO;
 import finaltp.review.model.ReviewDTO;
-import finaltp.route.model.RouteDAO;
-import finaltp.route.model.RouteDTO;
 
 @Controller
 public class AdminController {
@@ -51,6 +46,8 @@ public class AdminController {
 	@Autowired
 	private ReportDAO reportDao;
 
+<<<<<<< HEAD
+=======
 	@Autowired
 	private RouteDAO routeDao;
 
@@ -60,6 +57,7 @@ public class AdminController {
 	@Autowired
 	private MemberDAO memberDao;
 	
+>>>>>>> 88e5cf3a11eb5b8e2cb655ce7060b2d48d908acf
 	// 회원관리 페이지로 이동
 	@RequestMapping(value = "/adminMember.do")
 	public ModelAndView member(@RequestParam(value = "type", defaultValue = "all") String type) {
@@ -217,6 +215,8 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView();
 		List<MainBbsDTO> mainList = adminDao.getMainBbsList(cp, listSize, sel, status);
 		if (sel.equals("planner")) {
+<<<<<<< HEAD
+=======
 			totalCnt = adminDao.getAdminPlannerTotalCnt(status);
 			List<PlanDTO> planList = planDao.planList(cp, listSize, status);
 			if (planList.size() != 0) {
@@ -224,12 +224,12 @@ public class AdminController {
 			}
 			String pageStr = finaltp.paging.AjaxPageModule.makePage("adminBbs.do?sel=" + sel + "&status=" + status,
 					totalCnt, listSize, pageSize, cp);
+>>>>>>> 88e5cf3a11eb5b8e2cb655ce7060b2d48d908acf
 			if (status.equals("normal")) {
-				mav.setViewName("admin/adminPlannerNormal");
+
 			} else {
-				mav.setViewName("admin/adminPlannerDefer");
+
 			}
-			mav.addObject("pageStr", pageStr);
 		} else if (sel.equals("acc")) {
 			List<AccDTO> accList = accDao.accList(cp, listSize, mainList); // acc테이블에서 acc 게시물 가져옴
 			for (int i = 0; i < mainList.size(); i++) {
@@ -268,21 +268,10 @@ public class AdminController {
 				mav.setViewName("admin/adminBbsStatusDefer");
 			}
 		} else if (sel.equals("route")) { // 경로 추천
-			List<RouteDTO> routeList = routeDao.routeList(mainList);
-			for (int i = 0; i < mainList.size(); i++) {
-				mainList.get(i).setRoutedto(routeList.get(i));
-				mainList.get(i).setUserid(mainBbsDao.getUserId(mainList.get(i).getWriter_idx()));
-			}
-			String pageStr = finaltp.paging.AjaxPageModule.makePage("adminBbs.do?sel=" + sel + "&status=" + status,
-					totalCnt, listSize, pageSize, cp);
-			if (mainList.size() != 0) {
-				mav.addObject("mainList", mainList);
-			}
-			mav.addObject("pageStr", pageStr);
 			if (status.equals("normal")) {
-				mav.setViewName("admin/adminRouteNormal");
+
 			} else {
-				mav.setViewName("admin/adminRouteDefer");
+
 			}
 		} else if (sel.equals("ask")) {
 			totalCnt = adminDao.getAdminAskTotalCnt(sel, status);
@@ -323,51 +312,6 @@ public class AdminController {
 			} else {
 				mav.setViewName("admin/adminReportDefer");
 			}
-		} else if (sel.equals("notice")) {
-			for (int i = 0; i < mainList.size(); i++) {
-				mainList.get(i).setUserid(mainBbsDao.getUserId(mainList.get(i).getWriter_idx()));
-			}
-			String pageStr = finaltp.paging.AjaxPageModule.makePage("adminBbs.do?sel=" + sel + "&status=" + status,
-					totalCnt, listSize, pageSize, cp);
-			if (mainList.size() != 0) {
-				mav.addObject("mainList", mainList);
-			}
-			mav.addObject("pageStr", pageStr);
-
-			if (status.equals("normal")) {
-				mav.setViewName("admin/adminNoticeNormal");
-			} else {
-				mav.setViewName("admin/adminNoticeDefer");
-			}
-		} else if (sel.equals("faq")) {
-			List<FaqDTO> faqList = adminDao.faqList(cp, listSize);
-
-			String pageStr = finaltp.paging.AjaxPageModule.makePage("adminBbs.do?sel=" + sel + "&status=" + status,
-					totalCnt, listSize, pageSize, cp);
-			if (faqList.size() != 0) {
-				mav.addObject("faqList", faqList);
-			}
-			mav.addObject("pageStr", pageStr);
-			mav.setViewName("admin/adminFaqNormal");
-		} else if (sel.equals("route")) {
-			List<RouteDTO> routeList = routeDao.routeList(mainList);
-			System.out.println("mainList : " + mainList);
-			System.out.println("routeList : " + routeList);
-			for (int i = 0; i < mainList.size(); i++) {
-				mainList.get(i).setRoutedto(routeList.get(i));
-				mainList.get(i).setUserid(mainBbsDao.getUserId(mainList.get(i).getWriter_idx()));
-			}
-			String pageStr = finaltp.paging.AjaxPageModule.makePage("adminBbs.do?sel=" + sel + "&status=" + status,
-					totalCnt, listSize, pageSize, cp);
-			if (mainList.size() != 0) {
-				mav.addObject("mainList", mainList);
-			}
-			mav.addObject("pageStr", pageStr);
-			if (status.equals("normal")) {
-				mav.setViewName("admin/adminRouteNormal");
-			} else {
-				mav.setViewName("admin/adminRouteDefer");
-			}
 		}
 		return mav;
 	}
@@ -387,17 +331,14 @@ public class AdminController {
 		for (int i = 0; i < arr.length; i++) {
 			bbs_idx[i] = Integer.parseInt(arr[i]);
 		}
-		
-		int result = adminDao.normalDeferMove(bbs_idx, sel);
-	
-		
+		int result = adminDao.normalDeferMove(bbs_idx);
 		List<MainBbsDTO> mainList = adminDao.getMainBbsList(cp, listSize, sel, status);
 		if (sel.equals("planner")) {
-			List<PlanDTO> planList = planDao.planList(cp, listSize, status);
-			if (planList.size() != 0) {
-				mav.addObject("planList", planList);
+			if (status.equals("normal")) {
+
+			} else {
+
 			}
-			mav.setViewName("admin/adminPlannerNormal");
 		} else if (sel.equals("acc")) {
 			List<AccDTO> accList = accDao.accList(cp, listSize, mainList); // acc테이블에서 acc 게시물 가져옴
 			for (int i = 0; i < mainList.size(); i++) {
@@ -435,19 +376,11 @@ public class AdminController {
 				mav.setViewName("admin/adminBbsStatusDefer");
 			}
 		} else if (sel.equals("route")) {
-			System.out.println("route");
-			List<RouteDTO> routeList = routeDao.routeList(mainList);
-			for (int i = 0; i < mainList.size(); i++) {
-				mainList.get(i).setRoutedto(routeList.get(i));
-				mainList.get(i).setUserid(mainBbsDao.getUserId(mainList.get(i).getWriter_idx()));
+			if (status.equals("normal")) {
+
+			} else {
+
 			}
-			String pageStr = finaltp.paging.AjaxPageModule.makePage("adminBbs.do?sel=" + sel + "&status=" + status,
-					totalCnt, listSize, pageSize, cp);
-			if (mainList.size() != 0) {
-				mav.addObject("mainList", mainList);
-			}
-			mav.addObject("pageStr", pageStr);
-			mav.setViewName("admin/adminRouteNormal");
 		} else if (sel.equals("ask")) {
 			totalCnt = adminDao.getAdminBbsTotalCnt(sel, status);
 			List<MainBbsDTO> askList = askDao.adminAskList(cp, listSize, sel);
@@ -466,19 +399,6 @@ public class AdminController {
 			} else {
 				mav.setViewName("admin/adminAskDefer");
 			}
-		} else if (sel.equals("notice")) {
-			for (int i = 0; i < mainList.size(); i++) {
-				mainList.get(i).setUserid(mainBbsDao.getUserId(mainList.get(i).getWriter_idx()));
-				mainList.get(i).setContent(mainList.get(i).getContent().replaceAll("\n", "<br>"));
-			}
-			String pageStr = finaltp.paging.AjaxPageModule.makePage("adminBbs.do?sel=" + sel + "&status=" + status,
-					totalCnt, listSize, pageSize, cp);
-			if (mainList.size() != 0) {
-				mav.addObject("mainList", mainList);
-			}
-			mav.addObject("pageStr", pageStr);
-
-			mav.setViewName("admin/adminNoticeNormal");
 		}
 		return mav;
 	}
@@ -498,15 +418,14 @@ public class AdminController {
 		for (int i = 0; i < arr.length; i++) {
 			bbs_idx[i] = Integer.parseInt(arr[i]);
 		}
-		int result = adminDao.deferNormalMove(bbs_idx, sel);
+		int result = adminDao.deferNormalMove(bbs_idx);
 		List<MainBbsDTO> mainList = adminDao.getMainBbsList(cp, listSize, sel, status);
 		if (sel.equals("planner")) {
-			List<PlanDTO> planList = planDao.planList(cp, listSize, status);
-			if (planList.size() != 0) {
-				mav.addObject("planList", planList);
-			}
+			if (status.equals("normal")) {
 
-			mav.setViewName("admin/adminPlannerDefer");
+			} else {
+
+			}
 		} else if (sel.equals("acc")) {
 			List<AccDTO> accList = accDao.accList(cp, listSize, mainList); // acc테이블에서 acc 게시물 가져옴
 			for (int i = 0; i < mainList.size(); i++) {
@@ -545,19 +464,11 @@ public class AdminController {
 				mav.setViewName("admin/adminBbsStatusDefer");
 			}
 		} else if (sel.equals("route")) {
-			List<RouteDTO> routeList = routeDao.routeList(mainList);
-			for (int i = 0; i < mainList.size(); i++) {
-				mainList.get(i).setRoutedto(routeList.get(i));
-				mainList.get(i).setUserid(mainBbsDao.getUserId(mainList.get(i).getWriter_idx()));
-			}
-			String pageStr = finaltp.paging.AjaxPageModule.makePage("adminBbs.do?sel=" + sel + "&status=" + status,
-					totalCnt, listSize, pageSize, cp);
-			if (mainList.size() != 0) {
-				mav.addObject("mainList", mainList);
-			}
-			mav.addObject("pageStr", pageStr);
+			if (status.equals("normal")) {
 
-			mav.setViewName("admin/adminRouteDefer");
+			} else {
+
+			}
 		} else if (sel.equals("ask")) {
 			totalCnt = adminDao.getAdminBbsTotalCnt(sel, status);
 			List<MainBbsDTO> askList = askDao.adminAskList(cp, listSize, sel);
@@ -577,19 +488,6 @@ public class AdminController {
 			} else {
 				mav.setViewName("admin/adminAskDefer");
 			}
-		} else if (sel.equals("notice")) {
-			for (int i = 0; i < mainList.size(); i++) {
-				mainList.get(i).setUserid(mainBbsDao.getUserId(mainList.get(i).getWriter_idx()));
-				mainList.get(i).setContent(mainList.get(i).getContent().replaceAll("\n", "<br>"));
-			}
-			String pageStr = finaltp.paging.AjaxPageModule.makePage("adminBbs.do?sel=" + sel + "&status=" + status,
-					totalCnt, listSize, pageSize, cp);
-			if (mainList.size() != 0) {
-				mav.addObject("mainList", mainList);
-			}
-			mav.addObject("pageStr", pageStr);
-
-			mav.setViewName("admin/adminNoticeDefer");
 		}
 		return mav;
 	}
@@ -604,30 +502,15 @@ public class AdminController {
 		int pageSize = 5;
 
 		ModelAndView mav = new ModelAndView();
-		if (!sel.equals("faq")) {
-			String arr[] = statusChange.split(",");
-			int bbs_idx[] = new int[arr.length];
-			for (int i = 0; i < arr.length; i++) {
-				bbs_idx[i] = Integer.parseInt(arr[i]);
-			}
-			int result = adminDao.bbsDelete(bbs_idx, sel);
-		} else {
-			String arr[] = statusChange.split(",");
-			int faq_idx[] = new int[arr.length];
-			for (int i = 0; i < arr.length; i++) {
-				faq_idx[i] = Integer.parseInt(arr[i]);
-			}
-			int result = adminDao.faqDelete(faq_idx);
+		String arr[] = statusChange.split(",");
+		int bbs_idx[] = new int[arr.length];
+		for (int i = 0; i < arr.length; i++) {
+			bbs_idx[i] = Integer.parseInt(arr[i]);
 		}
-
+		int result = adminDao.bbsDelete(bbs_idx);
 		List<MainBbsDTO> mainList = adminDao.getMainBbsList(cp, listSize, sel, status);
 		if (sel.equals("planner")) {
-			List<PlanDTO> planList = planDao.planList(cp, listSize, status);
-			if (planList.size() != 0) {
-				mav.addObject("mainList", planList);
-			}
 
-			mav.setViewName("admin/adminBbsStatusDefer");
 		} else if (sel.equals("acc")) {
 			List<AccDTO> accList = accDao.accList(cp, listSize, mainList); // acc테이블에서 acc 게시물 가져옴
 			for (int i = 0; i < mainList.size(); i++) {
@@ -671,7 +554,7 @@ public class AdminController {
 			}
 			mav.addObject("pageStr", pageStr);
 			mav.setViewName("admin/adminAskDefer");
-		} else if (sel.equals("report")) {
+		} else if(sel.equals("report")) {
 			totalCnt = adminDao.getAdminBbsTotalCnt(sel, status);
 			List<ReportDTO> reportList = reportDao.reportList(cp, listSize);
 
@@ -694,32 +577,6 @@ public class AdminController {
 			} else {
 				mav.setViewName("admin/adminReportDefer");
 			}
-		} else if (sel.equals("notice")) {
-			for (int i = 0; i < mainList.size(); i++) {
-				mainList.get(i).setUserid(mainBbsDao.getUserId(mainList.get(i).getWriter_idx()));
-				mainList.get(i).setContent(mainList.get(i).getContent().replaceAll("\n", "<br>"));
-			}
-			String pageStr = finaltp.paging.AjaxPageModule.makePage("adminBbs.do?sel=" + sel + "&status=" + status,
-					totalCnt, listSize, pageSize, cp);
-			if (mainList.size() != 0) {
-				mav.addObject("mainList", mainList);
-			}
-			mav.addObject("pageStr", pageStr);
-
-			mav.setViewName("admin/adminNoticeDefer");
-		} else if (sel.equals("faq")) {
-			List<FaqDTO> faqList = adminDao.faqList(cp, listSize);
-			for (int i = 0; i < faqList.size(); i++) {
-				faqList.get(i).setAnswer(faqList.get(i).getAnswer().replaceAll("\n", "<br>"));
-			}
-			String pageStr = finaltp.paging.AjaxPageModule.makePage("adminBbs.do?sel=" + sel + "&status=" + status,
-					totalCnt, listSize, pageSize, cp);
-			if (faqList.size() != 0) {
-				mav.addObject("faqList", faqList);
-			}
-			mav.addObject("pageStr", pageStr);
-
-			mav.setViewName("admin/adminFaqNormal");
 		}
 		return mav;
 	}
@@ -788,196 +645,8 @@ public class AdminController {
 		return mav;
 	}
 
-	// 경로 추천 작성 페이지 이동
-	@RequestMapping(value = "/adminRouteWrite.do", method = RequestMethod.GET)
-	public ModelAndView routeWriteForm() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("admin/adminRouteWrite");
-		return mav;
-	}
-
-	// 경로 추천 작성
-	@RequestMapping(value = "/adminRouteWrite.do", method = RequestMethod.POST)
-	public ModelAndView routeWriteForm(HttpSession session, @RequestParam("subject") String subject,
-			@RequestParam("thema") String thema, @RequestParam("routeTextAreaContent") String content,
-			@RequestParam("coverimg") String coverimg) {
-		ModelAndView mav = new ModelAndView();
-		String userid = (String) session.getAttribute("userid");
-		int writer_idx = mainBbsDao.getMemberIdx(userid);
-		MainBbsDTO mainDto = new MainBbsDTO(writer_idx, "route", subject, content);
-		RouteDTO routeDto = new RouteDTO(0, writer_idx, thema, 0, coverimg);
-		int mainResult = routeDao.routeWrite(mainDto, routeDto);
-		String msg = mainResult > 0 ? "작성 완료" : "작성 실패";
-		mav.addObject("msg", msg);
-		mav.addObject("gopage", "adminBbs.do?sel=route&status=normal&cp=1");
-		mav.setViewName("msg");
-		return mav;
-	}
-
-	// 경로추천 본문
-	@RequestMapping("/adminRouteContent.do")
-	public ModelAndView routeContent(@RequestParam("bbs_idx") int bbs_idx) {
-		ModelAndView mav = new ModelAndView();
-		MainBbsDTO mainList = routeDao.routeMainContent(bbs_idx);
-		RouteDTO routeList = routeDao.routeContent(bbs_idx);
-		mainList.setRoutedto(routeList);
-		mav.addObject("mainList", mainList);
-		mav.setViewName("admin/adminRouteContent");
-		return mav;
-	}
-
-	// 경로추천 수정 페이지 이동
-	@RequestMapping(value = "/adminRouteRevise.do", method = RequestMethod.GET)
-	public ModelAndView routeReviseForm(@RequestParam("bbs_idx") int bbs_idx) {
-		ModelAndView mav = new ModelAndView();
-		MainBbsDTO mainList = routeDao.routeMainContent(bbs_idx);
-		RouteDTO routeList = routeDao.routeContent(bbs_idx);
-		mainList.setRoutedto(routeList);
-		mav.addObject("mainList", mainList);
-		mav.setViewName("admin/adminRouteRevise");
-		return mav;
-	}
-
-	// 경로추천 수정
-	@RequestMapping(value = "/adminRouteRevise.do", method = RequestMethod.POST)
-	public ModelAndView routeRevise(@RequestParam("bbs_idx") int bbs_idx, @RequestParam("thema") String thema,
-			@RequestParam("subject") String subject, @RequestParam("routeTextAreaContentRevise") String content,
-			@RequestParam("coverimg") String coverimg) {
-		ModelAndView mav = new ModelAndView();
-		int mainResult = mainBbsDao.mainBbsRevise(bbs_idx, subject, content);
-		int routeResult = routeDao.routeRevise(bbs_idx, thema, coverimg);
-		String msg = mainResult * routeResult > 0 ? "수정 완료" : "수정 실패";
-		mav.addObject("msg", msg);
-		mav.addObject("gopage", "adminBbs.do?sel=route&status=normal&cp=1");
-		mav.setViewName("msg");
-		return mav;
-	}
-
-	// FAQ 작성 페이지로 이동
-	@RequestMapping(value = "adminFaqWrite.do", method = RequestMethod.GET)
-	public ModelAndView faqWriteForm() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("admin/adminFaqWrite");
-		return mav;
-	}
-
-	// FAQ 작성
-	@RequestMapping(value = "adminFaqWrite.do", method = RequestMethod.POST)
-	public ModelAndView faqWrite(@RequestParam("question") String question, @RequestParam("answer") String answer) {
-		ModelAndView mav = new ModelAndView();
-		int result = adminDao.faqWrite(question, answer);
-		String msg = result > 0 ? "작성 완료" : "작성 실패";
-		mav.addObject("msg", msg);
-		mav.addObject("gopage", "adminBbs.do?sel=faq&status=normal&cp=1");
-		mav.setViewName("msg");
-		return mav;
-	}
-
-	// FAQ 본문
-	@RequestMapping("/adminFaqContent.do")
-	public ModelAndView faqContent(@RequestParam("faq_idx") int faq_idx) {
-		ModelAndView mav = new ModelAndView();
-		FaqDTO faqList = adminDao.faqContent(faq_idx);
-		if (faqList == null) {
-			mav.addObject("msg", "게시글이 존재하지 않습니다.");
-			mav.addObject("gopage", "adminBbs.do?sel=faq&status=normal&cp=1");
-			mav.setViewName("msg");
-		} else {
-			mav.addObject("faqList", faqList);
-			mav.setViewName("admin/adminFaqContent");
-		}
-		return mav;
-
-	}
-
-	// FAQ 수정 페이지 이동
-	@RequestMapping(value = "/adminFaqRevise.do", method = RequestMethod.GET)
-	public ModelAndView faqReviseForm(@RequestParam("faq_idx") int faq_idx) {
-		ModelAndView mav = new ModelAndView();
-		FaqDTO faqList = adminDao.faqContent(faq_idx);
-		mav.addObject("faq_idx", faq_idx);
-		mav.addObject("faqList", faqList);
-		mav.setViewName("admin/adminFaqRevise");
-		return mav;
-	}
-
-	// FAQ 수정
-	@RequestMapping(value = "/adminFaqRevise.do", method = RequestMethod.POST)
-	public ModelAndView faqRevise(@RequestParam("faq_idx") int faq_idx, @RequestParam("question") String question,
-			@RequestParam("answer") String answer) {
-		ModelAndView mav = new ModelAndView();
-		int result = adminDao.faqRevise(faq_idx, question, answer);
-		String msg = result > 0 ? "수정 완료" : "수정 실패";
-		mav.addObject("msg", msg);
-		mav.addObject("gopage", "adminFaqContent.do?faq_idx=" + faq_idx);
-		mav.setViewName("msg");
-		return mav;
-	}
-
-	// 관리자 공지사항 작성 페이지 이동
-	@RequestMapping(value = "/adminNoticeWrite.do", method = RequestMethod.GET)
-	public ModelAndView noticeWriteForm() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("admin/adminNoticeWrite");
-		return mav;
-	}
-
-	// 관리자 공지사항 작성
-	@RequestMapping(value = "/adminNoticeWrite.do", method = RequestMethod.POST)
-	public ModelAndView noticeWrite(HttpSession session, @RequestParam("subject") String subject,
-			@RequestParam("content") String content) {
-		ModelAndView mav = new ModelAndView();
-		String userid = (String) session.getAttribute("userid");
-		int writer_idx = mainBbsDao.getMemberIdx(userid);
-		int result = adminDao.noticeWrite(writer_idx, subject, content, "notice");
-		String msg = result > 0 ? "작성 완료" : "작성 실패";
-		mav.addObject("msg", msg);
-		mav.addObject("gopage", "adminBbs.do?sel=notice&status=normal&cp=1");
-		mav.setViewName("msg");
-		return mav;
-	}
-
-	// 공지사항 본문
-	@RequestMapping("/adminNoticeContent.do")
-	public ModelAndView noticeContent(@RequestParam("bbs_idx") int bbs_idx) {
-		ModelAndView mav = new ModelAndView();
-		MainBbsDTO mainList = adminDao.noticeContent(bbs_idx);
-		if (mainList == null) {
-			mav.addObject("msg", "게시글이 존재하지 않습니다.");
-			mav.addObject("gopage", "adminBbs.do?sel=notice&status=normal&cp=1");
-			mav.setViewName("msg");
-		} else {
-			mav.addObject("mainList", mainList);
-			mav.setViewName("admin/adminNoticeContent");
-		}
-		return mav;
-	}
-
-	// 공지사항 수정 페이지로 이동
-	@RequestMapping(value = "/adminNoticeRevise.do", method = RequestMethod.GET)
-	public ModelAndView noticeReviseForm(@RequestParam("bbs_idx") int bbs_idx) {
-		ModelAndView mav = new ModelAndView();
-		MainBbsDTO mainList = adminDao.noticeContent(bbs_idx);
-		mav.addObject("mainList", mainList);
-		mav.setViewName("admin/adminNoticeRevise");
-		return mav;
-	}
-
-	// 공지사항 수정
-	@RequestMapping(value = "/adminNoticeRevise.do", method = RequestMethod.POST)
-	public ModelAndView noticeRevise(@RequestParam("bbs_idx") int bbs_idx, @RequestParam("subject") String subject,
-			@RequestParam("content") String content) {
-		ModelAndView mav = new ModelAndView();
-		int result = adminDao.noticeRevise(bbs_idx, subject, content);
-		String msg = result > 0 ? "수정 완료" : "수정 실패";
-		mav.addObject("msg", msg);
-		mav.addObject("gopage", "adminBbs.do?sel=notice&status=normal&cp=1");
-		mav.setViewName("msg");
-		return mav;
-	}
-
 	// 관리자 신고 처리 페이지 이동
-	@RequestMapping("/adminReportProcessForm.do")
+	@RequestMapping("adminReportProcessForm.do")
 	public ModelAndView adminReportProcessForm(@RequestParam("bbs_idx") int bbs_idx,
 			@RequestParam("writer_idx") int writer_idx) {
 		ModelAndView mav = new ModelAndView();
@@ -988,9 +657,8 @@ public class AdminController {
 	}
 
 	// 관리자 신고 처리
-	@RequestMapping("/adminReportProcess.do")
-	public ModelAndView adminReportProcess(@RequestParam("bbs_idx") int bbs_idx,
-			@RequestParam("writer_idx") int writer_idx,
+	@RequestMapping("adminReportProcess.do")
+	public ModelAndView adminReportProcess(@RequestParam("bbs_idx") int bbs_idx, @RequestParam("writer_idx") int writer_idx,
 			@RequestParam(value = "report", defaultValue = "no") String report,
 			@RequestParam("admin_content") String admin_content) {
 		ModelAndView mav = new ModelAndView();

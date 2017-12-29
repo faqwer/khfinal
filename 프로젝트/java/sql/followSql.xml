@@ -3,18 +3,36 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="finaltp.member">
-<!-- 	<insert id="addFollow" parameterType="Map">
+	<select id="getfollow" parameterType="Map" resultType="finaltp.follow.model.FollowDTO">
+		select * from Follow where follow_idx=#{follow_idx} and follower_idx=#{follower_idx}
+	</select>
+	<select id="getfollows_idx" parameterType="Integer" resultType="finaltp.follow.model.FollowDTO">
+		select * from Follow where follower_idx=#{user_idx}
+	</select>
+	<select id="getfollowers_idx" parameterType="Integer" resultType="finaltp.follow.model.FollowDTO">
+		select * from Follow where follow_idx=#{user_idx}
+	</select>
+	<insert id="follow" parameterType="Map">
 		insert into Follow values
 		(#{follow_idx},#{follower_idx})
 	</insert>
-	<select id="showFollow" parameterType="Map" resultType="finaltp.member.model.MemberDTO">
-		select a.member_idx,a.profile_img, b.follow_idx,b.follower_idx
-		from Plan_member a,Follow b 
-		where a.member_idx=#{member_idx} and b.follow_idx=#{follow_idx}
+	<delete id="unfollow" parameterType="Map">
+		delete Follow where follow_idx=#{follow_idx} and follower_idx=#{follower_idx}
+	</delete>
+	<select id="showFollow" parameterType="Integer" resultType="finaltp.member.model.MemberDTO">
+		select member_idx,id,profile_img
+		from Plan_member
+		where member_idx=#{user_idx}
 	</select>
-	<select id="showFollower" parameterType="Map" resultType="finaltp.member.model.MemberDTO">
-		select a.member_idx,a.profile_img, b.follow_idx,b.follower_idx
-		from Plan_member a,Follow b 
-		where a.member_idx=#{member_idx} and b.follower_idx=#{follower_idx}
-	</select> -->
+	<select id="showFollower" parameterType="Integer" resultType="finaltp.member.model.MemberDTO">
+		select member_idx,id,profile_img
+		from Plan_member
+		where member_idx=#{user_idx}
+	</select>
+	<select id="followCnt" resultType="Integer">
+		select count(*) from Follow where follower_idx=#{user_idx}
+	</select>
+	<select id="followerCnt" resultType="Integer">
+		select count(*) from Follow where follow_idx=#{user_idx}
+	</select>
 </mapper>

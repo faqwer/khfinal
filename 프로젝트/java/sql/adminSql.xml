@@ -67,12 +67,6 @@
 		]]>
 	</select>
 	
-	<select id="adminPlannerTotalCnt" parameterType="String" resultType="Integer">
-		<![CDATA[
-			SELECT count(*) FROM planner WHERE status = #{status} AND writer_idx <> 10
-		]]>
-	</select>
-	
 	<select id="adminMainBbsList" parameterType="map" resultType="finaltp.mainBbs.model.MainBbsDTO">
 		<![CDATA[
 		SELECT * FROM
@@ -86,16 +80,8 @@
 		UPDATE total_bbs SET status = #{status} WHERE bbs_idx = #{bbs_idx}
 	</update>
 	
-	<update id="plannerStatusChange" parameterType="map">
-		UPDATE planner SET status = #{status} WHERE planner_idx = #{planner_idx}
-	</update>
-	
 	<delete id="bbsDelete" parameterType="Integer">
 		DELETE FROM total_bbs WHERE bbs_idx = #{bbs_idx}
-	</delete>
-	
-	<delete id="plannerDelete" parameterType="Integer">
-		DELETE FROM planner WHERE planner_idx = #{planner_idx}
 	</delete>
 	
 	<select id="reportList" parameterType="map" resultType="finaltp.report.model.ReportDTO">

@@ -9,77 +9,31 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form name=routeList action="routeList.do">
-<c:forEach var="list" items="${list }">
+<form name="routeList">
+
 <table width="900" height="400" align="center">
-	<tr>
-	<c:forEach var="list" items="${list }">
+
+<tr>
+
+<c:forEach var="dto" items="${mainList}">
+<div id="listForm_${dto.bbs_idx}">
 		<td>
 			<table border="1" cellspacing="0" height="200" width="300">
 				<tr>
-					<td height="140" align="center"><img src="${list.coverimg}"></td>
+					<td height="140" align="center"><a href="routeContent.do?bbs_idx=${dto.bbs_idx}"><img src="img/${dto.routedto.coverimg}" height="140"></a></td>
 				</tr>
 				<tr>
-					<td align="center">${list. }<br>시간<br>${list.recommend} / ${list.readnum }</td>
+					<td align="center"><a href="routeContent.do?bbs_idx=${dto.bbs_idx}">${dto.subject}</a><br>${dto.writedate}<br>추천수 / ${dto.routedto.readnum}</td>
 				</tr>
 			</table>
 		</td>
-		</c:forEach>
-		<td>
-		<table border="1" cellspacing="0" height="200" width="300">
-				<tr>
-					<td height="140" align="center">사진</td>
-				</tr>
-				<tr>
-					<td align="center">제목<br>시간<br>추천수/조회수</td>
-				</tr>
-			</table>
-		</td>
-		<td>
-		<table border="1" cellspacing="0" height="200" width="300">
-				<tr>
-					<td height="140" align="center">사진</td>
-				</tr>
-				<tr>
-					<td align="center">제목<br>시간<br>추천수/조회수</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td>
-		<table border="1" cellspacing="0" height="200" width="300">
-				<tr>
-					<td height="140" align="center">사진</td>
-				</tr>
-				<tr>
-					<td align="center">제목<br>시간<br>추천수/조회수</td>
-				</tr>
-			</table>
-		</td>
-		<td>
-		<table border="1" cellspacing="0" height="200" width="300">
-				<tr>
-					<td height="140" align="center">사진</td>
-				</tr>
-				<tr>
-					<td align="center">제목<br>시간<br>추천수/조회수</td>
-				</tr>
-			</table>
-		</td>
-		<td>
-		<table border="1" cellspacing="0" height="200" width="300">
-				<tr>
-					<td height="140" align="center">사진</td>
-				</tr>
-				<tr>
-					<td align="center">제목<br>시간<br>추천수/조회수</td>
-				</tr>
-			</table>
-		</td>		
-	</tr>
-</table>
+		</div>
 </c:forEach>
+
+	</tr>
+
+</table>
+<p align="center">${pageStr}</p>
 </form>
 </body>
 </html>

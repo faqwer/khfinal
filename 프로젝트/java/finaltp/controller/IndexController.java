@@ -1,23 +1,44 @@
 package finaltp.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import finaltp.main.model.MainDAO;
+import finaltp.main.model.MainDTO;
 import finaltp.mainBbs.model.MainBbsDAO;
 
 @Controller
 public class IndexController {
 
+
 	@Autowired
 	private MainBbsDAO mainBbsDao;
 	
+	@Autowired
+	private MainDAO mainDao;
+
+//	@RequestMapping("/index.do")
+//	public String indexForm() {
+//		return "indexMain";
+//	}
+	
 	@RequestMapping("/index.do")
-	public String indexMain() {
-		return "index";
+	public ModelAndView indexForm() {
+		
+		ModelAndView mav=new ModelAndView();
+		List<MainDTO> reviewRanking=mainDao.reviewRanking();
+		List<MainDTO> plannerRanking=mainDao.plannerRanking();
+		mav.addObject("plannerRanking", plannerRanking);
+		mav.addObject("reviewRanking",reviewRanking);
+		mav.setViewName("indexMain");
+		return mav;
 	}
+ 
 	
 	@RequestMapping("/readNum.do")
 	public ModelAndView setReadNum(@RequestParam("bbs_idx") int bbs_idx, @RequestParam("category") String category) {

@@ -7,11 +7,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+<<<<<<< HEAD
+import org.mybatis.spring.SqlSessionTemplate;
+=======
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.map.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
+>>>>>>> 02b1868adc5fbcb3219d735b2ad072a50a787d45
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +32,10 @@ import finaltp.preply.model.PReplyDAO;
 import finaltp.preply.model.PReplyDTO;
 
 @Controller
+<<<<<<< HEAD
+public class PlanController {	
+	
+=======
 public class PlanController {
 
 	@Autowired
@@ -86,6 +94,7 @@ public class PlanController {
 		mav.setViewName("planner/getRecommend");
 		return mav;
 	}
+>>>>>>> 02b1868adc5fbcb3219d735b2ad072a50a787d45
 	
 	@RequestMapping("/planwrite.do")
 	public ModelAndView plannerWrite(MultipartHttpServletRequest multi, HttpSession session){
@@ -316,4 +325,5 @@ public class PlanController {
 		mav.setViewName("planner/calendar");
 		return mav;
 	}
+	
 }

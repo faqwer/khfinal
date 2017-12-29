@@ -11,48 +11,69 @@
 			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
 		]]>
 	</select>
-	
 	<insert id="mainBbsWrite" parameterType="finaltp.mainBbs.model.MainBbsDTO">
 		INSERT INTO total_bbs VALUES(Total_bbs_bbs_idx.nextval, #{writer_idx}, 'normal', #{subject}, SYSDATE, #{category}, #{content}, 0)
 	</insert>
-	
+
 	<select id="totalCnt" parameterType="String" resultType="Integer">
-		SELECT count(*) FROM total_bbs WHERE category = #{category} AND status = 'normal'
+		SELECT
+		count(*) FROM total_bbs WHERE category = #{category} AND status =
+		'normal'
 	</select>
-	
-	<select id="bbsContent" parameterType="Integer" resultType="finaltp.mainBbs.model.MainBbsDTO">
-		SELECT  * FROM total_bbs WHERE bbs_idx = #{idx}
+
+	<select id="bbsContent" parameterType="Integer"
+		resultType="finaltp.mainBbs.model.MainBbsDTO">
+		SELECT * FROM total_bbs WHERE bbs_idx = #{idx}
 	</select>
-	
+
 	<select id="memberIdx" parameterType="String" resultType="Integer">
-		SELECT member_idx FROM plan_member WHERE id = #{userid}
+		SELECT
+		member_idx FROM plan_member WHERE id = #{userid}
 	</select>
-	
+
 	<select id="bbsWriterIdx" parameterType="Integer" resultType="Integer">
 		SELECT writer_idx FROM total_bbs WHERE bbs_idx = #{bbs_idx}
 	</select>
-	
+
 	<select id="getUserId" parameterType="Integer" resultType="String">
 		SELECT id FROM plan_member WHERE member_idx = #{member_idx}
 	</select>
-	
-	<update id="mainBbsStatusDefer" parameterType="Integer">
-		UPDATE total_bbs SET status = 'defer' WHERE bbs_idx = #{bbs_idx}
-	</update>
-	
-	<select id="getWriterMemberIdx" parameterType="String" resultType="Integer">
+
+	<delete id="mainBbsStatusDefer" parameterType="Integer">
+		UPDATE total_bbs
+		SET status = 'defer' WHERE bbs_idx = #{bbs_idx}
+	</delete>
+
+	<select id="getWriterMemberIdx" parameterType="String"
+		resultType="Integer">
 		SELECT member_idx FROM plan_member WHERE id = #{writerid}
 	</select>
-	
+
 	<select id="getProfileImg" parameterType="Integer" resultType="String">
 		SELECT profile_img FROM plan_member WHERE member_idx = #{writer_idx}
 	</select>
-	
-	<update id="mainBbsRevise" parameterType="map">
-		UPDATE total_bbs SET subject = #{subject}, content = #{content} WHERE bbs_idx = #{bbs_idx}
+
+	<update id="reviewMainBbsRevise" parameterType="map">
+		UPDATE total_bbs
+		SET subject = #{subject}, content = #{content} WHERE bbs_idx =
+		#{bbs_idx}
 	</update>
-	
+
 	<update id="setReviewReadNum" parameterType="map">
-		UPDATE review SET readnum = readnum + 1 WHERE bbs_idx = #{bbs_idx}
+		UPDATE review SET
+		readnum = readnum + 1 WHERE bbs_idx = #{bbs_idx}
+	</update>
+	<select id="myMainBbsList" parameterType="map"
+		resultType="finaltp.mainBbs.model.MainBbsDTO">
+		<![CDATA[
+		SELECT * FROM
+			(SELECT ROWNUM AS rnum, a.* FROM
+			(SELECT * FROM total_bbs WHERE category = #{category} AND status = 'normal' AND writer_idx = #{writer_idx} ORDER BY writedate desc)a)b
+			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
+		]]>
+	</select>
+	<update id="setRouteReadNum" parameterType="map">
+		UPDATE route SET
+		readnum = readnum + 1 WHERE bbs_idx = #{bbs_idx}
 	</update>
 </mapper>

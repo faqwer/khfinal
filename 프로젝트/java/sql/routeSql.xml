@@ -12,7 +12,7 @@
 	</insert>
 	
 	<select id="routeContent" parameterType="Integer" resultType="finaltp.route.model.RouteDTO">
-		SELECT * FROM route WHERE bbs_idx = #{bbs_idx/}
+		SELECT * FROM route WHERE bbs_idx = #{bbs_idx}
 	</select>
 	
 	<update id="routeRevise" parameterType="map">

@@ -1,8 +1,5 @@
 package finaltp.recommend.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.mybatis.spring.SqlSessionTemplate;
 
 public class RecommendDAOImple implements RecommendDAO {
@@ -35,14 +32,6 @@ public class RecommendDAOImple implements RecommendDAO {
 	
 	public int recommendNum(int bbs_idx) {
 		int result = sqlMap.selectOne("recommendNum", bbs_idx);
-		return result;
-	}
-	
-	public int updateRecommendNum(int recommendNum, int bbs_idx) {
-		Map data = new HashMap();
-		data.put("recommendNum", recommendNum);
-		data.put("bbs_idx", bbs_idx);
-		int result = sqlMap.update("updateRecommend", data);
 		return result;
 	}
 }

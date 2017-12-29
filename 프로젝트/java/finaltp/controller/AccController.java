@@ -1,5 +1,6 @@
-package finaltp.controller;
+﻿package finaltp.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -104,6 +105,7 @@ public class AccController {
 		mav.setViewName("acc/accList");
 		return mav;
 	}
+
 
 	// 동행 게시글 삭제
 	@RequestMapping("/accDelete.do")

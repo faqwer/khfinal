@@ -8,6 +8,6 @@
 	</select>
 	
 	<insert id="reportAdd" parameterType="finaltp.report.model.ReportDTO">
-		INSERT INTO report VALUES(#{bbs_idx}, #{writer_idx}, #{user_idx}, #{reason}, #{status}, null)
+		INSERT INTO report VALUES(#{bbs_idx}, #{writer_idx}, #{user_idx}, #{reason}, #{status})
 	</insert>
 </mapper>

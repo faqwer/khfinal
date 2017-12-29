@@ -2,15 +2,21 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="finaltp.plan">
-	<select id="planList" parameterType="map" resultType="finaltp.plan.model.PlanDTO">
-		<![CDATA[
+  <mapper namespace="finaltp.plan">
+  	<select id="myPlanner" parameterType="map" resultType="finaltp.plan.model.PlanDTO">
+  		<![CDATA[
 		SELECT * FROM
 			(SELECT ROWNUM AS rnum, a.* FROM
-			(SELECT * FROM planner WHERE status = #{status} ORDER BY planner_idx desc)a)b
+			(SELECT * FROM Planner where status='normal' and writer_idx=#{writer_idx} order by writedate desc)a)b
 			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
 		]]>
 	</select>
+<<<<<<< HEAD
+		<select id="planTotalCnt" resultType="Integer">
+		SELECT count(*) FROM
+		Planner WHERE status = 'normal'
+	</select>
+=======
 <insert id="planWrite" parameterType="finaltp.plan.model.PlanDTO">
 		insert into
 			Planner
@@ -72,4 +78,5 @@
 	<update id="plannerStatusDefer" parameterType="Integer">
 		UPDATE Planner SET status = 'defer' WHERE planner_idx=#{planner_idx}
 	</update>
+>>>>>>> 02b1868adc5fbcb3219d735b2ad072a50a787d45
 </mapper>

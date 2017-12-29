@@ -1,4 +1,4 @@
-package finaltp.controller;
+﻿package finaltp.controller;
 
 import java.util.List;
 
@@ -29,12 +29,13 @@ public class ReviewController {
 
 	@Autowired
 	private ReviewDAO reviewDao;
-
+	
 	@Autowired
 	private RecommendDAO recommendDao;
-
+	
 	@Autowired
 	private ReplyDAO replyDao;
+	
 
 	// 후기 게시판 리스트
 	@RequestMapping("/reviewList.do")
@@ -87,7 +88,7 @@ public class ReviewController {
 		mav.setViewName("msg");
 		return mav;
 	}
-
+	
 	// 후기 게시글 본문
 	@RequestMapping("/reviewContent.do")
 	public ModelAndView reviewContent(HttpSession session, @RequestParam("bbs_idx") int bbs_idx) {
@@ -136,7 +137,7 @@ public class ReviewController {
 	public ModelAndView reviewRevise(@RequestParam("bbs_idx") int bbs_idx, @RequestParam("subject") String subject,
 			@RequestParam("textAreaContentRevise") String content, @RequestParam("thema") String thema, @RequestParam("coverimg") String coverimg) {
 		ModelAndView mav = new ModelAndView();
-		int reviewMainBbsResult = mainBbsDao.mainBbsRevise(bbs_idx, subject, content);
+		int reviewMainBbsResult = mainBbsDao.reviewMainBbsRevise(bbs_idx, subject, content);
 		int reviewBbsResult = reviewDao.reviewRevise(bbs_idx, thema, coverimg);
 		int result = reviewMainBbsResult * reviewBbsResult;
 		mav.addObject("msg", result > 0 ? "수정 완료" : "수정 실패");
