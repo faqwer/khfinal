@@ -15,10 +15,14 @@ public class IndexController {
 	private MainBbsDAO mainBbsDao;
 	
 	@RequestMapping("/index.do")
-	public String indexMain() {
-		return "index";
+	public ModelAndView index() {
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("index");
+		return mav;
 	}
 	
+
 	@RequestMapping("/readNum.do")
 	public ModelAndView setReadNum(@RequestParam("bbs_idx") int bbs_idx, @RequestParam("category") String category) {
 		ModelAndView mav = new ModelAndView();
@@ -29,4 +33,5 @@ public class IndexController {
 		mav.setViewName("readNum");
 		return mav;
 	}
+	
 }

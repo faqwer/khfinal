@@ -1,6 +1,4 @@
-﻿package finaltp.member.model;
-
-import java.util.List;
+package finaltp.member.model;
 
 public interface MemberDAO {
 
@@ -14,12 +12,17 @@ public interface MemberDAO {
 	public static final int EDIT_OK = 7;
 	public static final int CONCORD = 8;
 
-	public int join(MemberDTO dto);
-
-	// public int idCheck(String id);
-
+	public int join(MemberDTO dto); 
+	
+	public int idCheck(String id);
+	
 	public int login(String id, String pwd);
-
+	public int updatePwd(String id, String pwd);
+	
+	public int getIdx(String id);
 	public String getName(String id);
+	
+
 	public MemberDTO getUserInfo(int user_idx);
+
 }

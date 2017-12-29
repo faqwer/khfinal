@@ -6,6 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<script>
+function findpwd() {
+	window.open('findPwd.do','','width=400, height=250, left=400, top=150');
+}
+</script>
+
 </head>
 
 <c:choose>
@@ -26,7 +33,7 @@
 <label>PWD</label> <input type="password" name="pwd">
 <br>
 
-<input type="checkbox" name="saveid" ${state }>ID저장 <input type="button" value="비밀번호 찾기" onclick="">
+<input type="checkbox" name="saveid" ${state }>ID저장 <input type="button" value="비밀번호 찾기" onclick="findpwd()">
 <br>
 <input type="submit" value="LOGIN"> 
 </form>
