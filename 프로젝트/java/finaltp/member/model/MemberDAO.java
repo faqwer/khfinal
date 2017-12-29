@@ -1,5 +1,8 @@
 package finaltp.member.model;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 88e5cf3a11eb5b8e2cb655ce7060b2d48d908acf
 
 public interface MemberDAO {
 
@@ -14,13 +17,16 @@ public interface MemberDAO {
 	public static final int CONCORD = 8;
 	public static final int IMG_CHANGE = 9;
 
-	public int join(MemberDTO dto);
-
-	// public int idCheck(String id);
-
+	public int join(MemberDTO dto); 
+	
+	public int idCheck(String id);
+	
 	public int login(String id, String pwd);
-
+	public int updatePwd(String id, String pwd);
+	
+	public int getIdx(String id);
 	public String getName(String id);
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 
@@ -28,4 +34,10 @@ public interface MemberDAO {
 =======
 	public MemberDTO getUserInfo(int user_idx);
 >>>>>>> 02b1868adc5fbcb3219d735b2ad072a50a787d45
+=======
+	
+
+	public MemberDTO getUserInfo(int user_idx);
+
+>>>>>>> 88e5cf3a11eb5b8e2cb655ce7060b2d48d908acf
 }

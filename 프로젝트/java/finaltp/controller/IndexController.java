@@ -32,17 +32,13 @@ public class IndexController {
 		
 		ModelAndView mav=new ModelAndView();
 		List<MainDTO> reviewRanking=mainDao.reviewRanking();
-		int test = reviewRanking.size();
-		System.out.println(test);
-		System.out.println(reviewRanking.get(0).getBbs_idx());
-		System.out.println(reviewRanking.get(0).getCoverimg());
-		System.out.println(reviewRanking.get(0).getName());
-		System.out.println(reviewRanking.get(0).getRecommendnum());
+		List<MainDTO> plannerRanking=mainDao.plannerRanking();
+		mav.addObject("plannerRanking", plannerRanking);
 		mav.addObject("reviewRanking",reviewRanking);
 		mav.setViewName("indexMain");
 		return mav;
 	}
-
+ 
 	
 	@RequestMapping("/readNum.do")
 	public ModelAndView setReadNum(@RequestParam("bbs_idx") int bbs_idx, @RequestParam("category") String category) {

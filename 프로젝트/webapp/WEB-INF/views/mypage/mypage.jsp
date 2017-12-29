@@ -24,26 +24,50 @@
 				buttonWrap.setAttribute('style','background-image:url("'+arr[0]+'/'+arr[1]+'");');
 				wrapWindowByMask();
 			});
-
+			$('#followbt').click(function(e){
+				e.preventDefault();
+				sendRequest('follow.do', 'follow_idx=${member.member_idx}&follower_idx=${user_idx}', followcall,
+				'get');
+			});
+			
 		});
 	}
-	function show() {
-		sendRequest('myWriting.do', 'w_idx=${member.member_idx}', showResult, 'GET');
+	function unfollowbt(object){
+		var follow_idx=$(object).parent().children('#member_idx').val();
+		sendRequest('unfollow.do', 'follow_idx='+follow_idx+'&follower_idx=${member.member_idx}', followcall,
+		'get');
+	}
+	function followcall(){
+		if (httpRequest.readyState == 4) {
+			console.log(httpRequest.status);
+			if (httpRequest.status == 200) {
+				alert('처리되었슴다.');
+				sendRequest('myFollowing.do', 'user_idx=${member.member_idx}', showResult, 'get');
+			}
+		}
+	}
+	
+	function show(cp) {
+		sendRequest('myWriting.do', 'w_idx=${member.member_idx}&cp='+cp, showResult, 'get');
 	}
 
-	function show2() {
-		sendRequest('myAccWriting.do', 'w_idx=${member.member_idx}', showResult,
-				'GET');
+	function show2(cp) {
+		sendRequest('myAccWriting.do', 'w_idx=${member.member_idx}&cp='+cp, showResult,
+				'get');
 	}
-	function showplan() {
-		sendRequest('mypage.do', 'w_idx=${member.member_idx}', null,
-				'GET');
+	function show3(cp) {
+		sendRequest('myBookmark.do', 'user_idx=${member.member_idx}&cp='+cp, showResult,
+				'get');
 	}
-	function showfollowing() {
-		sendRequest('myFollowing.do', null, showResult, 'GET');
+	function showplan(cp) {
+		sendRequest('mypage.do', 'w_idx=${member.member_idx}&cp='+cp, null,
+				'get');
 	}
-	function showfollower() {
-		sendRequest('myFollower.do', null, showResult, 'GET');
+	function showfollowing(cp) {
+		sendRequest('myFollowing.do', 'user_idx=${member.member_idx}&cp='+cp, showResult, 'get');
+	}
+	function showfollower(cp) {
+		sendRequest('myFollower.do', 'user_idx=${member.member_idx}&cp='+cp, showResult, 'get');
 	}
 	function showResult() {
 		console.log(httpRequest.readyState);
@@ -135,10 +159,17 @@
 														<br> ${dto.id }</td>
 												</tr>
 												<tr>
-													<td align="center" height="70"><input type="button"
-														value="팔로워" onclick="showfollower()"><input type="button" value="팔로잉" onclick="javascript:showfollowing()"><br>
-														<a href="#" class="openMask">회원 정보 수정</a> / <a
-														href="memberoutForm.do">회원 탈퇴</a></td>
+													<td align="center" height="70">
+														<c:if test="${dto.member_idx ne user_idx }">
+															<a id="followbt">follow</a>
+														</c:if>
+														<input type="button" value="팔로워" onclick="showfollower(1)">
+														<input type="button" value="팔로잉" onclick="javascript:showfollowing(1)"><br>
+														<c:if test="${dto.member_idx eq user_idx }">
+															<a href="#" class="openMask">회원 정보 수정</a> /
+															<a href="memberoutForm.do">회원 탈퇴</a>
+														</c:if>
+													</td>
 												</tr>
 											</table></td>
 									</tr>
@@ -146,15 +177,15 @@
 										<td><table border="1" cellspacing="0" width="220"
 												height="160">
 												<tr>
-													<td align="center"><a href="mypage.do?id=${userid}" id="myPlanner">MY
+													<td align="center"><a href="mypage.do?member_idx=${dto.member_idx}" id="myPlanner">MY
 															PLANNER</a></td>
 												</tr>
 												<tr>
 													<td align="center"><a href="#" id="myWriting"
-														onclick="show()">내가 작성한 글</a></td>
+														onclick="show(1)">내가 작성한 글</a></td>
 												</tr>
 												<tr>
-													<td align="center"><a href="#" id="myBookmark">북마크</a></td>
+													<td align="center"><a href="#" id="myBookmark" onclick="show3(1)">북마크</a></td>
 												</tr>
 											</table></td>
 									</tr>
@@ -166,18 +197,29 @@
 									<tr>
 										<td>
 											<div id="mypageContent">
+											<c:if test="${empty planList}">
+												<table border="1" cellspacing="0" height="200" width="300">
+													<tr>
+														<td align="center">
+															새로운 플래너를 작성해보세요!<br>
+															<input type="button" value="+" id="makePlan" >
+														</td>
+													</tr>
+												</table>
+											</c:if>
 											<c:forEach var="plan" items="${planList}">
 													<table border="1" cellspacing="0" height="200" width="300">
 														<tr>
-															<td height="140" align="center"><img
+															<td height="140" align="center"><a href="planContent.do?planner_idx=${plan.planner_idx}"><img
 																src="img/${plan.coverimg}" height="140"></a></td>
 														</tr>
 														<tr>
-															<td align="center"><a href="#">${plan.subject}</a><br>${plan.writedate}<br>좋아요
+															<td align="center"><a href="planContent.do?planner_idx=${plan.planner_idx}">${plan.subject}</a><br>${plan.writedate}<br>좋아요
 																/${plan.readnum} </td>
 														</tr>
 													</table>
 												</c:forEach>
+												<p align="center">${pageStr}</p>
 											</div>
 										</td>
 

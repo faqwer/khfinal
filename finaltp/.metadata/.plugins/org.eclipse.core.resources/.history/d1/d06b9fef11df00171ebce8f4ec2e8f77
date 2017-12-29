@@ -1,0 +1,24 @@
+		$("#placediv div").draggable({
+			helper : 'clone'
+		});
+		$(".on-screen").droppable({
+			accept : "#placediv div,.on-screen div",
+			drop : function(event, ui) {
+				console.log($(ui.draggable).closest('div').attr('class'));
+				if($(ui.draggable).closest('div').prop("tagName")=="DIV"){
+					console.log('placediv');
+					$(this).append($(ui.draggable).clone());
+				}else{
+					$(this).append($(ui.draggable));
+				}
+			},
+			tolerance:"intersect"
+		});
+		
+		$( ".on-screen" ).sortable({
+			connectWith	: ".on-screen div",
+			dropOnEmpty : false
+		}).disableSelection();
+/*	    $( ".on-screen, #placediv div" ).disableSelection();*/
+	   
+	    

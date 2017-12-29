@@ -14,25 +14,22 @@
 </head>
 <body>
 
-	<select>
-		<option>asdasd
-</option>
-	</select>
 	<a href="#" class="openMask" style="background-color: red;">플래너</a>
 	<h3>index</h3>
-	<c:set var="userid" value="${sessionScope.userid}" />
-	<c:if test="${empty userid }">
+	<c:set var="useridx" value="${sessionScope.useridx}" />
+	<c:if test="${empty useridx }">
 		<p>
 			<a href="login.do">Login</a> | <a href="join.do">Join</a>
 		</p>
 	</c:if>
 
-	<c:if test="${!empty userid }">
+	<c:if test="${!empty useridx }">
 		<p>
-			<a href="mypage.do?id=${userid}">${name}</a>님 접속중입니다. | <a
+			<a href="mypage.do?member_idx=${useridx}">${name}</a>님 접속중입니다. | <a
 				href="logout.do">로그아웃</a>
 		</p>
 	</c:if>
+	
 	<a href="routeList.do">경로 추천</a>
 	<a href="accList.do">동행</a>
 	<a href="pimg.do">이미지테스트</a>
@@ -43,15 +40,31 @@
 		<li><a href="reviewList.do">여행기 게시판</a></li>
 		<li><a href="#">1:1문의</a></li>
 	</ul>
+	
 	<table border="1" cellspacing="0" align="center" width="1200px">
 		<tr>
 			<td colspan="3" id="bestplan">best plan</td>
 		</tr>
 
 		<tr>
-			<td>1위</td>
-			<td>2위</td>
-			<td>3위</td>
+			<c:forEach var="plaRank" items="${plannerRanking}" begin="0" end="2" step="1">
+	
+				<td width="400" align="center">
+					<table border="1" cellspacing="0" height="200" width="300">
+						<tr>
+							<td height="140" align="center"><a
+								href="#"><img
+									src="img/${plaRank.coverimg}" height="140"></a></td>
+						</tr>
+						<tr>
+							<td align="center"><a
+								href="#">${plaRank.subject}</a><br>${plaRank.name}<br>
+								${plaRank.recommendnum} /
+								${plaRank.readnum}</td>
+						</tr>
+					</table>
+				</td>
+			</c:forEach>
 		</tr>
 		<tr>
 			<td colspan="3" id="trip">best 여행기</td>
@@ -59,7 +72,7 @@
 		<tr>
 			<c:forEach var="revRank" items="${reviewRanking}" begin="0" end="2" step="1">
 	
-				<td>
+				<td width="400" align="center">
 					<table border="1" cellspacing="0" height="200" width="300">
 						<tr>
 							<td height="140" align="center"><a

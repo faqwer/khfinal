@@ -1,32 +1,55 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="finaltp.member">
+	<select parameterType="String" resultType="integer" id="memberId">
+		select count(*) from plan_member where id=#{id}
+	</select>
+
 	<insert parameterType="finaltp.member.model.MemberDTO" id="memberJoin">
 		insert into Plan_member
 		values(
 		Plan_member_member_idx.nextval,
-		#{name}, #{id}, 1, sysdate, 0, null, #{pwd}, null,null
+		#{name}, #{id}, 1, sysdate, 0, #{pwd}, #{profile_img}, null
 		)
 	</insert>
 
+
+	<!-- 로그인시 비밀번호 확인 -->
 	<select parameterType="String" resultType="String" id="memberPWD">
 		select pwd from Plan_member where id = #{id}
+	</select>
+
+
+	<!-- 임시 비밀번호 저장 -->
+	<update id="updatePwd" parameterType="Map">
+		update plan_member set pwd=#{new_pwd} where id=#{id}
+	</update>
+
+
+	<select parameterType="String" resultType="Integer" id="memberIdx">
+		select member_idx from Plan_member where id = #{id}
 	</select>
 
 	<select parameterType="String" resultType="String" id="memberName">
 		select name from Plan_member where id = #{id}
 	</select>
-	<select id="pwdCheck" parameterType="String" resultType="String">
-		select
-		pwd from Plan_member where id=#{id}
-	</select>
-	<select id="memberINFO" parameterType="String" resultType="finaltp.member.model.MemberDTO">
+
+
+	<select id="memberINFO" parameterType="String"
+		resultType="finaltp.member.model.MemberDTO">
 		select * from Plan_member where id = #{userid}
 	</select>
-	</select>
-	<select id="memberINFOwithIdx" parameterType="Integer" resultType="finaltp.member.model.MemberDTO">
+
+
+	<select id="memberINFOwithIdx" parameterType="Integer"
+		resultType="finaltp.member.model.MemberDTO">
 		select * from Plan_member where member_idx = #{user_idx}
 	</select>
+	<select parameterType="String" resultType="Integer" id="getMemberIdx">
+		select
+		member_idx from Plan_member where id = #{id}
+	</select>
+
 </mapper>

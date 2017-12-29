@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+<<<<<<< HEAD
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import finaltp.acc.model.AccDTO;
@@ -18,6 +19,11 @@ import finaltp.mainBbs.model.MainBbsDTO;
 import finaltp.member.model.MemberDTO;
 import finaltp.recommend.model.RecommendDAO;
 import finaltp.recommend.model.RecommendDTO;
+=======
+
+import finaltp.mainBbs.model.MainBbsDAO;
+import finaltp.mainBbs.model.MainBbsDTO;
+>>>>>>> 88e5cf3a11eb5b8e2cb655ce7060b2d48d908acf
 import finaltp.reply.model.ReplyDAO;
 import finaltp.reply.model.ReplyDTO;
 import finaltp.route.model.RouteDAO;
@@ -36,9 +42,18 @@ public class RouteController {
 	private ReplyDAO replyDao;
 	
 	@Autowired
+<<<<<<< HEAD
 	private RecommendDAO recommendDao;
 
 	// 루트 게시글 목록
+=======
+	private MainBbsDAO mainBbsDao;
+	
+	@Autowired
+	private ReplyDAO replyDao;
+	
+	// ��Ʈ �Խñ� ���
+>>>>>>> 88e5cf3a11eb5b8e2cb655ce7060b2d48d908acf
 	@RequestMapping(value = "routeList.do", method = RequestMethod.GET)
 	public ModelAndView routeList(HttpSession session,@RequestParam(value = "cp", defaultValue = "1") int cp) {
 		int totalCnt = mainBbsDao.getTotalCnt("route");
@@ -51,7 +66,11 @@ public class RouteController {
 		String userid=(String) session.getAttribute("userid");
 		ModelAndView mav = new ModelAndView();
 		List<MainBbsDTO> mainList = mainBbsDao.mainBbsList(cp, listSize, "route");
+<<<<<<< HEAD
 		List<RouteDTO> routeList = routeDao.routeList(cp, listSize, mainList);
+=======
+		List<RouteDTO> routeList = routeDao.routeList(mainList);
+>>>>>>> 88e5cf3a11eb5b8e2cb655ce7060b2d48d908acf
 		List<ReplyDTO> replyList = null;
 
 		for (int i = 0; i < mainList.size(); i++) {
@@ -85,7 +104,11 @@ public class RouteController {
 		return mav;
 	}
 
+<<<<<<< HEAD
 	// 루트 본문 보기
+=======
+	// ��Ʈ ���� ����
+>>>>>>> 88e5cf3a11eb5b8e2cb655ce7060b2d48d908acf
 	@RequestMapping(value = "routeContent.do", method = RequestMethod.GET)
 	public ModelAndView routeContent(@RequestParam(value = "cp", defaultValue = "1") int cp, @RequestParam("bbs_idx") int bbs_idx) {
 		int totalCnt = mainBbsDao.getTotalCnt("route");
@@ -93,8 +116,13 @@ public class RouteController {
 		int pageSize = 5;
 
 		ModelAndView mav = new ModelAndView();
+<<<<<<< HEAD
 		MainBbsDTO mainList = mainBbsDao.bbsContent(bbs_idx);
 		RouteDTO routeContent = routeDao.routeContent(bbs_idx);
+=======
+		MainBbsDTO mainList = mainBbsDao.bbsContent(idx);
+		RouteDTO routeContent = routeDao.routeContent(idx);
+>>>>>>> 88e5cf3a11eb5b8e2cb655ce7060b2d48d908acf
 		List<ReplyDTO> replyList = null;
 
 		mainList.setContent(mainList.getContent().replaceAll("\n", "<br>"));

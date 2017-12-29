@@ -1,0 +1,7 @@
+package finaltp.plan.model;
+
+public interface PlanDAO {
+	public int planWrite(PlanDTO pdto);
+	public PlanDTO getPlanContent(int planner_idx);
+	public int getPlanRecommendCnt(int planner_idx);
+}

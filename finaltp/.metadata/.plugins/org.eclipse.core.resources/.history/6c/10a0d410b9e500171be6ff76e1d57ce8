@@ -1,0 +1,37 @@
+package finaltp.plan.model;
+
+import java.util.HashMap;
+
+import org.mybatis.spring.SqlSessionTemplate;
+
+public class PlanDAOImple implements PlanDAO {
+
+	private static int SUCESS=1;
+	private static int ERROR=1;
+	
+	
+	private SqlSessionTemplate sqlMap;
+
+	public PlanDAOImple(SqlSessionTemplate sqlMap) {
+		super();
+		this.sqlMap = sqlMap;
+	}
+
+	public int planWrite(PlanDTO pdto) {
+		// TODO Auto-generated method stub
+		int write=sqlMap.insert("planWrite", pdto);
+		return write;
+	}
+
+	public PlanDTO getPlanContent(int planner_idx) {
+		// TODO Auto-generated method stub
+		PlanDTO pdto=sqlMap.selectOne("planContent", planner_idx);
+		return pdto;
+	}
+	
+	public int getPlanRecommendCnt(int planner_idx) {
+	      int result=sqlMap.selectOne("PlanRecommendCnt",planner_idx);
+	      return result;
+	   }
+	
+}

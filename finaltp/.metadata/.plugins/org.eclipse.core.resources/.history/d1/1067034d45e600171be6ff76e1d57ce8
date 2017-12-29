@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="finaltp.preply">
+	<select id="getPReply" parameterType="Integer" resultType="List">
+		select * from PReply where planner_idx=#{planner_idx}
+	</select>
+	<insert id="addPReply" parameterType="finaltp.preply.model.PReplyDTO">
+		insert into PReply values(PReply_reply_idx.nextval,#{planner_idx},#{writer_idx},#{user_idx},#{content},sysdate,0,0,0)
+	</insert>
+</mapper>

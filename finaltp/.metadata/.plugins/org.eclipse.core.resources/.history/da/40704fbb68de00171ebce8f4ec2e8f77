@@ -1,0 +1,28 @@
+
+function tablepaging() {
+	var tbdd = $('#tbd').find('td');
+	var tbdr = $('#tbd').find('tr');
+	var thdr = $('#thd').find('tr');
+	var thdh = thdr[0].cells;
+	var rowTotals = thdh.length;
+	var pageTotal = Math.ceil(rowTotals/ 5);
+	//head
+	for(var j=1;j<thdr[0].cells.length;j++){
+		thdr[0].cells[j].setAttribute('class','off-screen');
+	}
+	for(var j=1;j<viewlist+1;j++){
+		if(thdr[0].cells.length>j){
+			thdr[0].cells[j].setAttribute('class','on-screen');
+		}
+	}
+	//body
+	for(var i=0;i<tbdr.length;i++){
+		for(var j=1;j<tbdr[i].cells.length;j++){
+			tbdr[i].cells[j].setAttribute('class','off-screen');
+		}
+		for(var j=1;j<viewlist+1;j++){
+			if(tbdr[i].cells.length>j){
+				tbdr[i].cells[j].setAttribute('class','on-screen');
+			}
+		}
+	}

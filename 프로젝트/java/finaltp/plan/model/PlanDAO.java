@@ -1,5 +1,7 @@
 package finaltp.plan.model;
 
+import java.util.List;
+
 public interface PlanDAO {
 <<<<<<< HEAD
 
@@ -13,7 +15,7 @@ public interface PlanDAO {
 	public int addRecommend(int planner_idx,int writer_idx,int user_idx);
 	public int delRecommend(int planner_idx,int writer_idx,int user_idx);
 	public String getUesrid(int member_idx);
-	public List<PlanDTO> planList(int cp, int ls, String status); // ÇÃ·¡³Ê ¸®½ºÆ®
+	public List<PlanDTO> planList(int cp, int ls, String status); // ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 	
 >>>>>>> 02b1868adc5fbcb3219d735b2ad072a50a787d45
 }

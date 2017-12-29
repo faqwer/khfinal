@@ -1,7 +1,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,19 +13,24 @@
 
 	<table border="1" cellspacing="0" width="500">
 		<tr>
-			<td>여행기</td>
-			<td colspan="2">동행 구하기</td>
-
+			<td><a href="#" id="myWriting" onclick="javascript:show(1)">여행기</a></td>
+			<td><a href="#" id="myAccWriting" onclick="show2(1)">동행구하기</a></td>
 		</tr>
+		<c:if test="${empty mainList }">
+			<tr>
+				<td colspan="2" align="center">등록된 동행 글이 없습니다. 동행을 찾아보세요!<br> <input
+					type="button" value="+" id="makeAcc">
+				</td>
+			</tr>
+		</c:if>
 		<c:forEach var="dto" items="${mainList}">
-		<tr>
+			<tr>
 
-			<td>${dto.accdto.country}</td>
-			<td>${dto.content}</td>
-			<td><input type="button" value="삭제"></td>
-		</tr>
-</c:forEach>
+				<td>${dto.accdto.country}</td>
+				<td><a href="accList.do">${dto.content}</a></td>
+			</tr>
+		</c:forEach>
 	</table>
-
+<p align="center">${pageStr}</p>
 </body>
 </html>

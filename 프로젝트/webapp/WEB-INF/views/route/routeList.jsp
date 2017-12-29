@@ -33,7 +33,7 @@
 	</tr>
 
 </table>
-${pageStr}
+<p align="center">${pageStr}</p>
 </form>
 </body>
 </html>

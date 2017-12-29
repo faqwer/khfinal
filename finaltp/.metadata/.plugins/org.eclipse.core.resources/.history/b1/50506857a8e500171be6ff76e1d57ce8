@@ -1,0 +1,448 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+body {
+	width: 1280px;
+	margin: 30 auto;
+}
+
+#plandiv1 {
+	text-align: center;
+	width: 1200px;
+	height: 200px;
+	background-size: 1200px 200px;
+}
+
+#plandiv2 {
+	float: left;
+	width: 300px;
+}
+
+#plandiv4 {
+	float: left;
+	width: 900px;
+}
+
+#googleMap {
+	width: 900px;
+	height: 300px;
+}
+
+#listdiv {
+	background-color: white;
+    width: 250px;
+    height: 50px;
+    margin-top: -10px;
+    overflow: visible;
+    position: absolute;
+}
+
+#datadiv {
+	width: 65%;
+	height: 50px;
+	align: center;
+	float: right;
+	font-size: 10px;
+	overflow: hidden;
+	z-index: 900;
+}
+
+#photodiv {
+	width: 30%;
+	height: 50px;
+	align: center;
+	float: left;
+}
+
+#schedule {
+	width: 1200px;
+}
+
+#tbd td {
+	border: 1px solid black;
+}
+
+#tbd .on-screen {
+	width: 250px;
+	height: 25px;
+	overflow: visible;
+}
+
+.off-screen {
+	display: none;
+}
+
+#tbd .axis {
+	width: 100px;
+	height: 12px;
+}
+
+#tbd .hidden {
+	display: none;
+}
+
+table {
+	border-collapse: collapse;
+	margin-bottom: 10px;
+}
+
+#thd a {
+	display: inline-block;
+	padding: 3px 5px;
+	margin-right: 10px;
+	font-family: Tahoma;
+	background: #ccc;
+	color: #000;
+	text-decoration: none;
+}
+#routesearch1 {
+	display: none;
+	position: absolute;
+	left: 100px;
+	top: 100px;
+	width: 300px;
+	height: 100px;
+	z-index: 1002;
+}
+#routesearch {
+	display: none;
+	position: absolute;
+	left: 100px;
+	top: 100px;
+	width: 800px;
+	height: 600px;
+	z-index: 1001;
+}
+
+#mask {
+	position: absolute;
+	z-index: 1000;
+	background-color: #000;
+	display: none;
+	left: 0;
+	top: 0;
+}
+
+#routemap {
+	height: 600px;
+}
+/* Optional: Makes the sample page fill the window. */
+#floating-panel {
+	position: absolute;
+	top: 10px;
+	left: 25%;
+	z-index: 5;
+	background-color: #fff;
+	padding: 5px;
+	border: 1px solid #999;
+	text-align: center;
+	font-family: 'Roboto', 'sans-serif';
+	line-height: 30px;
+	padding-left: 10px;
+}
+
+#right-panel {
+	font-family: 'Roboto', 'sans-serif';
+	line-height: 30px;
+	padding-left: 10px;
+}
+
+#right-panel select, #right-panel input {
+	font-size: 15px;
+}
+
+#right-panel select {
+	width: 100%;
+}
+
+#right-panel i {
+	font-size: 12px;
+}
+
+#right-panel {
+	height: 100%;
+	float: right;
+	width: 390px;
+	background-color: white;
+	overflow: auto;
+}
+
+#routemap {
+	margin-right: 400px;
+}
+
+#floating-panel {
+	background: #fff;
+	padding: 5px;
+	font-size: 14px;
+	font-family: Arial;
+	border: 1px solid #ccc;
+	box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
+}
+
+@media print {
+	#routemap {
+		height: 500px;
+		margin: 0;
+	}
+	#right-panel {
+		float: none;
+		width: auto;
+	}
+}
+#moneybook{
+	width: 600px; 
+	height: 300px;
+	display: none;
+}
+</style>
+<script id="Jquery" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script id="googleMapApi" src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDm4locFJLs9GfPhTFuk-mAZpcc_WyZOf4"></script>
+<script src="/finaltp/js/drawChart.js"></script>
+<script src="/finaltp/js/googlemap.js"></script>
+<script src="/finaltp/js/planwrite.js"></script>
+<script src="/finaltp/js/planContent.js"></script>
+<script type="text/javascript">
+var nextdate=new Date(${year},${month-1},${day});
+var dates=new Array();
+var datecount=0;
+dates.push(nextdate);
+var viewlist=4;
+var rel=0;
+var element=null;
+var schedule= ${pdto.schedule};
+	window.onload = function() {
+		$(document).ready(function() {
+			for(var h=0;h<${pdto.day};h++){
+				add_td();						
+			}
+			for(var s=0;s<schedule.plan.length;s++){
+				var request = {
+						  placeId: schedule.plan[s].placeId
+					};
+				service.getDetails(request, contentcallback);
+				
+			}
+			tablepaging(0);
+			$('#mask').click(function (e) {  
+				e.preventDefault();
+				$(this).hide();
+				$('#routesearch').hide();
+				$('#routesearch1').hide();
+				$('#savediv').hide();
+			});  
+			$('#moneybookbt').click(function(e){
+				e.preventDefault();
+				if($('#moneybook').css("display")=="none"){
+					google.charts.load("current", {packages:["corechart"]});
+				    google.charts.setOnLoadCallback(drawChart);
+					var Height = $(window).height()/2-400;  
+					var Width = $(window).width()/2-300;  
+					$('#moneybook').css({'margin-left':Width,'margin-top':Height});  
+					$('#moneybook').show();
+				}else if($('#moneybook').css("display")=="block"){
+					$('#moneybook').hide();
+				}
+			});
+		});
+	}
+</script>
+</head>
+<body>
+	<div id="temporarydiv" style="display: none;"></div>
+	<div id="plandiv1" style="background-image: url('${pdto.coverimg}');">
+		<p>
+			<span id="subject">${pdto.subject }</span>
+		</p>
+	</div>
+	<div id="plandiv2">
+		<p>
+			<a id="moneybookbt">가계부</a>
+		</p>
+		<div>
+			<p>여행시작일</p>
+			<p>
+				<input id="startday" type="text" readonly="readonly"
+					value="${pdto.startday}">
+			</p>
+			<p>테마</p>
+			<p>
+				<span>${pdto.thema}</span>
+			</p>
+		</div>
+		<p>
+			<input id="plan_story_subject" type="text" readonly="readonly" value="${pdto.plan_story_subject}">
+		</p>
+		<p>
+			<input id="plan_story_content" type="text" readonly="readonly" value="${pdto.plan_story_subject}">
+		</p>
+	</div>
+	<div id="plandiv4">
+		<div id="googleMap"></div>
+	</div>
+	<div id="schedule">
+			<div id="scheduleday">
+				<table>
+					<thead id="thd">
+						<tr>
+							<th>
+								<p>
+									<a id="ALL" onclick="javascript:scheduleclick(this);">ALL</a>
+								</p>
+							</th>
+						</tr>
+					</thead>
+					<tbody id="tbd">
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">06:00AM</span></td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">07:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">08:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">09:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">10:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">11:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">12:00PM</span></td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">01:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">02:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">03:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">04:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">05:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">06:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">07:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">08:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">09:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">10:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">11:00</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+						<tr>
+							<td class="axis" rowspan="2"><span class="time-label">12:00AM</span></td>
+						</tr>
+						<tr>
+							<td class="hidden"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	<div id="routesearch1">
+		<input value="선택" type="button" style="margin-top:10px;margin-left: 88%; height: 43px" onclick="showroutesearch()">
+	</div>
+	<div id="routesearch">
+		<div id="right-panel"></div>
+		<div id="routemap"></div>
+	</div>
+	<div id="moneybook"></div>
+	<div id="mask"></div>
+<script id="schedulescript" src="/finaltp/js/scheduleroute.js"></script>
+<script id="pagingscript" src="/finaltp/js/tablePaging.js"></script>
+</body>
+</html>

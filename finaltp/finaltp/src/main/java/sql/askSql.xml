@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="finaltp.ask">
+	<select id="askList" resultType="finaltp.mainBbs.model.MainBbsDTO">
+		<![CDATA[
+			SELECT * FROM
+				(SELECT ROWNUM AS rnum, a.* FROM
+				(SELECT t.bbs_idx, t.writer_idx, t.status, t.subject, t.writedate, t.category, t.content, ask.ask_status, ask.ref, ask.sunbun, ask.lev, ask.secret 
+				from total_bbs t, ask
+				WHERE t.bbs_idx = ask.bbs_idx AND t.status = #{status}
+				ORDER BY ask.ref DESC, ask.sunbun ASC)a)b
+				WHERE rnum >= #{startnum} AND rnum <= #{endnum}
+		]]>
+	</select>
+	
+	<select id="adminAskList" resultType="finaltp.mainBbs.model.MainBbsDTO">
+		<![CDATA[
+			SELECT * FROM
+				(SELECT ROWNUM AS rnum, a.* FROM
+				(SELECT t.bbs_idx, t.writer_idx, t.status, t.subject, t.writedate, t.category, t.content, ask.ask_status, ask.ref, ask.sunbun, ask.lev, ask.secret 
+				from total_bbs t, ask
+				WHERE t.bbs_idx = ask.bbs_idx AND t.status = #{status} AND t.writer_idx <> 10
+				ORDER BY ask.ref DESC, ask.sunbun ASC)a)b
+				WHERE rnum >= #{startnum} AND rnum <= #{endnum}
+		]]>
+	</select>
+	<select id="askCount" resultType="Integer">
+		SELECT COUNT(*) FROM ask	
+	</select>
+	<select id="getAskMaxRef" resultType="Integer">
+		SELECT max(ref) FROM ask
+	</select>
+	
+	<insert id="askWrite" parameterType="map">
+		INSERT INTO ask VALUES(Total_bbs_bbs_idx.currval, #{writer_idx}, 'no', #{ref}, 0, 0, #{secret})
+	</insert>
+	
+	<select id="askContent" parameterType="Integer" resultType="finaltp.ask.model.AskDTO">
+		SELECT * FROM ask WHERE bbs_idx = #{bbs_idx}
+	</select>
+	
+	<update id="updateSun" parameterType="map">
+		<![CDATA[
+			UPDATE ask SET sunbun = sunbun + 1 WHERE ref = #{ref} AND sunbun >= #{sunbun}
+		]]>
+	</update>
+	
+	<insert id="askReWrite" parameterType="finaltp.ask.model.AskDTO">
+		<![CDATA[
+			INSERT INTO ask VALUES(Total_bbs_bbs_idx.currval, #{writer_idx}, 'no', #{ref}, #{sunbun}, #{lev}, #{secret})
+		]]>
+	</insert>
+	
+	<update id="updateStatus" parameterType="finaltp.ask.model.AskDTO">
+		UPDATE ask SET ask_status = 'yes' WHERE bbs_idx = #{bbs_idx} AND writer_idx = #{writer_idx}
+	</update>
+</mapper>

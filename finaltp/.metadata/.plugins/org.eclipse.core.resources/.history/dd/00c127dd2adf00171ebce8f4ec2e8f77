@@ -1,0 +1,63 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+/* �巡���� ���� ������ ����� ���մϴ�. ������ �Ű澲�� �����ŵ� �˴ϴ�. */
+#div1 {width:350px;height:135px;padding:10px;border:1px solid #999;}
+</style>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+var element;
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ele,ev) {
+	element=ele;
+}
+function clonedrag(ele,ev) {
+	var cloneele=$(ele).clone(); 
+	element=cloneele;
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    ev.target.appendChild(element);
+}
+function clone(obj) {
+    if (null == obj || "object" != typeof obj) return obj;
+    console.log(obj.constructor());
+    var copy = obj.constructor();
+    for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    return copy;
+}
+</script>
+</head>
+<body>
+
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+	<div id="drag1" draggable="true" ondragstart="clonedrag(this,event)" style="border:1px solid red; width: 50px;height: 50px;"></div>
+	<div id="drag1" draggable="true" ondragstart="clonedrag(this,event)" style="border:1px solid red; width: 50px;height: 50px;"></div>
+	<div id="drag1" draggable="true" ondragstart="clonedrag(this,event)" style="border:1px solid red; width: 50px;height: 50px;"></div>
+</div>
+<br>
+
+<table>
+	<tbody>
+		<tr>
+			<td id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+			<td id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+		</tr>
+		<tr>
+			<td id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+			<td id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
+		</tr>
+	</tbody>
+</table>
+</body>
+</html>

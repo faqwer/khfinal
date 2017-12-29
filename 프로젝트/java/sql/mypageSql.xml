@@ -3,10 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="finaltp.mypage">
-
-	<delete id="memberOut" parameterType="String">
+	<delete id="memberOut" parameterType="Integer">
 		delete Plan_member where
-		id=#{id}
+		member_idx=#{member_idx}
 	</delete>
 	<update id="memberEdit" parameterType="Map">
 		update Plan_member set
@@ -19,11 +18,16 @@
 	<update id="memberImgEdit" parameterType="Map">
 		update Plan_member set profile_img=#{fileName} where id=#{id}
 	</update>
-	<select id="memberImgCheck" parameterType="String" resultType="String">
-		select profile_img
-		from Plan_member where id=#{id}
+	<select id="memberImgCheck" parameterType="Integer" resultType="String">
+		select profile_img from Plan_member where id=#{id}
 	</select>
 	<select id="loginUserIdx" parameterType="String" resultType="Integer">
 		select member_idx from Plan_member where id=#{id}
+	</select>
+	<select id="myBookmarkCnt" resultType="Integer">
+		select count(*) from precommend where user_idx=#{user_idx}
+	</select>
+	<select id="myPlanCnt" resultType="Integer">
+		select count(*) from Planner where writer_idx=#{user_idx} and status='normal'
 	</select>
 </mapper>

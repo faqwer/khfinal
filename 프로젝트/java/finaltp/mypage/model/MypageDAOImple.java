@@ -23,16 +23,26 @@ public class MypageDAOImple implements MypageDAO {
 		this.sqlMap = sqlMap;
 	}
 
-
+	public ArrayList<PlanDTO> getMybookmark(int cp, int ls, int user_idx){
+		int startnum = (cp - 1) * ls + 1;
+		int endnum = cp * ls;
+		List<Integer> planner_idxs=sqlMap.selectList("precommendUserNum", user_idx);
+		ArrayList<PlanDTO> list=new ArrayList<PlanDTO>();
+		for(int i=0;i<planner_idxs.size();i++) {
+			PlanDTO pdto=sqlMap.selectOne("planContent",planner_idxs.get(i).intValue());
+			list.add(pdto);
+		}
+		return list;
+	}
 	//mypage 정보 가져오기
-	public MemberDTO getInfo(String id){
-		MemberDTO list = sqlMap.selectOne("memberINFO", id);
+	public MemberDTO getInfo(int user_idx){
+		MemberDTO list = sqlMap.selectOne("memberINFOwithIdx", user_idx);
 		return list;
 	}
 	
 	//회원 탈퇴
-	public int memberOut(String id) {
-		int count = sqlMap.delete("memberOut", id);
+	public int memberOut(int member_idx) {
+		int count = sqlMap.delete("memberOut", member_idx);
 		return count;
 	}
 	
@@ -40,33 +50,29 @@ public class MypageDAOImple implements MypageDAO {
 	public int memberEdit(String id,String ppwd,String npwd,String npwd2, String fileName) {
 		String user_pwd = sqlMap.selectOne("memberPWD",id);
 		String user_img=sqlMap.selectOne("memberImgCheck", id);
-		
-		if(!fileName.equals("")) {
-			if(!fileName.equals(user_img)) {
-				HashMap map=new HashMap();
-				map.put("id", id);
-				map.put("fileName",fileName);
-				int result=sqlMap.update("memberImgEdit", map);
-			}
-		}
 		if(ppwd==null||ppwd=="") {
 			return NOT_PWD;	
 		}else {
 			if(user_pwd.equals(ppwd)) {
+				if(!fileName.equals("/finaltp/UPF/"+id+"\\")) {
+					if(!fileName.equals(user_img)) {
+						HashMap map=new HashMap();
+						map.put("id", id);
+						map.put("fileName",fileName);
+						int result=sqlMap.update("memberImgEdit", map);
+					}
+				}
 				if(ppwd.equals(npwd)) {
 					return PN_CONCORD;
 				}else {
-					System.out.println("npwd="+npwd+"asdasd");
 					if(npwd.equals(npwd2)) {
 						if(!npwd.equals("")) {
-							System.out.println("npwd=notnull");
 							HashMap map=new HashMap();
 							map.put("id", id);
 							map.put("npwd",npwd);
 							int result=sqlMap.update("memberPwdEdit",map);
 							return EDIT_OK;
 						}else {
-							System.out.println("npwd=null");
 							return EDIT_OK;
 						}
 					}else {
@@ -79,12 +85,6 @@ public class MypageDAOImple implements MypageDAO {
 		}
 	}
 	
-	public int getMemberIdx(String userid) {
-		System.out.println("id = " + userid);
-		int w_idx=sqlMap.selectOne("memberIdx", userid);
-		System.out.println("w_idx : " + w_idx);
-		return w_idx;
-	}
 	
 	//마이페이지 후기  리스트
 	public List<MainBbsDTO> myReviewMainBbsList(int cp, int ls, String category, int w_idx) {
@@ -96,9 +96,7 @@ public class MypageDAOImple implements MypageDAO {
 		data.put("endnum", endnum);
 		data.put("category", category);
 		data.put("writer_idx", w_idx);
-		System.out.println("writer_idx = " + w_idx);
 		List<MainBbsDTO> dto=sqlMap.selectList("myMainBbsList", data);
-		System.out.println("size : " + dto.size());
 		
 		return dto;
 	}
@@ -113,9 +111,7 @@ public class MypageDAOImple implements MypageDAO {
 		data.put("endnum", endnum);
 		data.put("category", category);
 		data.put("writer_idx", w_idx);
-		System.out.println("writer_idx = " + w_idx);
 		List<MainBbsDTO> dto=sqlMap.selectList("myMainBbsList", data);
-		System.out.println("size : " + dto.size());
 		
 		return dto;
 	}
@@ -129,7 +125,6 @@ public class MypageDAOImple implements MypageDAO {
 		data.put("startnum", startnum);
 		data.put("endnum", endnum);
 		data.put("writer_idx", w_idx);
-		System.out.println("writer_idx test = " + w_idx);
 		List<PlanDTO> dto = sqlMap.selectList("myPlanner", data);
 
 		return dto;
@@ -137,7 +132,7 @@ public class MypageDAOImple implements MypageDAO {
 
 	// 플래너 총 개시물 수 구하기
 	public int planTotalCnt() {
-		int count = sqlMap.selectOne("planTotalCnt");
+		int count = sqlMap.selectOne("getPlanTotalCnt");
 		return count == 0 ? 1 : count;
 	}
 
@@ -173,5 +168,17 @@ public class MypageDAOImple implements MypageDAO {
 			dto.add(acc);
 		}
 		return dto;
+	}
+	
+	//북마크 갯수 세기
+	public int myBookmarkCnt(int user_idx) {
+		int count=sqlMap.selectOne("myBookmarkCnt",user_idx);
+		return count == 0 ? 1 : count;	
+		}
+	
+	//내 플래너 갯수 세기
+	public int myPlannerCnt(int user_idx) {
+		int count=sqlMap.selectOne("myPlanCnt", user_idx);
+		return count == 0 ? 1 : count;	
 	}
 }

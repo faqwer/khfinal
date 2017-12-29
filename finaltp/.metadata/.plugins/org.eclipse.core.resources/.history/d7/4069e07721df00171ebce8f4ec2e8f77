@@ -1,0 +1,70 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>jQuery UI Sortable - Handle empty lists</title>
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<style type="text/css">
+div{
+	border: 1px solid red;
+	width:128px;
+	height:128px;
+}
+#div1{
+	width:900px;
+	height:900px;
+}
+</style>
+<script>
+window.onload=function(){
+	var element;
+	$(document).ready(function() {
+
+		
+	});
+}function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ele,ev) {
+    ev.preventDefault();
+	element=ele;
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    ev.target.appendChild(element);
+}
+</script>
+</head>
+<body>
+
+<p>�Ʒ� ��Ʈ�� �̹����� �� ���ڷ� ����־� ������:</p>
+
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+	<div id="drag1" draggable="true" ondragstart="drag(this,event)" ></div>
+	<div id="drag1" draggable="true" ondragstart="drag(this,event)" ></div>
+	<div id="drag1" draggable="true" ondragstart="drag(this,event)" ></div>
+	<div id="drag1" draggable="true" ondragstart="drag(this,event)" ></div>
+</div>
+<hr>
+<table>
+	<tbody>
+		<tr>
+			<td ondrop="drop(event)" ondragover="allowDrop(event)">
+				<div id="drag1" draggable="true" ondragstart="drag(this,event)" ></div>
+				<div id="drag1" draggable="true" ondragstart="drag(this,event)" ></div>
+				<div id="drag1" draggable="true" ondragstart="drag(this,event)" ></div>
+				<div id="drag1" draggable="true" ondragstart="drag(this,event)" ></div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+</body>
+</html>

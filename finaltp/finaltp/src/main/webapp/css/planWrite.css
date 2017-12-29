@@ -1,0 +1,224 @@
+@charset "EUC-KR";
+body {
+	width: 1280px;
+	margin: 30 auto;
+}
+
+#calendardiv {
+	display: none;
+	position: absolute;
+	left: 20px;
+	top: 40px;
+	z-index: 3;
+	background-color: red;
+	width: 150px;
+	height: 210px;
+	text-align: center;
+	margin: 0 auto;
+}
+
+#plandiv1 {
+	text-align: center;
+	width: 1200px;
+	height: 200px;
+	background-size: 1200px 200px;
+}
+
+#plandiv2 {
+	float: left;
+	width: 300px;
+}
+
+#plandiv4 {
+	float: left;
+	width: 900px;
+}
+
+#plandiv3 {
+	float: left;
+	width: 300px;
+}
+
+#placediv {
+	width: 300px;
+	height: 500px;
+	overflow-y: auto;
+}
+
+#googleMap {
+	width: 900px;
+	height: 300px;
+}
+
+#listdiv {
+	width: 300px;
+	height: 50px;
+	clear: both;
+	overflow: visible;
+}
+
+#datadiv {
+	width: 65%;
+	height: 50px;
+	align: center;
+	float: right;
+	font-size: 10px;
+	overflow: hidden;
+	z-index: 900;
+}
+
+#photodiv {
+	width: 30%;
+	height: 50px;
+	align: center;
+	float: left;
+}
+
+#schedule {
+	width: 900px;
+}
+
+#tbd td {
+	border: 1px solid black;
+}
+
+#tbd .on-screen {
+	width: 250px;
+	height: 25px;
+	overflow: visible;
+}
+
+.off-screen {
+	display: none;
+}
+
+#tbd .axis {
+	width: 100px;
+	height: 12px;
+}
+
+#tbd .hidden {
+	display: none;
+}
+
+table {
+	border-collapse: collapse;
+	margin-bottom: 10px;
+}
+
+#thd a {
+	display: inline-block;
+	padding: 3px 5px;
+	margin-right: 10px;
+	font-family: Tahoma;
+	background: #ccc;
+	color: #000;
+	text-decoration: none;
+}
+#routesearch1 {
+	display: none;
+	position: absolute;
+	left: 100px;
+	top: 100px;
+	width: 300px;
+	height: 100px;
+	z-index: 1002;
+}
+#routesearch {
+	display: none;
+	position: absolute;
+	left: 100px;
+	top: 100px;
+	width: 800px;
+	height: 600px;
+	z-index: 1001;
+}
+
+#mask {
+	position: absolute;
+	z-index: 1000;
+	background-color: #000;
+	display: none;
+	left: 0;
+	top: 0;
+}
+
+#routemap {
+	height: 600px;
+}
+/* Optional: Makes the sample page fill the window. */
+#floating-panel {
+	position: absolute;
+	top: 10px;
+	left: 25%;
+	z-index: 5;
+	background-color: #fff;
+	padding: 5px;
+	border: 1px solid #999;
+	text-align: center;
+	font-family: 'Roboto', 'sans-serif';
+	line-height: 30px;
+	padding-left: 10px;
+}
+
+#right-panel {
+	font-family: 'Roboto', 'sans-serif';
+	line-height: 30px;
+	padding-left: 10px;
+}
+
+#right-panel select, #right-panel input {
+	font-size: 15px;
+}
+
+#right-panel select {
+	width: 100%;
+}
+
+#right-panel i {
+	font-size: 12px;
+}
+
+#right-panel {
+	height: 100%;
+	float: right;
+	width: 390px;
+	background-color: white;
+	overflow: auto;
+}
+
+#routemap {
+	margin-right: 400px;
+}
+
+#floating-panel {
+	background: #fff;
+	padding: 5px;
+	font-size: 14px;
+	font-family: Arial;
+	border: 1px solid #ccc;
+	box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
+}
+
+@media print {
+	#routemap {
+		height: 500px;
+		margin: 0;
+	}
+	#right-panel {
+		float: none;
+		width: auto;
+	}
+}
+#moneybook{
+	width: 600px; 
+	height: 300px;
+	display: none;
+}
+#savediv{
+	position: absolute;
+	z-index: 1001;
+	width: 300px; 
+	height: 300px;
+	display: none;
+}

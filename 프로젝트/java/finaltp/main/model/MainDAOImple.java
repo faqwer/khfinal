@@ -20,4 +20,10 @@ public class MainDAOImple implements MainDAO {
 		List<MainDTO> dto=sqlMap.selectList("reviewRanking");
 		return dto;
 	}
+
+	public List<MainDTO> plannerRanking() {
+		
+		List<MainDTO> dto=sqlMap.selectList("plannerRanking");
+		return dto;
+	}
 }

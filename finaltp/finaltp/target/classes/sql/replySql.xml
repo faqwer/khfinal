@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="finaltp.reply">
+	<select id="getCommentCount" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM reply WHERE bbs_idx = #{bbs_idx}
+	</select>
+	
+	<select id="getCommentMaxRef" parameterType="Integer" resultType="Integer">
+		SELECT max(ref) FROM reply WHERE bbs_idx = #{bbs_idx}
+	</select>
+	
+	<insert id="commentWrite" parameterType="finaltp.reply.model.ReplyDTO">
+		INSERT INTO reply VALUES(Reply_reply_idx.nextval, #{writer_idx}, #{bbs_idx}, #{user_idx}, #{content}, SYSDATE, #{ref}, #{sunbun}, #{lev})
+	</insert>
+	
+	<select id="commentList" parameterType="Integer" resultType="finaltp.reply.model.ReplyDTO">
+		SELECT * FROM reply WHERE bbs_idx = #{bbs_idx} ORDER BY bbs_idx DESC, reply_idx DESC
+	</select>
+	
+	<delete id="commentAllDelete" parameterType="Integer">
+		DELETE FROM reply WHERE bbs_idx = #{bbs_idx}
+	</delete>
+	
+	<select id="getWriterId" parameterType="Integer" resultType="String">
+		SELECT id FROM plan_member WHERE member_idx = #{writer_idx}
+	</select>
+	
+	<update id="commentRevise" parameterType="map">
+		UPDATE reply SET content = #{content} WHERE reply_idx = #{reply_idx}
+	</update>
+	
+	<delete id="commentDelete" parameterType="Integer">
+		DELETE FROM reply WHERE reply_idx = #{reply_idx}
+	</delete>
+</mapper>

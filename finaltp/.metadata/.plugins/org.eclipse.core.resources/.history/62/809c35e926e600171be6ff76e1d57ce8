@@ -1,0 +1,5 @@
+package finaltp.preply.model;
+
+public interface PReplyDAO {
+	public PReplyDTO getPReply(int planner_idx,int writer_idx,int user_idx);
+}

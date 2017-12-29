@@ -1,0 +1,634 @@
+<%@page import="java.util.Calendar"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDm4locFJLs9GfPhTFuk-mAZpcc_WyZOf4"></script>
+<script>
+var year = 2017;
+var month = 12;
+var day = 10;
+date = new Date(year, month - 1, day);
+var nextdate=date;
+var dates=new Array();
+var datecount=0;
+dates.push(date);
+var viewlist=5;
+
+window.onload = function() {
+	$(document).ready(function() {
+		add_td();
+		tablepaging();
+		$('#regionsearch').keypress(function(e) {
+			if (e.keyCode == 13) {
+				if ( $("#listdiv").length > 0 ) {
+					removeList();
+				}
+				var search;
+				var region;
+				var regionplace;
+				if ($('#regionsearch').val() != '') {
+					region = $('#regionsearch').val();
+					var request = {
+						query : region
+					};
+					service.textSearch(request,regioncallback);
+					function regioncallback(results, status) {
+						if (status == google.maps.places.PlacesServiceStatus.OK) {
+							regionplace = results[0];
+							nearbySearch(regionplace);
+						}
+					}
+				}else{
+					alert('지역을 입력하세요');
+				}
+			}
+		});
+		$('#showplacesearch').keypress(function(e) {
+			if (e.keyCode == 13) {
+				if ( $("#listdiv").length > 0 ) {
+					removeList();
+				}
+				var search=null;
+				var region=null;
+				var regionplace=null;
+				if ($('#regionsearch').val() != '') {
+					region = $('#regionsearch').val();
+					var request = {
+						query : region
+					};
+					service.textSearch(request,regioncallback);
+					function regioncallback(results, status) {
+						if (status == google.maps.places.PlacesServiceStatus.OK) {
+							regionplace = results[0];
+							if ($('#showplacesearch').val() == '') {
+								alert('장소을 입력하세요');
+								return;
+							}
+							search = $('#showplacesearch').val();
+							showplacesearch(search,regionplace);
+						}
+					}
+				}else{
+					if ($('#showplacesearch').val() == '') {
+						alert('장소을 입력하세요');
+						return;
+					}
+					search = $('#showplacesearch').val();
+					showplacesearch(search,regionplace);
+				}
+				/* map.addListener('idle', textSearch(search)); */
+			}
+		});
+		$('#add-schedule').click(function(e){
+			add_td(dates,nextdate,datecount);
+		});
+		$('#delete-schedule').click(function(e){
+			del_col(dates,nextdate,datecount);
+		});
+
+		$('#thd').find('#nav').click(function (evt) {
+			evt.preventDefault();
+			alert('test');
+			var currPage = $(this).attr('rel');
+			var startItem = currPage * viewlist+1;
+			var endItem = startItem + viewlist;
+			console.log(currPage);
+			//head
+				for(var j=1;j<thdr[0].cells.length;j++){
+					thdr[0].cells[j].setAttribute('class','off-screen');
+				}
+				for(var j=startItem;j<endItem;j++){
+					if(thdr[0].cells.length>j){
+						thdr[0].cells[j].setAttribute('class','on-screen');
+					}
+				}
+			//body
+			for(var i=0;i<tbdr.length;i++){
+				for(var j=1;j<tbdr[i].cells.length;j++){
+					tbdr[i].cells[j].setAttribute('class','off-screen');
+				}
+				for(var j=startItem;j<endItem;j++){
+					if(tbdr[i].cells.length>j){
+						tbdr[i].cells[j].setAttribute('class','on-screen');
+					}
+				}
+			}
+		});
+	});
+}
+</script>
+<script>
+function tablepaging() {
+	var tbdd = $('#tbd').find('td');
+	var tbdr = $('#tbd').find('tr');
+	var thdr = $('#thd').find('tr');
+	var thdh = thdr[0].cells;
+	var rowTotals = thdh.length;
+	var pageTotal = Math.ceil(rowTotals/ 5);
+	//head
+	for(var j=1;j<thdr[0].cells.length;j++){
+		thdr[0].cells[j].setAttribute('class','off-screen');
+	}
+	for(var j=1;j<viewlist+1;j++){
+		if(thdr[0].cells.length>j){
+			thdr[0].cells[j].setAttribute('class','on-screen');
+		}
+	}
+	//body
+	for(var i=0;i<tbdr.length;i++){
+		for(var j=1;j<tbdr[i].cells.length;j++){
+			tbdr[i].cells[j].setAttribute('class','off-screen');
+		}
+		for(var j=1;j<viewlist+1;j++){
+			if(tbdr[i].cells.length>j){
+				tbdr[i].cells[j].setAttribute('class','on-screen');
+			}
+		}
+	}
+}
+function add_td() {
+	var tbd = document.getElementById('tbd');
+	var thd = document.getElementById('thd');
+	var td = null;
+	var th = null;
+	var tbd_tr = tbd.getElementsByTagName('tr');
+	var thd_tr = thd.getElementsByTagName('tr')[0];
+	var thd_th = thd_tr.getElementsByTagName('th');
+	th = document.createElement('th');
+	th.setAttribute('id','schedule-'+(thd_th.length-1));
+	thd_tr.appendChild(th);
+	
+	var adate = document.createElement('a');
+	var datetext = document.createTextNode(dates[datecount].getFullYear()+'-'+(dates[datecount].getMonth()+1)+'-'+dates[datecount].getDate());
+	adate.appendChild(datetext);
+	th.appendChild(adate);
+	
+	datecount=datecount+1;
+	nextdate.setDate(nextdate.getDate() + 1);
+	dates.push(nextdate);
+	for (i = 0; i < tbd_tr.length; i++) {
+		var tbd_td = tbd_tr[i].getElementsByTagName('td');
+		td = document.createElement('td');
+		td.setAttribute('id','schedule-'+(tbd_td.length-1)+'-'+i);
+		td.setAttribute('class','schedule');
+		tbd_tr[i].appendChild(td);
+	}
+	var thdrh=$('#thd').find('tr')[0].cells;
+	if((thdrh.length-1)%5==0){
+		$('<a id="nav" href="#"></a>')
+			.attr('rel', (thdrh.length-1)/5)
+			.html('>>')
+			.appendTo(thdrh[thdrh.length-1]);
+	}
+	if(thdrh.length-1!=0&&(thdrh.length-1)%5==1){
+		$('<a id="nav" href="#"></a>')
+		.attr('rel', 0)
+		.html('<<')
+		.prependTo(thdrh[thdrh.length-1]);
+	}
+	tablepaging();
+}
+function del_col() {
+	if(datecount>1){
+		nextdate.setDate(nextdate.getDate() - 1);
+		dates.splice(datecount,1);
+		datecount=datecount-1;
+	}
+	
+	var tbd = document.getElementById('tbd');
+	var td = null;
+	var tbd_tr = tbd.getElementsByTagName('tr');
+	var thd_tr = thd.getElementsByTagName('tr')[0];
+	var thd_th = thd_tr.getElementsByTagName('th');
+	if(thd_th.length>2){
+		thd_tr.deleteCell(thd_th.length - 1);
+	}
+	for (i = 0; i < tbd_tr.length; i++) {
+		var tr_td = tbd_tr[i].getElementsByTagName('td');
+		if(tr_td.length>2){
+			tbd_tr[i].deleteCell(tr_td.length - 1);
+		}
+	}
+	tablepaging();
+}
+</script>
+<script>
+	var myCenter = new google.maps.LatLng(37.250943, 127.028344);
+	var map;
+	var service;
+	var infoWindow;
+	var marker;
+	var d_height=Number(0);
+	function initialize() {
+		var mapProp = {
+			center : myCenter,
+			zoom : 1,
+			mapTypeId : google.maps.MapTypeId.HYBRID
+		};
+		map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+		infoWindow = new google.maps.InfoWindow();
+		service = new google.maps.places.PlacesService(map);
+	}
+
+	function nearbySearch(place) {
+		var request = {
+			location : place.geometry.location,
+			radius : '50000',
+			type : ['store'] 
+			/* type : ['store','restaurant','best view'] */
+		};
+		
+		service.nearbySearch(request, callback);
+	}
+	function showplacesearch(search, regionplace) {
+		var request;
+		if(regionplace!=null){
+			request = {
+				location : regionplace.geometry.location,
+				radius : '50000',
+				keyword : search
+			};
+			service.nearbySearch(request, showplacecallback);
+		}else{
+			request = {
+				query : search
+			};
+			service.textSearch(request, showplacecallback);
+		}
+		
+	}
+	
+	function showplacecallback(results, status) {
+		if (status == google.maps.places.PlacesServiceStatus.OK) {
+			for (var i = 0; i < results.length; i++) {
+				var place = results[i];
+				nearbySearch(place);
+			}
+		}
+	}
+
+	function callback(results, status,pagination) {
+		if (status == google.maps.places.PlacesServiceStatus.OK) {
+			for (var i = 0; i < results.length; i++) {
+				var place = results[i];
+				var request = {
+					  placeId: place.place_id
+				};
+				service.getDetails(request, detailscallback);
+			}
+			var placediv=document.getElementById("placediv");
+			var script=document.createElement('script');
+			script.setAttribute('id','script');
+		    script.setAttribute('src','/finaltp/js/planwrite.js');
+		    placediv.appendChild(script);
+		    
+		    if (pagination.hasNextPage) {
+				$('#placediv').scroll(function(e) {
+				    e.preventDefault();  
+					var w_height = $('#placediv').height();  // 브라우저 크기
+					var s_height = d_height - w_height;
+				    var currentScroll = $('#placediv').scrollTop();
+			    	console.log(s_height+','+currentScroll);
+				    
+				    if ((s_height - currentScroll)<1) {
+						pagination.nextPage();
+				   	}
+				});
+			}
+		}
+	}
+	function detailscallback(place, status) {
+		  if (status == google.maps.places.PlacesServiceStatus.OK) {
+				addList(place);
+				d_height=d_height+52;
+		  }
+		}
+	function removeList(){
+	    var placediv=document.getElementById("placediv");
+	    document.body.removeChild(placediv);
+	    var placediv=document.createElement('div');
+	    placediv.setAttribute('id','placediv');
+	    document.body.appendChild(placediv);
+	    d_height=Number(0);
+	}
+	function addList(place){
+		var placediv=document.getElementById("placediv");
+		var listdiv=document.createElement('div');
+		listdiv.setAttribute('id','listdiv');
+	 	listdiv.setAttribute('onmouseenter','javascript:mouseenter(this)');
+		listdiv.setAttribute('onmouseleave','javascript:mouseleave(this)'); 
+		
+		var div1=document.createElement('div');
+		div1.setAttribute('id','photodiv');
+		
+		var photos = place.photos;
+		var img;
+		if (photos) {
+			img=photos[0].getUrl({'maxWidth': 50, 'maxHeight': 50});
+			var icon=document.createElement('img');
+			icon.setAttribute('src',img);
+			icon.setAttribute('id','icon');
+			icon.setAttribute('width','50px');
+			icon.setAttribute('height','50px');
+			div1.appendChild(icon);
+		}
+		
+		var div2=document.createElement('div');
+		div2.setAttribute('id','datadiv');
+
+		var name=document.createElement('p');
+		name.setAttribute('id','name');
+		var nametext = document.createTextNode(place.name);
+		name.appendChild(nametext);
+		div2.appendChild(name);
+		
+		var address=document.createElement('p');
+		address.setAttribute('id','address');
+		var addresstext = document.createTextNode(place.formatted_address);
+		address.appendChild(addresstext);
+		div2.appendChild(address);
+		
+		if(place.rating!=null){
+			var rating=document.createElement('p');
+			var ratingtext = document.createTextNode(place.rating);
+			rating.appendChild(ratingtext);
+			div2.appendChild(rating);
+		}
+		
+		var place_lat=document.createElement('input');
+		place_lat.setAttribute('id','place_lat');
+		place_lat.setAttribute('type','hidden');
+		place_lat.setAttribute('value',place.geometry.location.lat());
+		div2.appendChild(place_lat);
+		
+		var place_lng=document.createElement('input');
+		place_lng.setAttribute('id','place_lng');
+		place_lng.setAttribute('type','hidden');
+		place_lng.setAttribute('value',place.geometry.location.lng());
+		div2.appendChild(place_lng);
+		
+		listdiv.appendChild(div1);
+		listdiv.appendChild(div2);
+		placediv.appendChild(listdiv);
+	}
+	function removeMarker() {
+		marker.setMap(null);
+	}
+	function addMarker(data) {
+		marker = new google.maps.Marker({
+			map : map,
+			position : data.place_location,
+			icon : {
+				url : 'https://developers.google.com/maps/documentation/javascript/images/circle.png',
+				anchor : new google.maps.Point(10, 10),
+				scaledSize : new google.maps.Size(10, 17)
+			}
+		}); 
+		infoWindow.setContent(data.place_data);
+		infoWindow.open(map, marker);
+		/* google.maps.event.addListener(marker, 'click', function() {
+			service.getDetails(place, function(result, status) {
+				if (status !== google.maps.places.PlacesServiceStatus.OK) {
+					console.error(status);
+					return;
+				}
+				infoWindow.setContent(result.name);
+				infoWindow.open(map, marker);
+			});
+		}); */
+	}
+	google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+<style type="text/css">
+
+div {
+	border: 1px solid black; 
+	
+}
+p{
+	margin:0 auto;
+}
+#listdiv{
+	width: 300px;
+	height: 50px;
+	clear:both;
+	overflow:hidden;
+}
+#datadiv{
+	width: 240px;
+	height: 50px;
+	align:center;
+	float:right;
+	font-size:10px;
+}
+#googleMap {
+	width: 500px;
+	height: 300px;
+}
+#photodiv{
+	width: 50px;
+	height: 50px;
+	align:center;
+	float:left;
+}
+#placediv{
+	clear:both;
+	width: 310px;
+	height: 500px;
+	overflow:auto;
+}
+#schedule{
+	width: 900px;
+}
+#tbd td{
+	border: 1px solid black; 
+}
+#tbd .on-screen{
+	width: 150px;
+	height: 25px;
+}
+.off-screen {
+	display: none;
+}
+#tbd .axis{
+	width: 100px;
+	height: 12px;
+}
+#tbd .hidden{
+	display: none;
+}
+table {
+	border-collapse:collapse;
+	margin-bottom: 10px;
+}
+#thd a{
+	display: inline-block;
+	padding: 3px 5px;
+	margin-right: 10px;
+	font-family:Tahoma;
+	background: #ccc;
+	color: #000;
+	text-decoration: none;
+}
+</style>
+</head>
+<body>
+	<div id="googleMap"></div>
+	<input id="regionsearch" type="text" placeholder="지역검색">
+	<input id="showplacesearch" type="text" placeholder="명소검색">
+	<div id="placediv"></div>
+	<div id="schedule">
+				<div id="scheduleday">
+					<table>
+						<thead id="thd">
+							<tr>
+								<th>
+									<p><a>ALL</a></p>
+									<p><input type="button" id="add-schedule" value="+"><input type="button" id="delete-schedule" value="-"></p>
+								</th>
+							</tr>
+						</thead>
+						<tbody id="tbd">
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">06:00AM</span></td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">07:00</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">08:00</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">09:00</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">10:00</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">11:00</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">12:00PM</span></td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">01:00</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">02:00</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">03:00</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">04:00</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">05:00</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">06:00</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">07:00</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">08:00</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">09:00</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">10:00</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">11:00</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+							<tr>
+								<td class="axis" rowspan="2"><span class="time-label">12:00AM</span></td>
+							</tr>
+							<tr>
+								<td class="hidden"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ele,ev) {
+	element=ele;
+ 	ev.dataTransfer.effectAllowed="copyMove";
+}
+function clonedrag(ele,ev) {
+	var cloneele=ele.cloneNode(true); 
+	cloneele.setAttribute("ondragstart","drag(this,event)");
+	element=cloneele;
+ 	ev.dataTransfer.effectAllowed="copyMove";
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    if(ev.target.childNodes.length==0){
+    	element.setAttribute("style","background-color: white;width:250px;height:50px;margin-top:-10px;overflow:visible;position: absolute;");
+        ev.target.appendChild(element);
+        var targetId=ev.target.id;
+        var scheduleroute=targetId.split('-');
+        route(scheduleroute[0]+'-'+scheduleroute[1]);
+        console.log('drop='+scheduleroute[0]+'-'+scheduleroute[1]);
+    	var tbd = document.getElementById('tbd');
+    	var tbd_tr = tbd.getElementsByTagName('tr');
+    	for(var i=0;i< tbd_tr.length; i++){
+			var string=scheduleroute[0]+'-'+scheduleroute[1]+'-'+i;
+			schedule=document.getElementById(string);
+			if($(schedule).has('#route').length){
+				$(schedule).find('#route').remove();
+			}
+		}
+    	for(var i=0,item=0,path=0,height=-25;i< tbd_tr.length; i++){
+			var string=scheduleroute[0]+'-'+scheduleroute[1]+'-'+i;
+			schedule=document.getElementById(string);
+			if($(schedule).has('#listdiv').length){
+				if(item==1){
+					var div=document.createElement('div');
+					div.setAttribute('id','route');
+					div.setAttribute('style','margin-top:0px;overflow:visible;position: absolute;');
+					var button=document.createElement('input');
+					button.setAttribute('type','button');
+					button.setAttribute('value','길찾기');
+					button.setAttribute('style','margin-top:-10px;overflow:visible;position: absolute; margin-left: 50px;');
+					var itemsroute=document.createElement('div');
+					itemsroute.setAttribute('style','margin-top:-10px;overflow:visible;position: absolute;height:'+height+'px;width:5px;background-color:gray;');
+					var td=document.getElementById(scheduleroute[0]+'-'+scheduleroute[1]+'-'+(path+2));
+					div.appendChild(itemsroute);
+					div.appendChild(button);
+					td.appendChild(div);
+				}
+				path=i;
+				item=1;
+				height=-25;
+			}
+			height=height+25;
+		}
+    }
+}
+function clone(obj) {
+    if (null == obj || "object" != typeof obj) return obj;
+    console.log(obj.constructor());
+    var copy = obj.constructor();
+    for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    return copy;
+}

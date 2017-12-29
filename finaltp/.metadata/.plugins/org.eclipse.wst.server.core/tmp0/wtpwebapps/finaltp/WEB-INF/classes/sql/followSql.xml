@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="finaltp.member">
+<!-- 	<insert id="addFollow" parameterType="Map">
+		insert into Follow values
+		(#{follow_idx},#{follower_idx})
+	</insert>
+	<select id="showFollow" parameterType="Map" resultType="finaltp.member.model.MemberDTO">
+		select a.member_idx,a.profile_img, b.follow_idx,b.follower_idx
+		from Plan_member a,Follow b 
+		where a.member_idx=#{member_idx} and b.follow_idx=#{follow_idx}
+	</select>
+	<select id="showFollower" parameterType="Map" resultType="finaltp.member.model.MemberDTO">
+		select a.member_idx,a.profile_img, b.follow_idx,b.follower_idx
+		from Plan_member a,Follow b 
+		where a.member_idx=#{member_idx} and b.follower_idx=#{follower_idx}
+	</select> -->
+</mapper>

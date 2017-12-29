@@ -1,0 +1,31 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+#coverimgdiv{
+	background-size: 200px 280px; 
+	height:280px; 
+	width:200px;
+}
+</style>
+</head>
+<body>
+
+	<c:forEach var="i" begin="0" end="${fn:length(plist) }" step="1">
+	<div id="coverimgdiv" style="background-image: url('${plist[i].coverimg }');">
+	</div>
+	<div>
+		<img id="pfimg" src="${mlist[i].profile_img}" width="80" height="100">
+		<span>${plist[i].subject}</span>
+	</div>
+	</c:forEach>
+	<p>${paging }<p>
+	
+</body>
+</html>

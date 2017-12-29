@@ -72,5 +72,8 @@
 			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
 		]]>
 	</select>
-
+	<update id="setRouteReadNum" parameterType="map">
+		UPDATE route SET
+		readnum = readnum + 1 WHERE bbs_idx = #{bbs_idx}
+	</update>
 </mapper>

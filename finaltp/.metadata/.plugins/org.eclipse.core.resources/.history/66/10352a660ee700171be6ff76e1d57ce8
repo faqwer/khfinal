@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="finaltp.plan">
+	<select id="planList" parameterType="map" resultType="finaltp.plan.model.PlanDTO">
+		<![CDATA[
+		SELECT * FROM
+			(SELECT ROWNUM AS rnum, a.* FROM
+			(SELECT * FROM planner WHERE status = #{status} ORDER BY planner_idx desc)a)b
+			WHERE rnum >= #{startnum} AND rnum <= #{endnum}
+		]]>
+	</select>
+	<select id="getPlanTotalCnt" resultType="Integer">
+		SELECT count(*) from Planner
+	</select>
+	<insert id="planWrite" parameterType="finaltp.plan.model.PlanDTO">
+		<selectkey keyproperty="sabun" resulttype="String" order="AFTER"> 
+			SELECT Planner_planner_idx.CURRVAL FROM DUAL
+        </selectkey>
+		insert into
+			Planner
+			values(
+					Planner_planner_idx.nextval
+				,	#{writer_idx}
+				,	'normal'
+				,	#{subject}
+				,	sysdate
+				,	#{thema}
+				,	#{startday}
+				,	#{day}
+				,	0
+				,	null
+				,	#{coverimg}
+				,	#{plan_story_subject}
+				,	#{plan_story_content}
+				,	#{schedule}
+			)
+		
+	</insert>
+	<select id="planContent" parameterType="Integer" resultType="finaltp.plan.model.PlanDTO">
+		select * from Planner where planner_idx=#{planner_idx}
+	</select>
+	<select id="PlanRecommendCnt" parameterType="Integer" resultType="Integer">
+		select count(*) from Precommend where planner_idx=#{planner_idx}
+	</select>
+	<select id="ckRecommend" parameterType="map" resultType="Integer">
+		select count(*) from Precommend where planner_idx=#{planner_idx} and user_idx=#{user_idx}
+	</select>
+	<insert id="addRecommend" parameterType="map">
+		insert into Precommend values(#{planner_idx},#{writer_idx},#{user_idx})
+	</insert>
+	<delete id="delRecommend" parameterType="map">
+		delete from Precommend where planner_idx=#{planner_idx} and user_idx=#{user_idx}
+	</delete>
+	<update id="planUpdate" parameterType="finaltp.plan.model.PlanDTO">
+		update Planner set 
+				subject=#{subject}
+			,	thema=#{thema}
+			,	startday=#{startday}
+			,	day=#{day}
+			,	plan_story_subject=#{plan_story_subject}
+			,	plan_story_content=#{plan_story_content}
+			,	schedule=#{schedule}
+			where planner_idx=#{planner_idx}
+	</update>
+	<update id="planUpdateWithImg" parameterType="finaltp.plan.model.PlanDTO">
+		update Planner set 
+				subject=#{subject}
+			,	thema=#{thema}
+			,	startday=#{startday}
+			,	day=#{day}
+			,	coverimg=#{coverimg}
+			,	plan_story_subject=#{plan_story_subject}
+			,	plan_story_content=#{plan_story_content}
+			,	schedule=#{schedule}
+			where planner_idx=#{planner_idx}
+	</update> 
+	<update id="plannerStatusDefer" parameterType="Integer">
+		UPDATE Planner SET status = 'defer' WHERE planner_idx=#{planner_idx}
+	</update>
+</mapper>

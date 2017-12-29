@@ -1,0 +1,21 @@
+/*$('#listdiv').hover(
+	function() {
+		alert($(this).attr('id'));
+	}, 
+	function() {
+	}
+);*/
+function mouseenter(object){
+	alert($(object).find('#datadiv').find('#place').val());
+	var location=new google.maps.LatLng($(object).find('#datadiv').find('#place').val().lat,$(object).find('#datadiv').find('#place').val().lng);
+	var address=$(object).find('#datadiv').find('#address').text();
+	var name=$(object).find('#datadiv').find('#name').text();
+	var photo=$(object).find('#datadiv').find('#photo').val();
+	var data={"location":location,"address":address,"name":name,"photo":photo};
+	alert($(object).find('#datadiv').find('#place').val());
+	alert(location);
+	addMarker(data);
+}
+function mouseleave(){
+	
+}

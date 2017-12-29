@@ -1,4 +1,4 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -72,20 +72,31 @@ window.onload = function() {
 </head>
 <body>
 
-<select>
-<option>asdasd
-</option>
-</select>
 	<a href="#" class="openMask" style="background-color: red;">플래너</a>
 <h3>index</h3>
-<c:set var="userid" value="${sessionScope.userid}" />
+<c:set var="username" value="${sessionScope.userid}" />
 <c:if test="${empty userid }">
-		<p><a href="login.do">Login</a> | <a href="join.do">Join</a></p>
+		<p><a href="login.do">Login</a> | <a href="idCheck.do">Join</a></p>
 </c:if>
 
 <c:if test="${!empty userid }">
-		<p><a href="mypage.do?id=${userid}">${name}</a>님 접속중입니다. | <a href="logout.do">로그아웃</a></p>
-</c:if>
+		<p>${name}님 접속중입니다. | <a href="logout.do">로그아웃</a></p>
+</c:if> 
+
+<a href="kakao.do">카톡 로그인</a><br>
+<a href="naver.do">네이버 로그인</a><br>
+<a href="sky.do">skyscanner</a>
+
+환율/날씨 스위스 헝가리만 돌아감 나머지 아직 추가 안함
+<form action="con.do">
+		<select id="contry" name="contry">
+			<option value="EUR" selected="selected">유로화</option>
+			<option value="NOK">노르웨이</option>
+			<option value="CHF/Bern">스위스</option>
+			<option value="HUF/Budapest">헝가리</option>
+			<option value="DKK">덴마크</option>
+		</select> <input type="submit" value="확인">
+</form>
 	<ul>
 		<li><a href="noticeList.do">공지사항</a></li>
 		<li><a href="faqList.do">FAQ</a></li>
