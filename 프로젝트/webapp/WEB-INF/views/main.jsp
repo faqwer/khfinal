@@ -6,6 +6,8 @@
 <meta charset="UTF-8">
 <title>TP</title>
 
+<link rel="stylesheet" type="text/css"
+   href="/finaltp/css/planstart.css">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet"
@@ -16,13 +18,17 @@
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/PopupCalendar.js"></script>
 <script
 	src='//production-assets.codepen.io/assets/editor/live/console_runner-079c09a0e3b9ff743e39ee2d5637b9216b3545af0de366d4b9aad9dc87e26bfd.js'></script>
 <script
 	src='//production-assets.codepen.io/assets/editor/live/events_runner-73716630c22bbc8cff4bd0f07b135f00a0bdc5d14629260c3ec49e5606f98fdd.js'></script>
 <script
 	src='//production-assets.codepen.io/assets/editor/live/css_live_reload_init-2c0dc5167d60a5af3ee189d570b1835129687ea2a61bee3513dee3a50c115a77.js'></script>
+<link rel="stylesheet" type="text/css"
+href="/finaltp/css/layerPopup.css">
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script src="/finaltp/js/layerPopup.js"></script>
+<script src="/finaltp/js/planstart.js"></script>
 <meta charset='UTF-8'>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" type="image/x-icon"
@@ -33,7 +39,59 @@
 <link rel="canonical"
 	href="https://codepen.io/sara_bianchi94/pen/LLOVYy?depth=everything&limit=all&order=popularity&page=77&q=image&show_forks=false" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript">
+window.onload = function() {
+	console.log('test');
+		//검은 막 띄우기
+		$('.openMask').click(function(e){
+          e.preventDefault();  
+          
+          create();
+          wrapWindowByMask();
+          var date;
+          $('#planstartdiv #startday').click(function (e) {    
+             e.preventDefault();  
+            $('#planstartdiv #calendardiv').show();
+            $.ajax({
+               url:'calendar.do',
+                  dataType:'html',
+                  type:'GET',
+                  data:null,
+                  success:function(data){
+                      $('#planstartdiv #calendardiv').html(data);
+                  }
+            });
+         });
+		});
+         $(document).on("click", ".cale #day", function(e){
+             e.preventDefault(); 
+             var year=$('.cale #year').text();
+             var month=$('.cale #month').text();
+             var day=$(this).find('font').text();
+             date=new Date(year,month-1,day);
+             $('#planstartdiv #startday').val(date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate());
+            $('#planstartdiv #calendardiv').hide();
+         });
+         
+         $('#bt1').click(function(e){
+             e.preventDefault(); 
+             var subject=$('#subject').val();
+             if($('#subject').val()==''){
+                alert('제목을 입력하세요!');
+                return;
+             }
+             if(date==null){
+                alert('날짜를 선택하세요!');
+                return;
+             }
+             var startday=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+             var thema=$('#thema').val();
+             
+            window.location.href="planwriteForm.do?startday="+startday+"&subject="+subject+"&thema="+thema;
+         });
 
+}
+</script>
 <style>
 i {
 	font-size: 12px;
@@ -411,42 +469,7 @@ table {
  
  
  Follow@bootsnipp Tweet Bootsnipp.com © 2015 Dan's Tools| Site Privacy
-		policy| Advertise| Featured snippets are MIT license. .wrap{text-align:
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		 center;
+		policy| Advertise| Featured snippets are MIT license. .wrap{text-align:center;
 }
 
 .inner {
@@ -476,7 +499,7 @@ table {
 						<div class="planner_text">
 							<h1>Trevel Planner</h1>
 							<p>travel is the only thing you</p>
-							<a class="btn btn-link" href="#">PLANNER START </a>
+							<a class="btn btn-link openMask" href="#">PLANNER START </a>
 						</div>
 					</div>
 					<div class="collapse navbar-collapse" id="myNavbar">
@@ -631,7 +654,7 @@ table {
 
 	<!-- footer -->
 
-
+<!-- 
 	<div class="footer-section">
 		<div class="footer">
 			<div class="container">
@@ -699,7 +722,7 @@ table {
 						<p>CopyRight © 2017 Digital All Rights Reserved</p>
 					</div>
 				</div>
-				<!-- End Col -->
+				End Col
 				<div class="col-sm-6  ">
 					<div class="copyright-text pull-right">
 						<p>
@@ -709,9 +732,9 @@ table {
 					</div>
 
 				</div>
-				<!-- End Col -->
+				End Col
 			</div>
 		</div>
-	</div>
+	</div> -->
 </body>
 </html>
